@@ -1,6 +1,6 @@
 "use client";
 import Jumbotron from "./components/Jumbotron";
-import Button from "./parts/Button";
+import Button from "./parts/button";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Navigation } from "swiper/modules";
 import frame from "../public/Images/frame.png";

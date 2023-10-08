@@ -1,4 +1,4 @@
-const Button = ({link,name,className}) => {
+const Button = ({ link, name, className }) => {
   return (
     <>
       <a href={link}>
@@ -8,4 +8,4 @@ const Button = ({link,name,className}) => {
   );
 };
 
-export default Button
+export default Button;
