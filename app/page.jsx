@@ -11,6 +11,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import Image from "next/image";
+import Footer from "./components/Footer";
 export default function Home() {
   return (
     <>
@@ -55,7 +56,7 @@ export default function Home() {
               clickable: true,
             }}
             navigation={{
-              clickable : true,
+              clickable: true,
             }}
             modules={[Pagination, Navigation]}
             className="slide mt-4"
@@ -85,6 +86,7 @@ export default function Home() {
           </Swiper>
         </div>
       </div>
+      <Footer />
     </>
   );
 }

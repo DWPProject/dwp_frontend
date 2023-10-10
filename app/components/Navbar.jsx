@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Logo from "../../public/Images/logo.png"
+// import Logo from "../../public/Images/logo.png"
 import Logo1 from "../../public/Images/logo.svg"
 import Image from "next/image";
 const Navbar = () => {
@@ -49,20 +49,21 @@ const Navbar = () => {
             </ul>
           </div>
           
+          <Link href="/">
           <Image
           height={50}
           width={50}
             src={Logo1} 
             alt="Logo"
-          />
+          /></Link>
         </div>
         <div className="navbar-center hidden lg:flex bg-[#D9D9D9] rounded ">
           <ul className="menu menu-horizontal px-1 pr-4 pl-4 text-black">
             <li className="mr-8 ml-8">
-              <Link href="#">Beranda</Link>
+              <Link href="/">Beranda</Link>
             </li>
             <li className="mr-8 ml-8">
-              <Link href="#">Profil </Link>
+              <Link href="/Profil">Profil </Link>
             </li>
             <li className="mr-8 ml-8">
               <Link href="#">Layanan</Link>
@@ -74,7 +75,7 @@ const Navbar = () => {
               <Link href="#">Kontak</Link>
             </li>
             <li className="mr-8 ml-8">
-              <Link href="#">Login/Daftar</Link>
+              <Link href="/LoginDaftar ">Login/Daftar</Link>
             </li>
           </ul>
         </div>
