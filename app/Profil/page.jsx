@@ -2,7 +2,7 @@
 const { default: Navbar } = require("../components/Navbar");
 import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import "Swiper/css";
+import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
 import Style from "../Profil/page.module.css";
