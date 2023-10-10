@@ -1,3 +1,4 @@
+import PageHeading from "@/app/components/PageHeading";
 import SideBar from "../../components/SideBar";
 
 import { MENU_ITEMS } from "./constant/menu";
@@ -9,15 +10,13 @@ export const metadata = {
 
 export default function AdminDashboardLayout({ children }) {
   return (
-    <div className="flex flex-row gap-5">
-      <div className="flex flex-row gap-5">
-        <header>
-          <SideBar menuItems={MENU_ITEMS} />
-        </header>
-        <main className="max-w-[854px] min-h-screen no-scrollbar">
-          {children}
-        </main>
-      </div>
+    <div className="flex flex-row bg-[#EEECEC]">
+      <header className="flex basis-1/6 ">
+        <SideBar menuItems={MENU_ITEMS} />
+      </header>
+      <main className="flex basis-5/6 h-screen scrollbar-hide overflow-y-auto">
+        {children}
+      </main>
     </div>
   );
 }

@@ -10,7 +10,7 @@ import { MdLogout } from "react-icons/md";
 export default function SideBar({ menuItems }) {
   const pathname = usePathname();
   return (
-    <div className="flex flex-col p-5 bg-gradient-sidebar min-h-screen">
+    <div className="flex flex-col p-5 bg-gradient-sidebar min-h-screen w-full">
       <div className="flex flex-col justify-center items-center">
         <Image src="/logo.svg" alt="Logo DWP" width={50} height={50} />
         <h1 className="font-bold text-xl text-[#535353] pt-4">DWP ITERA</h1>
