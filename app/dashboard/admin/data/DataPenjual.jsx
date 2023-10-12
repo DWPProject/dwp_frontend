@@ -9,6 +9,7 @@ const TABLE_HEAD = [
   "Password",
   "Action",
 ];
+
 const TABLE_FOOT = [
   "ID Penjual",
   "Nama",
