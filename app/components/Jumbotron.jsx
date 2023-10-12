@@ -24,7 +24,7 @@ const Jumbotron = () => {
         }}
         navigation={true}
         modules={[Autoplay, Pagination, Navigation]}
-        className={Style.mySwiper}
+        className={`rounded ${Style.mySwiper}`}
       >
         <SwiperSlide className={Style.swiperSlide}>
             <Image src={frame} alt="#"  />
