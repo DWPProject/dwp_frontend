@@ -77,7 +77,7 @@ const TABLE_ROWS = [
   },
 ];
 
-export default function DataPenjual() {
+const DataPenjual = () => {
   return (
     <div className="bg-white m-5 rounded-lg">
       <div className="flex justify-between p-8 ">
@@ -163,4 +163,6 @@ export default function DataPenjual() {
       </div>
     </div>
   );
-}
+};
+
+export default DataPenjual;

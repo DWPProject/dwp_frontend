@@ -34,7 +34,7 @@ const TABLE_ROWS = [
   },
 ];
 
-export default function DataAnggota() {
+const DataAnggota = () => {
   return (
     <div className="bg-white m-5 rounded-lg">
       <div className="flex justify-between p-8 ">
@@ -113,4 +113,6 @@ export default function DataAnggota() {
       </div>
     </div>
   );
-}
+};
+
+export default DataAnggota;

@@ -6,6 +6,81 @@ import PageHeading from "@/app/components/PageHeading";
 import { BsPlusLg, BsTrashFill } from "react-icons/bs";
 import { FiEdit } from "react-icons/fi";
 
+const TABLE_HEAD = [
+  "ID Konten",
+  "Judul Konten",
+  "Penulis",
+  "Tanggal",
+  "Kategori",
+  "Action",
+];
+const TABLE_FOOT = [
+  "ID Konten",
+  "Judul Konten",
+  "Penulis",
+  "Tanggal",
+  "Kategori",
+  "Action",
+];
+
+const TABLE_ROWS = [
+  {
+    id_konten: "#0001",
+    judul: "Lorem Ipsum Sinema Indo",
+    penulis: "Wijaya",
+    tanggal: "30/09/2023",
+    kategori: "Berita",
+    action: {
+      edit: <FiEdit size={20} />,
+      hapus: <BsTrashFill size={20} />,
+    },
+  },
+  {
+    id_konten: "#0002",
+    judul: "Lorem Ipsum Sinema Indo",
+    penulis: "Andi",
+    tanggal: "14/07/2023",
+    kategori: "Artikel",
+    action: {
+      edit: <FiEdit size={20} />,
+      hapus: <BsTrashFill size={20} />,
+    },
+  },
+  {
+    id_konten: "#0003",
+    judul: "Lorem Ipsum Sinema Indo",
+    penulis: "Habib",
+    tanggal: "01/01/2023",
+    kategori: "Artikel",
+    action: {
+      edit: <FiEdit size={20} />,
+      hapus: <BsTrashFill size={20} />,
+    },
+  },
+  {
+    id_konten: "#0004",
+    judul: "Lorem Ipsum Sinema Indo",
+    penulis: "Andi",
+    tanggal: "19/09/2023",
+    kategori: "Berita",
+    action: {
+      edit: <FiEdit size={20} />,
+      hapus: <BsTrashFill size={20} />,
+    },
+  },
+  {
+    id_konten: "#0005",
+    judul: "Lorem Ipsum Sinema Indo",
+    penulis: "Agus",
+    tanggal: "11/10/2023",
+    kategori: "Berita",
+    action: {
+      edit: <FiEdit size={20} />,
+      hapus: <BsTrashFill size={20} />,
+    },
+  },
+];
+
 export default function KelolaKonten() {
   const [showForm, setShowForm] = useState(false);
 
@@ -19,83 +94,8 @@ export default function KelolaKonten() {
   //   setShowForm(true);
   // };
 
-  const TABLE_HEAD = [
-    "ID Konten",
-    "Judul Konten",
-    "Penulis",
-    "Tanggal",
-    "Kategori",
-    "Action",
-  ];
-  const TABLE_FOOT = [
-    "ID Konten",
-    "Judul Konten",
-    "Penulis",
-    "Tanggal",
-    "Kategori",
-    "Action",
-  ];
-
-  const TABLE_ROWS = [
-    {
-      id_konten: "#0001",
-      judul: "Lorem Ipsum Sinema Indo",
-      penulis: "Wijaya",
-      tanggal: "30/09/2023",
-      kategori: "Berita",
-      action: {
-        edit: <FiEdit size={20} />,
-        hapus: <BsTrashFill size={20} />,
-      },
-    },
-    {
-      id_konten: "#0002",
-      judul: "Lorem Ipsum Sinema Indo",
-      penulis: "Andi",
-      tanggal: "14/07/2023",
-      kategori: "Artikel",
-      action: {
-        edit: <FiEdit size={20} />,
-        hapus: <BsTrashFill size={20} />,
-      },
-    },
-    {
-      id_konten: "#0003",
-      judul: "Lorem Ipsum Sinema Indo",
-      penulis: "Habib",
-      tanggal: "01/01/2023",
-      kategori: "Artikel",
-      action: {
-        edit: <FiEdit size={20} />,
-        hapus: <BsTrashFill size={20} />,
-      },
-    },
-    {
-      id_konten: "#0004",
-      judul: "Lorem Ipsum Sinema Indo",
-      penulis: "Andi",
-      tanggal: "19/09/2023",
-      kategori: "Berita",
-      action: {
-        edit: <FiEdit size={20} />,
-        hapus: <BsTrashFill size={20} />,
-      },
-    },
-    {
-      id_konten: "#0005",
-      judul: "Lorem Ipsum Sinema Indo",
-      penulis: "Agus",
-      tanggal: "11/10/2023",
-      kategori: "Berita",
-      action: {
-        edit: <FiEdit size={20} />,
-        hapus: <BsTrashFill size={20} />,
-      },
-    },
-  ];
-
   return (
-    <div className="w-full flex flex-col gap-5">
+    <>
       <PageHeading title="Kelola Konten" />
       {showForm ? (
         <div className="m-5 divide-y-2 divide-black">
@@ -261,6 +261,6 @@ export default function KelolaKonten() {
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 }

@@ -5,11 +5,11 @@ import PageHeading from "@/app/components/PageHeading";
 import DataPenjual from "./DataPenjual";
 import DataAnggota from "./DataAnggota";
 
-export default function KelolaData() {
+const KelolaData = () => {
   const [categories, setCategories] = useState("DEFAULT");
 
   return (
-    <div className="w-full flex flex-col gap-5">
+    <>
       <PageHeading title="Kelola Data" />
       <div className="flex flex-col gap-5">
         <select
@@ -25,6 +25,8 @@ export default function KelolaData() {
         </select>
         {categories === "penjual" ? <DataPenjual /> : <DataAnggota />}
       </div>
-    </div>
+    </>
   );
-}
+};
+
+export default KelolaData;

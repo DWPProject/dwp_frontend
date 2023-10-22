@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 
 import { MdLogout } from "react-icons/md";
 
-export default function SideBar({ menuItems }) {
+const SideBar = ({ menuItems }) => {
   const pathname = usePathname();
   return (
     <div className="flex flex-col p-5 bg-gradient-sidebar min-h-screen w-full">
@@ -43,4 +43,6 @@ export default function SideBar({ menuItems }) {
       </nav>
     </div>
   );
-}
+};
+
+export default SideBar;
