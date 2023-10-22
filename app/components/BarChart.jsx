@@ -7,9 +7,9 @@ const BarChart = () => {
   return (
     <ResponsiveBar
       data={data}
-      keys={["hot dog", "burger", "sandwich", "kebab", "fries", "donut"]}
-      indexBy="country"
-      margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
+      keys={["Toko A", "Toko B"]}
+      indexBy="Year"
+      margin={{ top: 50, right: 130, bottom: 80, left: 60 }}
       padding={0.3}
       valueScale={{ type: "linear" }}
       indexScale={{ type: "band", round: true }}
@@ -44,7 +44,7 @@ const BarChart = () => {
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-        legend: "country", // changed
+        legend: "Year", // changed
         legendPosition: "middle",
         legendOffset: 32,
       }}
@@ -52,7 +52,7 @@ const BarChart = () => {
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-        legend: "food", // changed
+        legend: "Toko", // changed
         legendPosition: "middle",
         legendOffset: -40,
       }}

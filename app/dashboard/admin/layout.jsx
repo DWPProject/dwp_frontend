@@ -15,7 +15,7 @@ const AdminDashboardLayout = ({ children }) => {
         <SideBar menuItems={MENU_ITEMS} />
       </header>
       <main className="flex  basis-5/6 ">
-        <div className="w-full flex-col h-screen scrollbar-hide overflow-y-auto">
+        <div className="w-full flex flex-col h-screen scrollbar-hide overflow-y-auto gap-5">
           {children}
         </div>
       </main>
