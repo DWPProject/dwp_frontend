@@ -46,9 +46,9 @@ export default function Home() {
         </div>
       </div>
       <div className="text-black bg-gray-200 bg-opacity-70">
-        <div className="p-8 ">
+        <div className="p-8">
           <h3 className="">Berita dan Artikel</h3>
-          <h2 className="text-3xl mt-4 bold">Lihat yang Terbaru</h2>
+          <h2 className="text-3xl mt-4 font-bold">Lihat yang Terbaru</h2>
           <Swiper
             slidesPerView={2}
             spaceBetween={67}
@@ -60,32 +60,35 @@ export default function Home() {
             }}
             modules={[Pagination, Navigation]}
             className="slide mt-4"
+            breakpoints={{
+              640: {
+                slidesPerView: 1, // Jadi 1 saat lebar layar ≤ 640px
+                spaceBetween: 20, // Atur ruang antara slide
+              },
+            }}
           >
             <SwiperSlide className="slideSwiper">
-              <Image src={frame} alt="#" />{" "}
+              <Image src={frame} alt="#" className="w-full" />
             </SwiperSlide>
             <SwiperSlide className="slideSwiper">
-              {" "}
-              <Image src={frame2} alt="#" />
+              <Image src={frame2} alt="#" className="w-full" />
             </SwiperSlide>
             <SwiperSlide className="slideSwiper">
-              {" "}
-              <Image src={frame3} alt="#" />
+              <Image src={frame3} alt="#" className="w-full" />
             </SwiperSlide>
             <SwiperSlide className="slideSwiper">
-              <Image src={frame} alt="#" />{" "}
+              <Image src={frame} alt="#" className="w-full" />
             </SwiperSlide>
             <SwiperSlide className="slideSwiper">
-              {" "}
-              <Image src={frame2} alt="#" />
+              <Image src={frame2} alt="#" className="w-full" />
             </SwiperSlide>
             <SwiperSlide className="slideSwiper">
-              {" "}
-              <Image src={frame3} alt="#" />
+              <Image src={frame3} alt="#" className="w-full" />
             </SwiperSlide>
           </Swiper>
         </div>
       </div>
+
       <Footer />
     </>
   );

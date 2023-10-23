@@ -15,8 +15,8 @@ const Navbar = () => {
     { text: "Beranda", route: "/" },
     { text: "Profil", route: "/Profil" },
     { text: "Layanan", route: "/layanan" },
-    { text: "Media", route: "/media" },
-    { text: "Kontak", route: "/kontak" },
+    { text: "Media", route: "/Media" },
+    { text: "Kontak", route: "/Kontak" },
     { text: "Login/Daftar", route: "/LoginDaftar" },
   ];
 
