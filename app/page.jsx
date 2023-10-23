@@ -60,12 +60,7 @@ export default function Home() {
             }}
             modules={[Pagination, Navigation]}
             className="slide mt-4"
-            breakpoints={{
-              640: {
-                slidesPerView: 1, // Jadi 1 saat lebar layar ≤ 640px
-                spaceBetween: 20, // Atur ruang antara slide
-              },
-            }}
+            
           >
             <SwiperSlide className="slideSwiper">
               <Image src={frame} alt="#" className="w-full" />
