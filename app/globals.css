@@ -30,7 +30,7 @@ tr:nth-child(even) {
   text-align: center;
   font-size: 18px;
   background: #fff;
-  display: flex;  
+  display: flex;
   justify-content: center;
   align-items: center;
 }
@@ -41,4 +41,3 @@ tr:nth-child(even) {
   height: 100%;
   object-fit: cover;
 }
-
