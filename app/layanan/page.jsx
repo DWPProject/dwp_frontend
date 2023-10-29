@@ -121,6 +121,18 @@ const Layanan = () => {
     (total, item) => total + item.jumlah,
     0
   );
+  const hapusPesanan = (index) => {
+    const newKeranjangBelanja = [...keranjangBelanja];
+    newKeranjangBelanja.splice(index, 1);
+    setKeranjangBelanja(newKeranjangBelanja);
+  };
+
+  const simpanPesanan = (index, itemData) => {
+    const newKeranjangBelanja = [...keranjangBelanja];
+    newKeranjangBelanja[index] = itemData;
+    setKeranjangBelanja(newKeranjangBelanja);
+  };
+
   return (
     <div className="">
       <h1 className="text-3xl font-bold lg:mt-8">Layanan DWP</h1>
@@ -258,7 +270,18 @@ const Layanan = () => {
                     {item.catatan && (
                       <p className="mt-1">Catatan: {item.catatan}</p>
                     )}
-                    <button className="btn btn-sm mt-2 sm:mt-0">Edit</button>
+                    <button
+                      className="btn btn-sm mt-2 sm:mt-0"
+                      onClick={() => hapusPesanan(index)}
+                    >
+                      Hapus
+                    </button>
+                    <button
+                      className="btn btn-sm mt-2 sm:mt-0 ml-2"
+                      onClick={() => simpanPesanan(index, item)}
+                    >
+                      Simpan
+                    </button>
                   </div>
                   <div className="flex items-center w-full sm:w-1/3 mt-4 sm:mt-0">
                     <Image
