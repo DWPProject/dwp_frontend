@@ -117,6 +117,10 @@ const Layanan = () => {
     const file = e.target.files[0];
     setBuktiPembayaran(file);
   };
+  const jumlahPesananKeranjang = keranjangBelanja.reduce(
+    (total, item) => total + item.jumlah,
+    0
+  );
   return (
     <div className="">
       <h1 className="text-3xl font-bold lg:mt-8">Layanan DWP</h1>
@@ -132,11 +136,16 @@ const Layanan = () => {
             <a href="#">Barang Pakai</a>
           </li>
         </div>
-        <div className="cart">
+        <div className="cart relative">
           <AiOutlineShoppingCart
             className={`cursor-pointer ${Style.cart}`}
             onClick={openCartModal}
           />
+          {jumlahPesananKeranjang > 0 && (
+            <span className="bg-red-500 text-white rounded-full px-2 py-1 text-xs absolute -top-1 -right-1">
+              {jumlahPesananKeranjang}
+            </span>
+          )}
         </div>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 m-4">
