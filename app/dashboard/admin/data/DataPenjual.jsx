@@ -90,147 +90,104 @@ const DataPenjual = () => {
   return (
     <>
       {showForm ? (
-        <div className="flex flex-col justify-center items-center mt-5">
+        <div className="flex flex-col justify-center items-center mt-5 pb-10">
           <h1 className="text-3xl font-bold mb-5">Form Data Penjual</h1>
-          <div className="flex flex-col bg-white p-10 rounded-xl">
-            <h1>Data Penjual</h1>
-            <p>Isi data penjual dengan benar</p>
-            {/* <form className="w-full max-w-lg">
-              <div className="flex flex-wrap -mx-3 mb-6">
-                <div className="w-1/2 px-3 mb-0">
-                  <label
-                    className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                    for="grid-first-name"
-                  >
-                    First Name
-                  </label>
-                  <input
-                    className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                    id="grid-first-name"
-                    type="text"
-                    placeholder="Jane"
-                  />
-                  <p className="text-red-500 text-xs italic">
-                    Please fill out this field.
-                  </p>
+          <div className="flex flex-col bg-white p-10 rounded-xl  divide-y">
+            <div className="">
+              <h1 className="text-2xl font-bold mb-5">Data Penjual</h1>
+              <p>Isi data penjual dengan benar</p>
+            </div>
+            <form action="" className="flex flex-col pt-5">
+              <div className="flex justify-between ">
+                <div className="flex flex-col">
+                  <div className="w-full px-3">
+                    <label
+                      className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                      htmlFor="nama-penjual"
+                    >
+                      Nama
+                    </label>
+                    <input
+                      className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                      id="nama-penjual"
+                      type="text"
+                      placeholder="Nama Penjual..."
+                    />
+                  </div>
+                  <div className="w-full px-3">
+                    <label
+                      className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                      htmlFor="nama-toko-penjual"
+                    >
+                      Nama Toko
+                    </label>
+                    <input
+                      className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                      id="nama-toko-penjual"
+                      type="text"
+                      placeholder="Nama Toko Penjual..."
+                    />
+                  </div>
+                  <div className="w-full px-3">
+                    <label
+                      className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                      htmlFor="email"
+                    >
+                      Email
+                    </label>
+                    <input
+                      className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                      id="email"
+                      type="email"
+                      placeholder="Email..."
+                    />
+                  </div>
+                  <div className="w-full px-3">
+                    <label
+                      className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                      htmlFor="password"
+                    >
+                      Password
+                    </label>
+                    <input
+                      className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                      id="password"
+                      type="text"
+                      placeholder="Password..."
+                    />
+                  </div>
                 </div>
-                <div className="w-1/2 px-3">
+                <div className="px-3">
                   <label
                     className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                    for="grid-last-name"
+                    htmlFor="avatar-anggota"
                   >
-                    Last Name
+                    Avatar
                   </label>
-                  <input
-                    className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    id="grid-last-name"
-                    type="text"
-                    placeholder="Doe"
-                  />
+                  <input className="" id="avatar-anggota" type="file" />
                 </div>
               </div>
-              <div className="flex flex-wrap -mx-3 mb-6">
-                <div className="w-full px-3">
-                  <label
-                    className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                    for="grid-password"
-                  >
-                    Password
-                  </label>
-                  <input
-                    className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    id="grid-password"
-                    type="password"
-                    placeholder="******************"
-                  />
-                  <p className="text-gray-600 text-xs italic">
-                    Make it as long and as crazy as you&apos;d like
-                  </p>
-                </div>
-              </div>
-              <div className="flex flex-wrap -mx-3 mb-2">
-                <div className="w-1/3 px-3 mb-0">
-                  <label
-                    className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                    for="grid-city"
-                  >
-                    City
-                  </label>
-                  <input
-                    className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    id="grid-city"
-                    type="text"
-                    placeholder="Albuquerque"
-                  />
-                </div>
-              </div>
-            </form> */}
-            <form action="" className="flex justify-between">
-              <div className="flex flex-col">
-                <div className="w-full px-3">
-                  <label
-                    className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                    htmlFor="nama-penjual"
-                  >
-                    Password
-                  </label>
-                  <input
-                    className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    id="nama-penjual"
-                    type="text"
-                    placeholder="Nama penjual..."
-                  />
-                </div>
-                <div className="w-full px-3">
-                  <label
-                    className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                    htmlFor="nama-toko-penjual"
-                  >
-                    Password
-                  </label>
-                  <input
-                    className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    id="nama-toko-penjual"
-                    type="text"
-                    placeholder="Nama toko penjual..."
-                  />
-                </div>
-                <div>
-                  <label htmlFor="nama-toko-penjual">Nama Toko Penjual</label>
-                  <input
-                    type="text"
-                    id="nama-toko-penjual"
-                    placeholder="Nama toko penjual..."
-                    required
-                  />
-                </div>
-                <div>
-                  <label htmlFor="email-penjual">Email</label>
-                  <input
-                    type="email"
-                    id="email-penjual"
-                    placeholder="penjual@gmail.com"
-                    required
-                  />
-                </div>
-                <div>
-                  <label htmlFor="password-penjual">Password</label>
-                  <input
-                    type="text"
-                    placeholder="Password penjual..."
-                    required
-                  />
-                </div>
-              </div>
-              <div>
-                <label htmlFor="avatar-toko-penjual">Avatar</label>
-                <input type="file" />
+              <div className="flex flex-col justify-center items-center gap-3 mt-5">
+                <button
+                  type="submit"
+                  className="rounded-xl bg-orange-500 text-white font-bold px-3 py-2"
+                >
+                  Tambah Penjual
+                </button>
+                <button
+                  type="button"
+                  className="rounded-xl bg-black text-white font-bold px-3 py-2"
+                  onClick={() => setShowForm(false)}
+                >
+                  Batalkan
+                </button>
               </div>
             </form>
           </div>
         </div>
       ) : (
         <div className="bg-white m-5 rounded-lg">
+          <h1 className="text-start font-bold text-3xl p-5">Data Penjual</h1>
           <div className="flex justify-between p-8 ">
             <form>
               <label
