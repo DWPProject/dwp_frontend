@@ -137,6 +137,22 @@ const LoginDaftar = () => {
                   required
                 />
               </div>
+              <div className="mb-4">
+                <label
+                  className="block text-gray-700 text-sm font-medium mb-2"
+                  htmlFor="registerPassword"
+                >
+                  No.Telepon/WhatsApp *
+                </label>
+                <input
+                  className="border rounded-lg px-3 py-2 w-full focus:outline-none "
+                  type="number"
+                  id="registerNumber"
+                  name="registerNumber"
+                  placeholder="No.Telepon/WhatsApp"
+                  required
+                />
+              </div>
               <p className="mb-4">
                 Data pribadi akan digunakan untuk keperluan Anda di seluruh
                 situs web ini, untuk mengelola akses ke akun Anda, dan untuk

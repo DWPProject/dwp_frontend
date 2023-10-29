@@ -15,6 +15,9 @@ const Layanan = () => {
   const [jumlahPesanan, setJumlahPesanan] = useState(0);
   const [catatan, setCatatan] = useState("");
   const [keranjangBelanja, setKeranjangBelanja] = useState([]);
+  const [nomorRekening, setNomorRekening] = useState("");
+  const [buktiPembayaran, setBuktiPembayaran] = useState(null);
+
   const Toko = [
     {
       title: "Ayam Geprek",
@@ -47,7 +50,23 @@ const Layanan = () => {
       imageSrc: Produk,
     },
   ];
-
+  const handleChangePembayaran = (e) => {
+    const selectedValue = e.target.value;
+    switch (selectedValue) {
+      case "gopay":
+        setNomorRekening("Nomor Rekening Gopay: 0822222222");
+        break;
+      case "bri":
+        setNomorRekening("Nomor Rekening BRI: 1234-5678-9012-3456");
+        break;
+      case "dana":
+        setNomorRekening("Nomor Rekening Dana: 9876543210");
+        break;
+      default:
+        setNomorRekening("");
+        break;
+    }
+  };
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -93,6 +112,10 @@ const Layanan = () => {
 
   const closeCartModal = () => {
     setIsCartModalOpen(false);
+  };
+  const handleBuktiPembayaranChange = (e) => {
+    const file = e.target.files[0];
+    setBuktiPembayaran(file);
   };
   return (
     <div className="">
@@ -253,8 +276,25 @@ const Layanan = () => {
                 </p>
               </div>
               <div className="flex justify-between items-center mt-4 space-x-4">
-                <small className="font-bold">Gopay: 0822222222</small>
-                <input type="file" name="" id="" />
+                <small className="font-bold">Metode Pembayaran:</small>
+                <select id="metodePembayaran" onChange={handleChangePembayaran}>
+                  <option value="">Pilih Metode Pembayaran</option>
+                  <option value="gopay">Gopay</option>
+                  <option value="bri">BRI</option>
+                  <option value="dana">Dana</option>
+                </select>
+              </div>
+              <div className="mt-2">
+                {nomorRekening && <p>{nomorRekening}</p>}
+              </div>
+              <div className="mt-4">
+                <small className="font-bold">Unggah Bukti Pembayaran:</small>
+                <input
+                  type="file"
+                  name="buktiPembayaran"
+                  id="buktiPembayaran"
+                  onChange={handleBuktiPembayaranChange}
+                />
               </div>
             </div>
             <button className="btn btn w-full mt-4">
@@ -263,7 +303,7 @@ const Layanan = () => {
           </div>
         </dialog>
       )}
-    </div>  
+    </div>
   );
 };
 
