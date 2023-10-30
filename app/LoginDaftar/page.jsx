@@ -140,6 +140,22 @@ const LoginDaftar = () => {
               <div className="mb-4">
                 <label
                   className="block text-gray-700 text-sm font-medium mb-2"
+                  htmlFor="registerConfirmPassword"
+                >
+                  Konfirmasi Kata Sandi *
+                </label>
+                <input
+                  className="border rounded-lg px-3 py-2 w-full focus:outline-none "
+                  type="password"
+                  id="registerConfirmPassword"
+                  name="registerConfirmPassword"
+                  placeholder="Konfirmasi Kata Sandi"
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label
+                  className="block text-gray-700 text-sm font-medium mb-2"
                   htmlFor="registerPassword"
                 >
                   No.Telepon/WhatsApp *
