@@ -48,4 +48,25 @@ export const mockBarData = [
     "Toko B": 107,
     "Toko BColor": "hsl(176, 70%, 50%)",
   },
+  {
+    Year: "Oktober",
+    "Toko A": 90,
+    "Toko AColor": "hsl(340, 70%, 50%)",
+    "Toko B": 110,
+    "Toko BColor": "hsl(176, 70%, 50%)",
+  },
+  {
+    Year: "November",
+    "Toko A": 100,
+    "Toko AColor": "hsl(340, 70%, 50%)",
+    "Toko B": 210,
+    "Toko BColor": "hsl(176, 70%, 50%)",
+  },
+  {
+    Year: "Desember",
+    "Toko A": 300,
+    "Toko AColor": "hsl(340, 70%, 50%)",
+    "Toko B": 80,
+    "Toko BColor": "hsl(176, 70%, 50%)",
+  },
 ];

@@ -10,7 +10,7 @@ export const metadata = {
 
 const RootLayout = ({ children }) => {
   return (
-    <html lang="en">
+    <html lang="en" className="overflow-hidden">
       <body className={kumbh_sans.className}>{children}</body>
     </html>
   );

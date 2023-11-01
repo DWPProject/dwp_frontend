@@ -326,8 +326,8 @@ export default function KelolaKonten() {
               <span>Tambah Konten</span>
             </button>
           </div>
-          <div className="overflow-x-auto h-96 scrollbar-hide">
-            <table className="table table-zebra table-pin-rows">
+          <div className="overflow-x-auto h-fit pb-5 scrollbar-hide">
+            <table className="table table-pin-rows">
               {/* head */}
               <thead className="font-bold text-black">
                 <tr>

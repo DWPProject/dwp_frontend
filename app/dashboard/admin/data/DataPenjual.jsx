@@ -169,6 +169,20 @@ const DataPenjual = () => {
                   <div className="w-full px-3">
                     <label
                       className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                      htmlFor="no-telpon-penjual"
+                    >
+                      No. Telepon
+                    </label>
+                    <input
+                      className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                      id="no-telpon-penjual"
+                      type="text"
+                      placeholder="Nomor Telepon..."
+                    />
+                  </div>
+                  <div className="w-full px-3">
+                    <label
+                      className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                       htmlFor="email"
                     >
                       Email
@@ -282,8 +296,8 @@ const DataPenjual = () => {
               <span>Tambah Penjual</span>
             </button>
           </div>
-          <div className="overflow-x-auto h-96 scrollbar-hide">
-            <table className="table table-zebra table-pin-rows">
+          <div className="overflow-x-auto h-fit pb-5 scrollbar-hide">
+            <table className="table table-pin-rows">
               {/* head */}
               <thead className="font-bold text-black">
                 <tr>
@@ -376,6 +390,20 @@ const DataPenjual = () => {
                             id="nama-toko-penjual"
                             type="text"
                             placeholder="Nama Toko Penjual..."
+                          />
+                        </div>
+                        <div className="w-full px-3">
+                          <label
+                            className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                            htmlFor="no-telpon-penjual"
+                          >
+                            No. Telepon
+                          </label>
+                          <input
+                            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                            id="no-telpon-penjual"
+                            type="text"
+                            placeholder="Nomor Telepon..."
                           />
                         </div>
                         <div className="w-full px-3">
