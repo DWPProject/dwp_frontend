@@ -1,7 +1,7 @@
 "use client";
 import { ResponsiveBar } from "@nivo/bar";
 
-import { mockBarData as data } from "../dashboard/admin/constant/barChartData";
+import { mockBarData as data } from "../../dashboard/admin/constant/barChartData";
 
 const BarChart = () => {
   return (

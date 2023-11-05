@@ -1,22 +1,29 @@
-import { RxDashboard } from "react-icons/rx";
+import {
+  BsFillCartFill,
+  BsStack,
+  BsFillPeopleFill,
+  BsFillCreditCardFill,
+  BsBoxFill,
+  BsFilterSquareFill,
+} from "react-icons/bs";
 
 export const MENU_ITEMS = [
   {
     id: 1,
     name: "Dashboard",
     link: "/dashboard/penjual",
-    icon: <RxDashboard />,
+    icon: <BsStack />,
   },
   {
     id: 2,
     name: "Kelola Pesanan",
     link: "/dashboard/penjual/pesanan",
-    icon: <RxDashboard />,
+    icon: <BsFillCartFill />,
   },
   {
     id: 3,
     name: "Laporan Penjualan",
     link: "/dashboard/penjual/laporan",
-    icon: <RxDashboard />,
+    icon: <BsFillCreditCardFill />,
   },
 ];

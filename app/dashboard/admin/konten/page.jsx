@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 
-import PageHeading from "@/app/components/PageHeading";
+import PageHeading from "@/app/common/components/PageHeading";
 
 import { BsPlusLg, BsTrashFill } from "react-icons/bs";
 import { FiEdit } from "react-icons/fi";
@@ -64,7 +64,7 @@ const TABLE_ROWS = [
   },
 ];
 
-export default function KelolaKonten() {
+const KelolaKonten = () => {
   const [showForm, setShowForm] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [categories, setCategories] = useState("DEFAULT");
@@ -507,4 +507,6 @@ export default function KelolaKonten() {
       ) : null}
     </>
   );
-}
+};
+
+export default KelolaKonten;

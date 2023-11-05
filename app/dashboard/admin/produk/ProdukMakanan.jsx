@@ -14,7 +14,6 @@ const TABLE_HEAD_BANK_PRODUK = [
   "Harga",
   "Stok",
   "Action",
-  "Jual Produk",
 ];
 const TABLE_FOOT_BANK_PRODUK = [
   "ID Produk",
@@ -23,7 +22,6 @@ const TABLE_FOOT_BANK_PRODUK = [
   "Harga",
   "Stok",
   "Action",
-  "Jual Produk",
 ];
 
 const TABLE_HEAD_PRODUK_JUAL = [
@@ -44,33 +42,6 @@ const TABLE_FOOT_PRODUK_JUAL = [
   "Action",
 ];
 
-const TABLE_ROWS_BANK_PRODUK = [
-  {
-    id_produk: "#0001",
-    nama_produk: "Ayam Geprek",
-    nama_toko: "Toko ABC",
-    harga: 10000,
-    stok: 20,
-  },
-  {
-    id_produk: "#0002",
-    nama_produk: "Es Teh",
-    nama_toko: "Toko ABC",
-    harga: 5000,
-    stok: 15,
-  },
-];
-
-const TABLE_ROWS_PRODUK_JUAL = [
-  {
-    id_produk: "#0001",
-    nama_produk: "Ayam Geprek",
-    nama_toko: "Toko ABC",
-    harga: 10000,
-    stok: 20,
-  },
-];
-
 const ProdukMakanan = () => {
   const [showForm, setShowForm] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -82,7 +53,7 @@ const ProdukMakanan = () => {
     stok: 0,
   });
 
-  const [produkJual, setProdukJual] = useState([
+  const [bankProduk, setBankProduk] = useState([
     {
       id_produk: "#0001",
       nama_produk: "Ayam Geprek",
@@ -90,17 +61,29 @@ const ProdukMakanan = () => {
       harga: 10000,
       stok: 20,
     },
+    {
+      id_produk: "#0002",
+      nama_produk: "Es Teh",
+      nama_toko: "Toko ABC",
+      harga: 5000,
+      stok: 15,
+    },
   ]);
+
+  const [produkJual, setProdukJual] = useState([]);
 
   const onSubmitHandle = (e) => {
     e.preventDefault();
-    TABLE_ROWS_BANK_PRODUK.push({
-      id_produk: uuid(),
-      nama_produk: formData.nama_produk,
-      nama_toko: formData.nama_toko,
-      harga: formData.harga,
-      stok: formData.stok,
-    });
+    setBankProduk([
+      ...bankProduk,
+      {
+        id_produk: uuid(),
+        nama_produk: formData.nama_produk,
+        nama_toko: formData.nama_toko,
+        harga: formData.harga,
+        stok: formData.stok,
+      },
+    ]);
 
     setFormData({
       id_produk: "",
@@ -130,12 +113,22 @@ const ProdukMakanan = () => {
 
   const onHandleJual = (product) => {
     setProdukJual([...produkJual, product]);
+    setBankProduk(
+      bankProduk.filter((item) => item.id_produk !== product.id_produk)
+    );
+  };
+
+  const onHandleNotJual = (product) => {
+    setBankProduk([...bankProduk, product]);
+    setProdukJual(
+      produkJual.filter((item) => item.id_produk !== product.id_produk)
+    );
   };
 
   return (
     <>
       {showForm ? (
-        <div className="flex flex-col justify-center items-center mt-5">
+        <div className="flex flex-col justify-center items-center mt-5 pb-10">
           <h1 className="text-3xl font-bold mb-5">Form Data Produk Makanan</h1>
           <div className="flex flex-col bg-white p-10 rounded-xl  divide-y">
             <div className="">
@@ -319,12 +312,12 @@ const ProdukMakanan = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {TABLE_ROWS_BANK_PRODUK.map(
+                  {bankProduk.map(
                     ({ id_produk, nama_produk, nama_toko, harga, stok }) => (
                       <tr key={id_produk}>
                         <td>{id_produk}</td>
                         <td>
-                          <div className="flex gap-2">
+                          <div className="flex gap-2 items-center">
                             <Image
                               src="/produk1.png"
                               alt="Produk1"
@@ -351,24 +344,22 @@ const ProdukMakanan = () => {
                             >
                               <BsTrashFill size={20} />
                             </button>
+                            <button
+                              className="py-2 px-3 bg-red-500 text-white rounded-lg"
+                              type="button"
+                              onClick={() =>
+                                onHandleJual({
+                                  id_produk,
+                                  nama_produk,
+                                  nama_toko,
+                                  harga,
+                                  stok,
+                                })
+                              }
+                            >
+                              <p className="font-bold text-center">Sell</p>
+                            </button>
                           </div>
-                        </td>
-                        <td>
-                          <button
-                            className="py-2 px-3 bg-red-500 text-white rounded-lg"
-                            type="button"
-                            onClick={() =>
-                              onHandleJual({
-                                id_produk: uuid(),
-                                nama_produk,
-                                nama_toko,
-                                harga,
-                                stok,
-                              })
-                            }
-                          >
-                            <p className="font-bold text-center">Jual</p>
-                          </button>
                         </td>
                       </tr>
                     )
@@ -440,7 +431,7 @@ const ProdukMakanan = () => {
                       <tr key={id_produk}>
                         <td>{id_produk}</td>
                         <td>
-                          <div className="flex gap-2">
+                          <div className="flex gap-2 items-center">
                             <Image
                               src="/produk1.png"
                               alt="Produk1"
@@ -454,14 +445,21 @@ const ProdukMakanan = () => {
                         <td>Rp. {harga}</td>
                         <td>{stok}</td>
                         <td>
-                          <div className="flex gap-3">
-                            <button
-                              className="text-[#A30D11]"
-                              onClick={onHandleDelete}
-                            >
-                              <BsTrashFill size={20} />
-                            </button>
-                          </div>
+                          <button
+                            className="py-2 px-3 bg-red-500 text-white rounded-lg"
+                            type="button"
+                            onClick={() =>
+                              onHandleNotJual({
+                                id_produk,
+                                nama_produk,
+                                nama_toko,
+                                harga,
+                                stok,
+                              })
+                            }
+                          >
+                            <p className="font-bold text-center">Not Sell</p>
+                          </button>
                         </td>
                       </tr>
                     )

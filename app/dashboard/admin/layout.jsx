@@ -1,5 +1,5 @@
-import PageHeading from "@/app/components/PageHeading";
-import SideBar from "../../components/SideBar";
+import PageHeading from "@/app/common/components/PageHeading";
+import SideBar from "../../common/components/SideBar";
 
 import { MENU_ITEMS } from "./constant/menu";
 

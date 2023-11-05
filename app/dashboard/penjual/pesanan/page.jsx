@@ -19,7 +19,7 @@ const TABLE_HEAD = [
   "Status Pembayaran",
   "Order Status",
   "Bukti Transfer",
-  "Action",
+  "Detail",
 ];
 const TABLE_FOOT = [
   "ID Produk",
@@ -30,7 +30,7 @@ const TABLE_FOOT = [
   "Status Pembayaran",
   "Order Status",
   "Bukti Transfer",
-  "Action",
+  "Detail",
 ];
 
 const TABLE_ROWS = [
@@ -61,26 +61,7 @@ const KelolaPesanan = () => {
   const [showModalDetail, setShowModalDetail] = useState(false);
   const [showModalPayment, setShowModalPayment] = useState(false);
   const [categories, setCategories] = useState("Belum Diproses");
-
-  const onSelectHandle = (e) => {
-    setCategories(e.target.value);
-  };
-
-  const onHandleDelete = () => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        Swal.fire("Deleted!", "Your file has been deleted.", "success");
-      }
-    });
-  };
+  const [checked, setChecked] = useState(true);
 
   return (
     <>
@@ -166,6 +147,8 @@ const KelolaPesanan = () => {
                         <input
                           type="checkbox"
                           className="checkbox checkbox-success"
+                          defaultChecked={checked}
+                          onChange={() => setChecked(!checked)}
                         />
                       </label>
                     </div>
@@ -196,20 +179,12 @@ const KelolaPesanan = () => {
                     </button>
                   </td>
                   <td>
-                    <div className="flex gap-3">
-                      <button
-                        className="text-[#624DE3]"
-                        onClick={() => setShowModalDetail(true)}
-                      >
-                        <BsFillEyeFill size={25} />
-                      </button>
-                      <button
-                        className="text-[#A30D11]"
-                        onClick={onHandleDelete}
-                      >
-                        <BsTrashFill size={20} />
-                      </button>
-                    </div>
+                    <button
+                      className="p-3 bg-[#58CBE4] text-black rounded-3xl"
+                      onClick={() => setShowModalDetail(true)}
+                    >
+                      <p className=" text-center">Detail</p>
+                    </button>
                   </td>
                 </tr>
               ))}

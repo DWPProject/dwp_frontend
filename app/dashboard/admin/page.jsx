@@ -1,7 +1,7 @@
 import Image from "next/image";
 
-import PageHeading from "@/app/components/PageHeading";
-import BarChart from "@/app/components/BarChart";
+import PageHeading from "@/app/common/components/PageHeading";
+import BarChart from "@/app/common/components/BarChart";
 
 import { BsFillCartFill, BsFillPrinterFill } from "react-icons/bs";
 

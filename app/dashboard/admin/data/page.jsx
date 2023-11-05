@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 
-import PageHeading from "@/app/components/PageHeading";
+import PageHeading from "@/app/common/components/PageHeading";
 import DataPenjual from "./DataPenjual";
 import DataAnggota from "./DataAnggota";
 

@@ -87,8 +87,6 @@ const TABLE_ROWS = [
 ];
 
 const KelolaLaporan = () => {
-  const [filterToko, setFilterToko] = useState("DEFAULT");
-
   return (
     <>
       <PageHeading title="Kelola Laporan" />
@@ -159,17 +157,6 @@ const KelolaLaporan = () => {
                     placeholder="Tanggal Akhir..."
                   />
                 </div>
-                <select
-                  className="select select-bordered w-full max-w-xs"
-                  value={filterToko}
-                  onChange={(e) => setFilterToko(e.target.value)}
-                >
-                  <option value={"DEFAULT"} disabled>
-                    Toko
-                  </option>
-                  <option value={"toko-abc"}>Toko ABC</option>
-                  <option value={"toko-xyz"}>Toko XYZ</option>
-                </select>
                 <button
                   className="py-2 px-3 bg-[#E0924A] text-white rounded-lg"
                   type="button"
