@@ -2,7 +2,7 @@ import Footer from "../components/Footer";
 
 const Kontak = () => {
   return (
-    <div className="containerKontak p-4">
+    <div className="containerKontak p-4 bg-gradient-to-r from-white to-[#FFCEA0]">
       <h1 className="font-bold text-3xl lg:m-4 mt-4">Hubungi Kami</h1>
       <div className="flex flex-col md:flex-row justify-between mt-4 lg:m-8 lg:p-4">
         <div className="w-full md:w-1/2 md:pr-4">

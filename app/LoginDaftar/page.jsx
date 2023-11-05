@@ -9,7 +9,7 @@ const LoginDaftar = () => {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row justify-around p-8">
+    <div className="flex flex-col lg:flex-row justify-around p-8 ">
       <div className="w-full lg:w-2/5 mb-4 lg:mb-0">
         {isLogin ? (
           <div>
@@ -78,7 +78,7 @@ const LoginDaftar = () => {
                 </small>
               </div>
               <button
-                className="bg-[#D9D9D9] text-black font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline-blue "
+                className="bg-[#FFCEA0] text-black font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline-blue "
                 type="submit"
               >
                 Masuk
@@ -171,7 +171,7 @@ const LoginDaftar = () => {
                 </small>
               </div>
               <button
-                className="bg-[#D9D9D9] text-black font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline-blue"
+                className="bg-[#FFCEA0] text-black font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline-blue"
                 type="submit"
               >
                 Daftar

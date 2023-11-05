@@ -84,7 +84,7 @@ const Profil = () => {
   }, []);
 
   return (
-    <>
+    <div className="bg-gradient-to-r from-white to-[#FFCEA0]">
       <div className={Style.containerProfile}>
         <div className={Style.sejarah}>
           <h1 className="text-3xl ">Sejarah DWP ITERA</h1>
@@ -142,7 +142,7 @@ const Profil = () => {
         </div>
       </div>
       <Footer />
-    </>
+    </div>
   );
 };
 

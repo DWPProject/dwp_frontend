@@ -32,7 +32,7 @@ const Navbar = () => {
             <Image height={50} width={50} src={Logo1} alt="Logo" />
           </Link>
         </div>
-        <div className="navbar-center hidden lg:flex bg-[#D9D9D9] rounded">
+        <div className="navbar-center hidden lg:flex bg-[#FFCEA0] rounded">
           <ul className="menu menu-horizontal px-1 pr-4 pl-4 text-black">
             {navItems.map((item) => (
               <li
@@ -53,7 +53,7 @@ const Navbar = () => {
         </div>
         <div className="navbar-end">
           <div className="dropdown dropdown-end">
-            <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+            <label tabIndex={0} className="btn btn-ghost btn-circle avatar bg-[#FFCEA0]">
               <div className="w-10 rounded-full">
                 <Image src={iconProfil} alt="fotoprofil" />
               </div>

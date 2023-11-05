@@ -16,7 +16,7 @@ export default function Home() {
   return (
     <>
       <Jumbotron />
-      <div className="bg-[#D9D9D9] text-black">
+      <div className="bg-gradient-to-r from-white to-[#FFCEA0] text-black">
         <div className="p-8 lg:w-1/2">
           <h3 className="">Apa Itu DWP</h3>
           <h1 className="text-3xl mt-4">
@@ -41,11 +41,11 @@ export default function Home() {
           <Button
             link="#"
             name="Visi dan Misi DWP"
-            className="btn mt-4 capitalize"
+            className="btn mt-4 capitalize bg-[#FFCEA0]"
           />
         </div>
       </div>
-      <div className="text-black bg-gray-200 bg-opacity-70">
+      <div className="text-black bg-gradient-to-r from-[#FFCEA0] to-white">
         <div className="p-8">
           <h3 className="">Berita dan Artikel</h3>
           <h2 className="text-3xl mt-4 font-bold">Lihat yang Terbaru</h2>

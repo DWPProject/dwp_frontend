@@ -134,7 +134,7 @@ const Layanan = () => {
   };
 
   return (
-    <div className="">
+    <div className="bg-gradient-to-r from-white to-[#FFCEA0]">
       <h1 className="text-3xl font-bold lg:mt-8">Layanan DWP</h1>
       <div className="flex justify-between list-none mt-8">
         <div className="category flex">
@@ -170,7 +170,7 @@ const Layanan = () => {
               <h2 className="card-title">{product.title}</h2>
               <p>{product.price}</p>
               <div className="card-actions justify-center">
-                <button className="btn outline w-full" onClick={openModal}>
+                <button className="btn outline w-full bg-[#FFCEA0] hover:bg-[#FFCEA0]" onClick={openModal}>
                   Tambah
                 </button>
               </div>
@@ -181,7 +181,7 @@ const Layanan = () => {
       <Footer />
       {isModalOpen && (
         <dialog id="my_modal_3" className="modal" open>
-          <div className="modal-box">
+          <div className="modal-box bg-gradient-to-r from-white to-[#FFCEA0]">
             <form method="dialog">
               <button
                 className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
@@ -227,7 +227,7 @@ const Layanan = () => {
               <p className="mt-2">{catatan.length}/200</p>
             </div>
             <div className="mt-4">
-              <button className="btn w-full" onClick={tambahKeKeranjang}>
+              <button className="btn w-full bg-[#FFCEA0] hover:bg-[#FFCEA0]" onClick={tambahKeKeranjang}>
                 Pesan
               </button>
             </div>
@@ -235,8 +235,8 @@ const Layanan = () => {
         </dialog>
       )}
       {isCartModalOpen && (
-        <dialog id="cart_modal" className="modal" open>
-          <div className="modal-box max-w-full sm:max-w-2xl md:max-w-3xl lg:max-w-4xl xl:max-w-5xl mx-auto p-4">
+        <dialog id="cart_modal" className="modal " open>
+          <div className="modal-box max-w-full sm:max-w-2xl md:max-w-3xl lg:max-w-4xl xl:max-w-5xl mx-auto p-4 bg-gradient-to-r from-white to-[#FFCEA0]">
             <form method="dialog">
               <button
                 className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
@@ -329,7 +329,7 @@ const Layanan = () => {
                 />
               </div>
             </div>
-            <button className="btn btn w-full mt-4">
+            <button className="btn btn w-full mt-4 bg-[#FFCEA0] hover:bg-[#FFCEA0]">
               Beli dan Siap Diantar
             </button>
           </div>

@@ -4,7 +4,7 @@ import Footer from "../components/Footer";
 
 const Media = () => {
   return (
-    <div className="p-4 border">
+    <div className="p-4 border bg-gradient-to-r from-white to-[#FFCEA0]">
       <h1 className="font-bold text-3xl">Berita</h1>
       <div
         className="grid grid-cols-1 lg:grid-cols-2 gap-y-23 gap-x-20 containerContent"
