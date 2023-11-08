@@ -1,13 +1,12 @@
 "use client";
 import { useState } from "react";
+import Swal from "sweetalert2";
+import { v4 as uuid } from "uuid";
 
-import PageHeading from "@/app/common/components/PageHeading";
+import PageHeading from "../../components/PageHeading";
 
 import { BsPlusLg, BsTrashFill } from "react-icons/bs";
 import { FiEdit } from "react-icons/fi";
-
-import Swal from "sweetalert2";
-import { v4 as uuid } from "uuid";
 
 const TABLE_HEAD = [
   "ID Konten",

@@ -1,7 +1,7 @@
 "use client";
-
 import { useState } from "react";
-import PageHeading from "@/app/common/components/PageHeading";
+
+import PageHeading from "../../components/PageHeading";
 
 import { BsDownload } from "react-icons/bs";
 
@@ -130,37 +130,45 @@ const KelolaLaporan = () => {
               </div>
             </form>
             <div className="flex flex-col gap-3">
-              <div className="flex gap-3 items-center">
-                <div>
-                  <label
-                    className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                    htmlFor="tanggal-awal-laporan"
+              <div className="flex flex-col">
+                <div className="flex gap-3 items-center">
+                  <div>
+                    <label
+                      className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                      htmlFor="tanggal-awal-laporan"
+                    >
+                      Tanggal Awal
+                    </label>
+                    <input
+                      className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                      id="tanggal-awal-laporan"
+                      type="date"
+                      placeholder="Tanggal Awal..."
+                    />
+                  </div>
+                  <div>
+                    <label
+                      className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                      htmlFor="tanggal-akhir-laporan"
+                    >
+                      Tanggal Akhir
+                    </label>
+                    <input
+                      className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                      id="tanggal-akhir-laporan"
+                      type="date"
+                      placeholder="Tanggal Akhir..."
+                    />
+                  </div>
+                  <button
+                    className="py-2 px-3 bg-[#E0924A] text-white rounded-lg"
+                    type="button"
                   >
-                    Tanggal Awal
-                  </label>
-                  <input
-                    className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    id="tanggal-awal-laporan"
-                    type="date"
-                    placeholder="Tanggal Awal..."
-                  />
-                </div>
-                <div>
-                  <label
-                    className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                    htmlFor="tanggal-akhir-laporan"
-                  >
-                    Tanggal Akhir
-                  </label>
-                  <input
-                    className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    id="tanggal-akhir-laporan"
-                    type="date"
-                    placeholder="Tanggal Akhir..."
-                  />
+                    <p className="font-bold text-center">Filter</p>
+                  </button>
                 </div>
                 <select
-                  className="select select-bordered w-full max-w-xs"
+                  className="select select-bordered max-w-xs"
                   value={filterToko}
                   onChange={(e) => setFilterToko(e.target.value)}
                 >
@@ -170,14 +178,8 @@ const KelolaLaporan = () => {
                   <option value={"toko-abc"}>Toko ABC</option>
                   <option value={"toko-xyz"}>Toko XYZ</option>
                 </select>
-                <button
-                  className="py-2 px-3 bg-[#E0924A] text-white rounded-lg"
-                  type="button"
-                >
-                  <p className="font-bold text-center">Filter</p>
-                </button>
               </div>
-              <h1 className="text-2xl font-bold">
+              <h1 className="text-2xl font-bold pt-5">
                 Total Penjualan: Rp. 600000
               </h1>
             </div>

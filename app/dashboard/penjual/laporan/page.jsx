@@ -1,7 +1,5 @@
 "use client";
-
-import { useState } from "react";
-import PageHeading from "@/app/common/components/PageHeading";
+import PageHeading from "../../components/PageHeading";
 
 import { BsDownload } from "react-icons/bs";
 

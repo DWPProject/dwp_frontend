@@ -1,28 +1,33 @@
 "use client";
 import { useState } from "react";
 
-import PageHeading from "@/app/common/components/PageHeading";
+import PageHeading from "../../components/PageHeading";
+import Select from "../../components/Select";
 import ProdukBarang from "./ProdukBarang";
 import ProdukMakanan from "./ProdukMakanan";
 
 const KelolaProduk = () => {
   const [categories, setCategories] = useState("DEFAULT");
+  const valueOption = [
+    { value: "DEFAULT", label: "Pilih Kategori", disabled: "disabled" },
+    { value: "Produk Barang", label: "Produk Barang", disabled: "" },
+    {
+      value: "Produk Makanan",
+      label: "Produk Makanan",
+      disabled: "",
+    },
+  ];
 
   return (
     <>
       <PageHeading title="Kelola Produk" />
-      <select
-        className="select select-bordered w-full max-w-xs ml-5"
-        value={categories}
+      <Select
+        className="w-full ml-5"
+        selectedValue={categories}
+        valueOption={valueOption}
         onChange={(e) => setCategories(e.target.value)}
-      >
-        <option value={"DEFAULT"} disabled>
-          Pilih Kategori
-        </option>
-        <option value={"makanan"}>Produk Makanan</option>
-        <option value={"barang"}>Produk Barang</option>
-      </select>
-      {categories === "barang" ? <ProdukBarang /> : <ProdukMakanan />}
+      />
+      {categories === "Produk Barang" ? <ProdukBarang /> : <ProdukMakanan />}
     </>
   );
 };

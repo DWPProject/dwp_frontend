@@ -9,6 +9,7 @@ import { MdLogout } from "react-icons/md";
 
 const SideBar = ({ menuItems }) => {
   const pathname = usePathname();
+
   return (
     <div className="flex flex-col p-5 bg-gradient-sidebar min-h-screen w-full">
       <div className="flex flex-col justify-center items-center">

@@ -2,17 +2,13 @@
 import { useState } from "react";
 import Image from "next/image";
 
-import PageHeading from "@/app/common/components/PageHeading";
+import PageHeading from "../../components/PageHeading";
 
-import { BsFillEyeFill, BsTrashFill } from "react-icons/bs";
 import { IoArrowBackOutline } from "react-icons/io5";
 import { ImCross } from "react-icons/im";
 
-import Swal from "sweetalert2";
-
 const TABLE_HEAD = [
-  "ID Produk",
-  "Produk",
+  "ID Pesnan",
   "Customer",
   "Tanggal",
   "Total Harga",
@@ -22,8 +18,7 @@ const TABLE_HEAD = [
   "Detail",
 ];
 const TABLE_FOOT = [
-  "ID Produk",
-  "Produk",
+  "ID Pesanan",
   "Customer",
   "Tanggal",
   "Total Harga",
@@ -35,21 +30,21 @@ const TABLE_FOOT = [
 
 const TABLE_ROWS = [
   {
-    id_produk: "#0001",
+    id_pesanan: "#0001",
     produk: "Ayam Geprek",
     customer: "Krisna",
     tanggal: "04/10/2023 09:00",
     total_harga: 30000,
   },
   {
-    id_produk: "#0002",
+    id_pesanan: "#0002",
     produk: "Es Teh",
     customer: "Chrisnico",
     tanggal: "04/10/2023 09:00",
     total_harga: 15000,
   },
   {
-    id_produk: "#0003",
+    id_pesanan: "#0003",
     produk: "Ayam Goreng Sambal",
     customer: "Iqbal",
     tanggal: "04/10/2023 08:00",
@@ -115,19 +110,8 @@ const KelolaPesanan = () => {
             </thead>
             <tbody>
               {TABLE_ROWS.map((pesanan) => (
-                <tr key={pesanan.id_produk}>
-                  <td>{pesanan.id_produk}</td>
-                  <td>
-                    <div className="flex gap-2 items-center">
-                      <Image
-                        src="/produk1.png"
-                        alt="Produk1"
-                        width={50}
-                        height={50}
-                      />
-                      {pesanan.produk}
-                    </div>
-                  </td>
+                <tr key={pesanan.id_pesanan}>
+                  <td>{pesanan.id_pesanan}</td>
                   <td>
                     <div className="flex gap-2 items-center">
                       <Image

@@ -14,9 +14,6 @@ module.exports = {
         "gradient-sidebar":
           "linear-gradient(358.92deg, #222222 -191.4%, #FFFFFF 120.54%)",
       },
-      padding: {
-        "p-logout": "10rem",
-      },
     },
   },
   plugins: [require("daisyui")],

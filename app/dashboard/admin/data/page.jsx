@@ -1,7 +1,8 @@
 "use client";
 import { useState } from "react";
 
-import PageHeading from "@/app/common/components/PageHeading";
+import PageHeading from "../../components/PageHeading";
+import Select from "../../components/Select";
 import DataPenjual from "./DataPenjual";
 import DataAnggota from "./DataAnggota";
 
@@ -11,18 +12,21 @@ const KelolaData = () => {
   return (
     <>
       <PageHeading title="Kelola Data" />
-      <select
-        className="select select-bordered w-full max-w-xs ml-5"
-        value={categories}
+      <Select
+        className="w-full ml-5"
+        option={categories}
+        valueOption={[
+          { value: "DEFAULT", label: "Pilih Kategori", disabled: "disabled" },
+          { value: "Data Penjual", label: "Data Penjual", disabled: "" },
+          {
+            value: "Data Anggota",
+            label: "Data Anggota",
+            disabled: "",
+          },
+        ]}
         onChange={(e) => setCategories(e.target.value)}
-      >
-        <option value={"DEFAULT"} disabled>
-          Pilih Kategori
-        </option>
-        <option value={"penjual"}>Data Penjual</option>
-        <option value={"anggota"}>Data Anggota</option>
-      </select>
-      {categories === "penjual" ? <DataPenjual /> : <DataAnggota />}
+      />
+      {categories === "Data Penjual" ? <DataPenjual /> : <DataAnggota />}
     </>
   );
 };

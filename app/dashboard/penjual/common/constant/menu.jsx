@@ -1,11 +1,4 @@
-import {
-  BsFillCartFill,
-  BsStack,
-  BsFillPeopleFill,
-  BsFillCreditCardFill,
-  BsBoxFill,
-  BsFilterSquareFill,
-} from "react-icons/bs";
+import { BsFillCartFill, BsStack, BsFillCreditCardFill } from "react-icons/bs";
 
 export const MENU_ITEMS = [
   {
