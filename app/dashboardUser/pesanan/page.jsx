@@ -46,11 +46,9 @@ const Pesanan = () => {
             </div>
             <div className="right">
               <p>Rp 20.000</p>
-              <button className="btn">Pesan Lagi</button>
             </div>
           </div>
         )}
-
         {activeTab === "Dalam Proses" && (
           <div className="flex justify-between items-center mt-4">
             <div className="left flex items-center">

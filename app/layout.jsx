@@ -12,9 +12,11 @@ export const metadata = {
 
 const RootLayout = ({ children }) => {
   return (
-    <html lang="en" className="overflow-hidden">
-      <Navbar />
-      <body className={kumbh_sans.className}>{children}</body>
+    <html lang="en">
+      <body className={kumbh_sans.className}>
+        <Navbar />
+        {children}
+      </body>
     </html>
   );
 };
