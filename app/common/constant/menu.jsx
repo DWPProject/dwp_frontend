@@ -7,7 +7,7 @@ import {
   BsFilterSquareFill,
 } from "react-icons/bs";
 
-export const MENU_ITEMS = [
+export const MENU_ITEMS_ADMIN = [
   {
     id: 1,
     name: "Dashboard",
@@ -44,4 +44,33 @@ export const MENU_ITEMS = [
     link: "/dashboard/admin/laporan",
     icon: <BsFillCreditCardFill />,
   },
+];
+
+export const MENU_ITEMS_PENJUAL = [
+  {
+    id: 1,
+    name: "Dashboard",
+    link: "/dashboard/penjual",
+    icon: <BsStack />,
+  },
+  {
+    id: 2,
+    name: "Kelola Pesanan",
+    link: "/dashboard/penjual/pesanan",
+    icon: <BsFillCartFill />,
+  },
+  {
+    id: 3,
+    name: "Laporan Penjualan",
+    link: "/dashboard/penjual/laporan",
+    icon: <BsFillCreditCardFill />,
+  },
+];
+
+export const MENU_ITEMS_USER = [
+  { name: "Beranda", link: "/" },
+  { name: "Profil", link: "/profil" },
+  { name: "Layanan", link: "/layanan" },
+  { name: "Media", link: "/media" },
+  { name: "Kontak", link: "/kontak" },
 ];

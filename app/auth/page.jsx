@@ -1,7 +1,7 @@
 "use client";
-import React, { useState } from "react";
+import { useState } from "react";
 
-const LoginDaftar = () => {
+export default function Auth() {
   const [isLogin, setIsLogin] = useState(true);
 
   const toggleForm = () => {
@@ -198,6 +198,4 @@ const LoginDaftar = () => {
       </div>
     </div>
   );
-};
-
-export default LoginDaftar;
+}

@@ -319,7 +319,7 @@ const ProdukMakanan = () => {
                         <td>
                           <div className="flex gap-2 items-center">
                             <Image
-                              src="/produk1.png"
+                              src="/images/produk1.png"
                               alt="Produk1"
                               width={50}
                               height={50}
@@ -433,7 +433,7 @@ const ProdukMakanan = () => {
                         <td>
                           <div className="flex gap-2 items-center">
                             <Image
-                              src="/produk1.png"
+                              src="/images/produk1.png"
                               alt="Produk1"
                               width={50}
                               height={50}

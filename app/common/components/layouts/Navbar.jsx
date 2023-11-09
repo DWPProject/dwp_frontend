@@ -1,51 +1,39 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
-import Logo1 from "../../public/Images/logo.svg";
-import iconProfil from "../../public/Images/R.png";
-import Pesanan from "../dashboardUser/pesanan/page";
 import Image from "next/image";
-const Navbar = () => {
+
+import { MENU_ITEMS_USER } from "../../constant/menu";
+
+export default function Navbar() {
   const [activeItem, setActiveItem] = useState("Beranda");
 
   const handleItemClick = (item) => {
     setActiveItem(item);
   };
-  const pagePesanan = () => {
-    return <Pesanan />;
-  };
-
-  const navItems = [
-    { text: "Beranda", route: "/" },
-    { text: "Profil", route: "/Profil" },
-    { text: "Layanan", route: "/layanan" },
-    { text: "Media", route: "/Media" },
-    { text: "Kontak", route: "/Kontak" },
-    // { text: "Profil", route: "/ashboard" },
-  ];
 
   return (
     <>
-      <div className="navbar bg-base-100 bg-[#D9D9D9]">
+      <div className="navbar bg-base-100">
         <div className="navbar-start">
           <Link href="/">
-            <Image height={50} width={50} src={Logo1} alt="Logo" />
+            <Image height={50} width={50} src="/logo.svg" alt="Logo" />
           </Link>
         </div>
         <div className="navbar-center hidden lg:flex bg-[#FFCEA0] rounded">
           <ul className="menu menu-horizontal px-1 pr-4 pl-4 text-black">
-            {navItems.map((item) => (
+            {MENU_ITEMS_USER.map((item) => (
               <li
-                key={item.text}
+                key={item.name}
                 className={`mr-8 ml-8 ${
-                  activeItem === item.text ? "bg-gray-500 " : ""
+                  activeItem === item.name ? "bg-gray-500 " : ""
                 }`}
               >
                 <Link
-                  href={item.route}
+                  href={item.link}
                   onClick={() => handleItemClick(item.text)}
                 >
-                  {item.text}
+                  {item.name}
                 </Link>
               </li>
             ))}
@@ -53,9 +41,17 @@ const Navbar = () => {
         </div>
         <div className="navbar-end">
           <div className="dropdown dropdown-end">
-            <label tabIndex={0} className="btn btn-ghost btn-circle avatar bg-[#FFCEA0]">
+            <label
+              tabIndex={0}
+              className="btn btn-ghost btn-circle avatar bg-[#FFCEA0]"
+            >
               <div className="w-10 rounded-full">
-                <Image src={iconProfil} alt="fotoprofil" />
+                <Image
+                  src="/images/empty_profile.png"
+                  width={50}
+                  height={50}
+                  alt="fotoprofil"
+                />
               </div>
             </label>
             <ul
@@ -91,13 +87,13 @@ const Navbar = () => {
               tabIndex={0}
               className="menu menu-sm dropdown-content mt-3 z-[999] pr-8 shadow bg-base-100 rounded-box w-52 ml-[-50px]"
             >
-              {navItems.map((item) => (
-                <li key={item.text}>
+              {MENU_ITEMS_USER.map((item) => (
+                <li key={item.name}>
                   <Link
-                    href={item.route}
-                    onClick={() => handleItemClick(item.text)}
+                    href={item.link}
+                    onClick={() => handleItemClick(item.name)}
                   >
-                    {item.text}
+                    {item.name}
                   </Link>
                 </li>
               ))}
@@ -107,6 +103,4 @@ const Navbar = () => {
       </div>
     </>
   );
-};
-
-export default Navbar;
+}

@@ -1,17 +1,16 @@
 "use client";
-import Jumbotron from "./components/Jumbotron";
-import Button from "./parts/button";
+import Image from "next/image";
+
+import Jumbotron from "./common/components/layouts/Jumbotron";
+import Footer from "./common/components/layouts/Footer";
+import Button from "./common/components/elements/Button";
+
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Navigation } from "swiper/modules";
-import frame from "../public/Images/frame.png";
-import frame2 from "../public/Images/frame2.png";
-import frame3 from "../public/Images/frame3.png";
-
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import Image from "next/image";
-import Footer from "./components/Footer";
+
 export default function Home() {
   return (
     <>
@@ -37,7 +36,6 @@ export default function Home() {
             repudiandae, minima ducimus. Culpa a iste at maxime cupiditate
             voluptatibus asperiores impedit!
           </p>
-
           <Button
             link="#"
             name="Visi dan Misi DWP"
@@ -60,30 +58,64 @@ export default function Home() {
             }}
             modules={[Pagination, Navigation]}
             className="slide mt-4"
-            
           >
             <SwiperSlide className="slideSwiper">
-              <Image src={frame} alt="#" className="w-full" />
+              <Image
+                src="/images/frame.png"
+                alt="#"
+                className="w-full"
+                width={100}
+                height={100}
+              />
             </SwiperSlide>
             <SwiperSlide className="slideSwiper">
-              <Image src={frame2} alt="#" className="w-full" />
+              <Image
+                src="/images/frame2.png"
+                alt="#"
+                className="w-full"
+                width={100}
+                height={100}
+              />
             </SwiperSlide>
             <SwiperSlide className="slideSwiper">
-              <Image src={frame3} alt="#" className="w-full" />
+              <Image
+                src="/images/frame3.png"
+                alt="#"
+                className="w-full"
+                width={100}
+                height={100}
+              />
             </SwiperSlide>
             <SwiperSlide className="slideSwiper">
-              <Image src={frame} alt="#" className="w-full" />
+              <Image
+                src="/images/frame.png"
+                alt="#"
+                className="w-full"
+                width={100}
+                height={100}
+              />
             </SwiperSlide>
             <SwiperSlide className="slideSwiper">
-              <Image src={frame2} alt="#" className="w-full" />
+              <Image
+                src="/images/frame2.png"
+                alt="#"
+                className="w-full"
+                width={100}
+                height={100}
+              />
             </SwiperSlide>
             <SwiperSlide className="slideSwiper">
-              <Image src={frame3} alt="#" className="w-full" />
+              <Image
+                src="/images/frame3.png"
+                alt="#"
+                className="w-full"
+                width={100}
+                height={100}
+              />
             </SwiperSlide>
           </Swiper>
         </div>
       </div>
-
       <Footer />
     </>
   );

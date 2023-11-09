@@ -8,7 +8,7 @@ import {
 import Style from "./layanan.module.css";
 import Produk from "../../public/Images/makan.png";
 import Image from "next/image";
-import Footer from "../components/Footer";
+import Footer from "../common/components/layouts/Footer";
 
 const Layanan = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -170,7 +170,10 @@ const Layanan = () => {
               <h2 className="card-title">{product.title}</h2>
               <p>{product.price}</p>
               <div className="card-actions justify-center">
-                <button className="btn outline w-full bg-[#FFCEA0] hover:bg-[#FFCEA0]" onClick={openModal}>
+                <button
+                  className="btn outline w-full bg-[#FFCEA0] hover:bg-[#FFCEA0]"
+                  onClick={openModal}
+                >
                   Tambah
                 </button>
               </div>
@@ -227,7 +230,10 @@ const Layanan = () => {
               <p className="mt-2">{catatan.length}/200</p>
             </div>
             <div className="mt-4">
-              <button className="btn w-full bg-[#FFCEA0] hover:bg-[#FFCEA0]" onClick={tambahKeKeranjang}>
+              <button
+                className="btn w-full bg-[#FFCEA0] hover:bg-[#FFCEA0]"
+                onClick={tambahKeKeranjang}
+              >
                 Pesan
               </button>
             </div>

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Berita from "../../public/Images/frame3.png";
-import Footer from "../components/Footer";
+import Footer from "../common/components/layouts/Footer";
 
 const Media = () => {
   return (

@@ -248,7 +248,7 @@ const KelolaPesanan = () => {
                     <h1 className="font-semibold">Detail Pesanan Pembeli</h1>
                     <div className="flex flex-col gap-3">
                       <Image
-                        src="/produk1.png"
+                        src="/images/produk1.png"
                         alt="Produk1"
                         width={50}
                         height={50}
@@ -285,7 +285,7 @@ const KelolaPesanan = () => {
                 {/*body*/}
                 <div className="relative p-6 flex-auto ">
                   <Image
-                    src="/bukti_payment_2.jpg"
+                    src="/images/bukti_payment_2.jpg"
                     width={0}
                     height={0}
                     sizes="100vw"

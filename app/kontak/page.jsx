@@ -1,4 +1,4 @@
-import Footer from "../components/Footer";
+import Footer from "../common/components/layouts/Footer";
 
 const Kontak = () => {
   return (
@@ -46,13 +46,12 @@ const Kontak = () => {
         </div>
       </div>
       <div className="flex justify-start w-full mt-4 mb-4 items-start sm:items-end sm:justify-end">
-        
-      <button
-        className="bg-[#D9D9D9] text-black font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline-blue"
-        type="submit"
-      >
-        Kirim
-      </button>
+        <button
+          className="bg-[#D9D9D9] text-black font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline-blue"
+          type="submit"
+        >
+          Kirim
+        </button>
       </div>
       <Footer />
     </div>

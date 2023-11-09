@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Logo1 from "../../public/Images/logo.svg";
 import Link from "next/link";
 
 const Footer = () => {
@@ -7,7 +6,7 @@ const Footer = () => {
     <>
       <footer className="footer p-10 bg-gradient-to-r from-gray-500 to-[#FFCEA0] text-white">
         <div>
-          <Image height={70} width={70} src={Logo1} alt="Logo" />
+          <Image height={70} width={70} src="/logo.svg" alt="Logo" />
         </div>
         <div className="w-1/2 ">
           <p>

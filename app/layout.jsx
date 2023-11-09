@@ -1,16 +1,16 @@
 import "./globals.css";
 import { Kumbh_Sans } from "next/font/google";
 
-import Navbar from "../app/components/Navbar";
+import Navbar from "./common/components/layouts/Navbar";
 
 const kumbh_sans = Kumbh_Sans({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "DWP",
-  description: "Dharma Wanita Persatuan",
+  title: "Beranda | DWP",
+  description: "Home Page for Website DWP",
 };
 
-const RootLayout = ({ children }) => {
+export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={kumbh_sans.className}>
@@ -19,6 +19,4 @@ const RootLayout = ({ children }) => {
       </body>
     </html>
   );
-};
-
-export default RootLayout;
+}
