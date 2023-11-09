@@ -2,7 +2,7 @@
 const { default: Navbar } = require("../components/Navbar");
 import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import "Swiper/css";
+import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
 import Style from "../Profil/page.module.css";
@@ -98,7 +98,7 @@ const Profil = () => {
               accusamus doloremque qui aliquam ipsam soluta! Mollitia, sint amet
               cum quidem excepturi at iure unde.
             </p>
-            <p  className="mt-4">
+            <p className="mt-4">
               Lorem ipsum, dolor sit amet consectetur adipisicing elit.
               Molestias, voluptates maiores sit nulla natus iusto quos numquam
               sint repudiandae exercitationem quaerat neque ratione.
@@ -106,8 +106,12 @@ const Profil = () => {
               tenetur molestias accusamus magnam, numquam est et necessitatibus
               dolorem.
             </p>
-            <p  className="mt-4">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae rerum aliquam molestias animi illo nisi, vero vitae sint delectus sequi odit, possimus quasi dolor harum sed excepturi impedit magni mollitia, quidem accusamus ducimus suscipit quia ea. Quo aperiam iure cupiditate!
+            <p className="mt-4">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae
+              rerum aliquam molestias animi illo nisi, vero vitae sint delectus
+              sequi odit, possimus quasi dolor harum sed excepturi impedit magni
+              mollitia, quidem accusamus ducimus suscipit quia ea. Quo aperiam
+              iure cupiditate!
             </p>
           </div>
         </div>

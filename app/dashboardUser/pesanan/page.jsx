@@ -46,7 +46,6 @@ const Pesanan = () => {
             </div>
             <div className="right">
               <p>Rp 20.000</p>
-              <button className="btn">Pesan Lagi</button>
             </div>
           </div>
         )}
