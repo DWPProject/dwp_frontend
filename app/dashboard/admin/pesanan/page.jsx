@@ -3,7 +3,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Swal from "sweetalert2";
 
-import PageHeading from "../../components/PageHeading";
+import PageHeading from "@/components/dashboard/PageHeading";
 
 import { BsFillEyeFill, BsTrashFill } from "react-icons/bs";
 import { IoArrowBackOutline } from "react-icons/io5";

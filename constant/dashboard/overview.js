@@ -1,4 +1,4 @@
-export const mockBarData = {
+export const mockBarDataPenjual = {
   data: [
     {
       Year: "January",
@@ -39,6 +39,52 @@ export const mockBarData = {
     {
       Year: "Desember",
       "Toko ABC": 300,
+    },
+  ],
+  keys: ["Toko ABC"],
+};
+
+export const mockBarDataAdmin = {
+  data: [
+    {
+      Year: "January",
+      "Toko ABC": 100000,
+    },
+    {
+      Year: "February",
+      "Toko ABC": 290000,
+    },
+    {
+      Year: "Maret",
+      "Toko ABC": 100000,
+    },
+    {
+      Year: "April",
+      "Toko ABC": 129000,
+    },
+    {
+      Year: "Mei",
+      "Toko ABC": 320000,
+    },
+    {
+      Year: "Juni",
+      "Toko ABC": 660000,
+    },
+    {
+      Year: "Juli",
+      "Toko ABC": 800000,
+    },
+    {
+      Year: "Oktober",
+      "Toko ABC": 900000,
+    },
+    {
+      Year: "November",
+      "Toko ABC": 100000,
+    },
+    {
+      Year: "Desember",
+      "Toko ABC": 300000,
     },
   ],
   keys: ["Toko ABC"],

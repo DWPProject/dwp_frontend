@@ -1,9 +1,10 @@
 "use client";
 import Image from "next/image";
 
-import Jumbotron from "./common/components/layouts/Jumbotron";
-import Footer from "./common/components/layouts/Footer";
-import Button from "./common/components/elements/Button";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import Jumbotron from "@/components/Jumbotron";
+import Button from "@/components/elements/Button";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Navigation } from "swiper/modules";
@@ -11,9 +12,14 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
+import frame from "@/public/images/frame.png";
+import frame2 from "@/public/images/frame2.png";
+import frame3 from "@/public/images/frame3.png";
+
 export default function Home() {
   return (
     <>
+      <Navbar />
       <Jumbotron />
       <div className="bg-gradient-to-r from-white to-[#FFCEA0] text-black">
         <div className="p-8 lg:w-1/2">
@@ -36,11 +42,12 @@ export default function Home() {
             repudiandae, minima ducimus. Culpa a iste at maxime cupiditate
             voluptatibus asperiores impedit!
           </p>
-          <Button
-            link="#"
-            name="Visi dan Misi DWP"
-            className="btn mt-4 capitalize bg-[#FFCEA0]"
-          />
+          <a href="#">
+            <Button
+              name="Visi dan Misi DWP"
+              className="btn mt-4 capitalize bg-[#FFCEA0]"
+            />
+          </a>
         </div>
       </div>
       <div className="text-black bg-gradient-to-r from-[#FFCEA0] to-white">
@@ -60,58 +67,22 @@ export default function Home() {
             className="slide mt-4"
           >
             <SwiperSlide className="slideSwiper">
-              <Image
-                src="/images/frame.png"
-                alt="#"
-                className="w-full"
-                width={100}
-                height={100}
-              />
+              <Image src={frame} alt="#" className="w-full" />
             </SwiperSlide>
             <SwiperSlide className="slideSwiper">
-              <Image
-                src="/images/frame2.png"
-                alt="#"
-                className="w-full"
-                width={100}
-                height={100}
-              />
+              <Image src={frame2} alt="#" className="w-full" />
             </SwiperSlide>
             <SwiperSlide className="slideSwiper">
-              <Image
-                src="/images/frame3.png"
-                alt="#"
-                className="w-full"
-                width={100}
-                height={100}
-              />
+              <Image src={frame3} alt="#" className="w-full" />
             </SwiperSlide>
             <SwiperSlide className="slideSwiper">
-              <Image
-                src="/images/frame.png"
-                alt="#"
-                className="w-full"
-                width={100}
-                height={100}
-              />
+              <Image src={frame} alt="#" className="w-full" />
             </SwiperSlide>
             <SwiperSlide className="slideSwiper">
-              <Image
-                src="/images/frame2.png"
-                alt="#"
-                className="w-full"
-                width={100}
-                height={100}
-              />
+              <Image src={frame2} alt="#" className="w-full" />
             </SwiperSlide>
             <SwiperSlide className="slideSwiper">
-              <Image
-                src="/images/frame3.png"
-                alt="#"
-                className="w-full"
-                width={100}
-                height={100}
-              />
+              <Image src={frame3} alt="#" className="w-full" />
             </SwiperSlide>
           </Swiper>
         </div>

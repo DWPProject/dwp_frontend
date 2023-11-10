@@ -1,5 +1,6 @@
 import { useState } from "react";
-import Select from "./Select";
+
+import Select from "../elements/Select";
 
 const BarChartHeading = ({ totalPendapatan }) => {
   const [year, setYear] = useState(new Date().getFullYear());

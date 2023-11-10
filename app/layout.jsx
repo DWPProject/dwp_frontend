@@ -1,20 +1,20 @@
 import "./globals.css";
 import { Kumbh_Sans } from "next/font/google";
-
-import Navbar from "./common/components/layouts/Navbar";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const kumbh_sans = Kumbh_Sans({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Beranda | DWP",
-  description: "Home Page for Website DWP",
+  title: "DWP ITERA",
+  description: "Website for Organization DWP ITERA",
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" className="overflow-hidden overflow-y-auto">
       <body className={kumbh_sans.className}>
-        <Navbar />
+        <ToastContainer />
         {children}
       </body>
     </html>

@@ -3,7 +3,7 @@ import { useState } from "react";
 import Swal from "sweetalert2";
 import { v4 as uuid } from "uuid";
 
-import PageHeading from "../../components/PageHeading";
+import PageHeading from "@/components/dashboard/PageHeading";
 
 import { BsPlusLg, BsTrashFill } from "react-icons/bs";
 import { FiEdit } from "react-icons/fi";
@@ -74,13 +74,6 @@ const KelolaKonten = () => {
     kategori: "",
   });
 
-  const [formEditData, setFormEditData] = useState({
-    judul: "",
-    penulis: "",
-    tanggal: "",
-    kategori: "",
-  });
-
   const onSubmitHandle = (e) => {
     e.preventDefault();
     TABLE_ROWS.push({
@@ -101,20 +94,12 @@ const KelolaKonten = () => {
     setShowForm(false);
   };
 
-  const onSubmitEditHandle = (e) => {
-    e.preventDefault();
-  };
-
   const onSelectHandle = (e) => {
     setCategories(e.target.value);
     setFormData({
       ...formData,
       kategori: e.target.value,
     });
-  };
-
-  const onHandleEdit = (kontens) => {
-    setFormEditData(kontens);
   };
 
   const onHandleDelete = (id) => {

@@ -1,8 +1,9 @@
 "use client";
 import { useState } from "react";
 
-import PageHeading from "../../components/PageHeading";
-import Select from "../../components/Select";
+import PageHeading from "@/components/dashboard/PageHeading";
+import Select from "@/components/elements/Select";
+
 import DataPenjual from "./DataPenjual";
 import DataAnggota from "./DataAnggota";
 

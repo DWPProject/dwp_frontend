@@ -2,7 +2,7 @@
 import { useState } from "react";
 import Image from "next/image";
 
-import PageHeading from "../../components/PageHeading";
+import PageHeading from "@/components/dashboard/PageHeading";
 
 import { IoArrowBackOutline } from "react-icons/io5";
 import { ImCross } from "react-icons/im";

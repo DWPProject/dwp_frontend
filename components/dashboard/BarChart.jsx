@@ -1,5 +1,6 @@
 "use client";
 import { ResponsiveBar } from "@nivo/bar";
+
 import BarChartHeading from "./BarChartHeading";
 
 const BarChart = ({ data, totalPendapatan }) => {

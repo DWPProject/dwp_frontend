@@ -1,5 +1,5 @@
 "use client";
-import PageHeading from "../../components/PageHeading";
+import PageHeading from "@/components/dashboard/PageHeading";
 
 import { BsDownload } from "react-icons/bs";
 
