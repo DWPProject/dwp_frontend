@@ -1,9 +1,12 @@
 "use client";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 
-import { getUserFromLocalStorage } from "@/utils/localstorage";
+import {
+  getUserFromLocalStorage,
+  deletUserFromLocalStorage,
+} from "@/utils/localstorage";
 
 import { MENU_ITEMS_USER } from "@/constant/menu";
 
@@ -11,9 +14,15 @@ import profile from "@/public/images/empty_profile.png";
 
 export default function Navbar() {
   const pathname = usePathname();
+  const router = useRouter();
   const user = getUserFromLocalStorage();
   const userEmail = user.length > 0 ? user[0].email : "";
   const isLogin = user.length > 0 ? true : false;
+
+  const onHandleLogout = () => {
+    deletUserFromLocalStorage();
+    router.push("/auth");
+  };
 
   return (
     <>
@@ -57,10 +66,9 @@ export default function Navbar() {
                 className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
               >
                 <li>
-                  <Link href="/LoginDaftar">Login/Register</Link>
-                  <Link href="/dashboardUser/profil">Profil</Link>
-                  <Link href="/dashboardUser/pesanan">Riwayat Pesanan</Link>
-                  <Link href="/dashboardUser/pesanan">Logout</Link>
+                  <Link href="/dashboard/user/profile">Profil</Link>
+                  <Link href="/dashboard/user/pesanan">Riwayat Pesanan</Link>
+                  <button onClick={onHandleLogout}>Logout</button>
                 </li>
               </ul>
             </div>
