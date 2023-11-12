@@ -1,6 +1,6 @@
-import SideBar from "../../../components/dashboard/SideBar";
+import SideBar from "@/components/dashboard/SideBar";
 
-import { MENU_ITEMS_PENJUAL } from "@/app/constant/menu";
+import { MENU_ITEMS_PENJUAL } from "@/constant/menu";
 
 export const metadata = {
   title: "Dashboard Penjual | DWP",

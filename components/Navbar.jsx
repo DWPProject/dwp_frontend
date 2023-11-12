@@ -5,8 +5,8 @@ import Image from "next/image";
 
 import {
   getUserFromLocalStorage,
-  deletUserFromLocalStorage,
-} from "@/utils/localstorage";
+  clearLocalStorage,
+} from "@/utils/localStorage";
 
 import { MENU_ITEMS_USER } from "@/constant/menu";
 
@@ -15,12 +15,12 @@ import profile from "@/public/images/empty_profile.png";
 export default function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
+
   const user = getUserFromLocalStorage();
-  const userEmail = user.length > 0 ? user[0].email : "";
   const isLogin = user.length > 0 ? true : false;
 
   const onHandleLogout = () => {
-    deletUserFromLocalStorage();
+    clearLocalStorage();
     router.push("/auth");
   };
 

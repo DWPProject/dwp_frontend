@@ -4,9 +4,9 @@ import Select from "../elements/Select";
 
 const BarChartHeading = ({ totalPendapatan }) => {
   const [year, setYear] = useState(new Date().getFullYear());
+
   const [minOffset, maxOffset] = [0, 60];
   const valueOption = [];
-
   for (let i = minOffset; i <= maxOffset; i++) {
     valueOption.push({
       value: year - i,

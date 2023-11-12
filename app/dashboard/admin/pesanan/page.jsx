@@ -19,16 +19,6 @@ const TABLE_HEAD = [
   "Bukti Transfer",
   "Action",
 ];
-const TABLE_FOOT = [
-  "ID Pesanan",
-  "Customer",
-  "Tanggal",
-  "Total Harga",
-  "Status Pembayaran",
-  "Order Status",
-  "Bukti Transfer",
-  "Action",
-];
 
 const TABLE_ROWS = [
   {
@@ -56,10 +46,6 @@ const KelolaPesanan = () => {
   const [showModalPayment, setShowModalPayment] = useState(false);
   const [categories, setCategories] = useState("Belum Diproses");
 
-  const onSelectHandle = (e) => {
-    setCategories(e.target.value);
-  };
-
   const onHandleDelete = () => {
     Swal.fire({
       title: "Are you sure?",
@@ -80,42 +66,6 @@ const KelolaPesanan = () => {
     <>
       <PageHeading title="Kelola Pesanan" />
       <div className="bg-white m-5 rounded-lg">
-        <div className="flex justify-between p-8 ">
-          <form>
-            <label
-              htmlFor="default-search"
-              className="mb-2 text-sm font-medium text-gray-500 sr-only"
-            >
-              Search
-            </label>
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                <svg
-                  className="w-4 h-4 text-gray-500"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-                  />
-                </svg>
-              </div>
-              <input
-                type="search"
-                id="default-search"
-                className="block w-full p-3 pl-10 text-sm border border-gray-500 rounded-lg focus:ring-black focus:border-black outline-none"
-                placeholder="Search..."
-                required
-              />
-            </div>
-          </form>
-        </div>
         <div className="overflow-x-auto h-fit pb-5 scrollbar-hide">
           <table className="table table-pin-rows">
             {/* head */}
@@ -144,7 +94,7 @@ const KelolaPesanan = () => {
                   <td>{pesanan.tanggal}</td>
                   <td>Rp. {pesanan.total_harga}</td>
                   <td>
-                    <div className="form-control flex justify-center items-center">
+                    <div className="form-control">
                       <label className="label cursor-pointer">
                         <input
                           type="checkbox"
@@ -186,24 +136,14 @@ const KelolaPesanan = () => {
                       >
                         <BsFillEyeFill size={25} />
                       </button>
-                      <button
-                        className="text-[#A30D11]"
-                        onClick={onHandleDelete}
-                      >
-                        <BsTrashFill size={20} />
+                      <button className="py-2 px-3 bg-red-500 text-white rounded-lg">
+                        <p className="font-bold text-center">Reject</p>
                       </button>
                     </div>
                   </td>
                 </tr>
               ))}
             </tbody>
-            <tfoot className="font-bold text-black">
-              <tr>
-                {TABLE_FOOT.map((head) => (
-                  <th key={head}>{head}</th>
-                ))}
-              </tr>
-            </tfoot>
           </table>
         </div>
       </div>
@@ -248,7 +188,7 @@ const KelolaPesanan = () => {
                     <h1 className="font-semibold">Detail Pesanan Pembeli</h1>
                     <div className="flex flex-col gap-3">
                       <Image
-                        src="/images/produk1.png"
+                        src="/images/example_product.png"
                         alt="Produk1"
                         width={50}
                         height={50}
@@ -285,7 +225,7 @@ const KelolaPesanan = () => {
                 {/*body*/}
                 <div className="relative p-6 flex-auto ">
                   <Image
-                    src="/images/bukti_payment_2.jpg"
+                    src="/images/example_payment.jpg"
                     width={0}
                     height={0}
                     sizes="100vw"

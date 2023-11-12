@@ -10,7 +10,7 @@ const TopProdukList = ({ topProdukData }) => {
         >
           <div className="flex gap-2">
             <Image
-              src="/images/produk1.png"
+              src="/images/example_product2.png"
               alt="Produk Teratas"
               width={50}
               height={50}

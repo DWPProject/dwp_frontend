@@ -16,14 +16,6 @@ const TABLE_HEAD = [
   "Kategori",
   "Action",
 ];
-const TABLE_FOOT = [
-  "ID Konten",
-  "Judul Konten",
-  "Penulis",
-  "Tanggal",
-  "Kategori",
-  "Action",
-];
 
 const TABLE_ROWS = [
   {
@@ -70,17 +62,15 @@ const KelolaKonten = () => {
   const [formData, setFormData] = useState({
     judul: "",
     penulis: "",
-    tanggal: "",
     kategori: "",
   });
 
-  const onSubmitHandle = (e) => {
+  const onSubmitHandleAdd = (e) => {
     e.preventDefault();
     TABLE_ROWS.push({
       id_konten: uuid(),
       judul: formData.judul,
       penulis: formData.penulis,
-      tanggal: formData.tanggal,
       kategori: formData.kategori,
     });
 
@@ -88,18 +78,9 @@ const KelolaKonten = () => {
       id_konten: uuid(),
       judul: "",
       penulis: "",
-      tanggal: "",
       kategori: "",
     });
     setShowForm(false);
-  };
-
-  const onSelectHandle = (e) => {
-    setCategories(e.target.value);
-    setFormData({
-      ...formData,
-      kategori: e.target.value,
-    });
   };
 
   const onHandleDelete = (id) => {
@@ -132,7 +113,7 @@ const KelolaKonten = () => {
             <form
               action=""
               className="flex flex-col pt-5"
-              onSubmit={onSubmitHandle}
+              onSubmit={onSubmitHandleAdd}
             >
               <div className="flex justify-between divide-x">
                 <div className="flex flex-col">
@@ -149,12 +130,6 @@ const KelolaKonten = () => {
                         id="nama-anggota"
                         type="text"
                         placeholder="Masukkan Judul..."
-                        onChange={(e) => {
-                          setFormData({
-                            ...formData,
-                            judul: e.target.value,
-                          });
-                        }}
                       />
                     </div>
                     <div className="px-3">
@@ -182,26 +157,6 @@ const KelolaKonten = () => {
                       rows={8}
                     />
                   </div>
-                  <div className="px-3">
-                    <label
-                      className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                      htmlFor="tanggal-konten"
-                    >
-                      Tanggal Acara
-                    </label>
-                    <input
-                      className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                      id="tanggal-konten"
-                      type="date"
-                      placeholder="Nama Anggota..."
-                      onChange={(e) => {
-                        setFormData({
-                          ...formData,
-                          tanggal: e.target.value,
-                        });
-                      }}
-                    />
-                  </div>
                 </div>
                 <div className="flex flex-col gap-3">
                   <div className="px-3">
@@ -216,12 +171,6 @@ const KelolaKonten = () => {
                       id="penulis"
                       type="text"
                       placeholder="Masukkan Nama Penulis..."
-                      onChange={(e) => {
-                        setFormData({
-                          ...formData,
-                          penulis: e.target.value,
-                        });
-                      }}
                     />
                   </div>
                   <div className="px-3">
@@ -234,7 +183,7 @@ const KelolaKonten = () => {
                     <select
                       className="select select-bordered"
                       value={categories}
-                      onChange={onSelectHandle}
+                      onChange={(event) => setCategories(event.target.value)}
                       id="kategori"
                     >
                       <option value={"DEFAULT"} disabled>
@@ -254,7 +203,6 @@ const KelolaKonten = () => {
                   Tambah Konten
                 </button>
                 <button
-                  type="button"
                   className="rounded-xl bg-black text-white font-bold px-3 py-2"
                   onClick={() => setShowForm(false)}
                 >
@@ -266,41 +214,7 @@ const KelolaKonten = () => {
         </div>
       ) : (
         <div className="bg-white m-5 rounded-lg">
-          <div className="flex justify-between p-8 ">
-            <form>
-              <label
-                htmlFor="default-search"
-                className="mb-2 text-sm font-medium text-gray-500 sr-only"
-              >
-                Search
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                  <svg
-                    className="w-4 h-4 text-gray-500"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-                    />
-                  </svg>
-                </div>
-                <input
-                  type="search"
-                  id="default-search"
-                  className="block w-full p-3 pl-10 text-sm border border-gray-500 rounded-lg focus:ring-black focus:border-black outline-none"
-                  placeholder="Search..."
-                  required
-                />
-              </div>
-            </form>
+          <div className="flex justify-start p-8 ">
             <button
               className="btn text-gray-500 bg-[#FDE9CC] hover:bg-[#E0924A] hover:text-white"
               type="button"
@@ -321,7 +235,7 @@ const KelolaKonten = () => {
                 </tr>
               </thead>
               <tbody>
-                {TABLE_ROWS.map((konten, index) => (
+                {TABLE_ROWS.map((konten) => (
                   <tr key={konten.id_konten}>
                     <td>{konten.id_konten}</td>
                     <td>{konten.judul}</td>
@@ -347,13 +261,6 @@ const KelolaKonten = () => {
                   </tr>
                 ))}
               </tbody>
-              <tfoot className="font-bold text-black">
-                <tr>
-                  {TABLE_FOOT.map((head) => (
-                    <th key={head}>{head}</th>
-                  ))}
-                </tr>
-              </tfoot>
             </table>
           </div>
         </div>
@@ -412,20 +319,6 @@ const KelolaKonten = () => {
                             type="text"
                             placeholder="Masukkan konten..."
                             rows={8}
-                          />
-                        </div>
-                        <div className="px-3">
-                          <label
-                            className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                            htmlFor="tanggal-konten"
-                          >
-                            Tanggal Acara
-                          </label>
-                          <input
-                            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                            id="tanggal-konten"
-                            type="date"
-                            placeholder="Nama Anggota..."
                           />
                         </div>
                       </div>

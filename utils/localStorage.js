@@ -13,8 +13,20 @@ export const getUserFromLocalStorage = () => {
   }
 };
 
-export const deletUserFromLocalStorage = () => {
+export const setTokenToLocalStorage = (token) => {
   if (typeof localStorage !== "undefined") {
-    localStorage.removeItem("data_user");
+    localStorage.setItem("token", token);
+  }
+};
+
+export const getTokenFromLocalStorage = () => {
+  if (typeof localStorage !== "undefined") {
+    return localStorage.getItem("token");
+  }
+};
+
+export const clearLocalStorage = () => {
+  if (typeof localStorage !== "undefined") {
+    localStorage.clear();
   }
 };

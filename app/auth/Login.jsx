@@ -3,7 +3,10 @@ import { useRouter } from "next/navigation";
 
 import { login } from "@/services/auth";
 import { parseJwt } from "@/utils/parseJwt";
-import { setUserToLocasStorage } from "@/utils/localstorage";
+import {
+  setUserToLocasStorage,
+  setTokenToLocalStorage,
+} from "@/utils/localStorage";
 
 import { toast } from "react-toastify";
 
@@ -18,20 +21,30 @@ export default function Login({ onClick }) {
   const onSubmitHandle = async (e) => {
     e.preventDefault();
     const data = await login(formData);
+
     if (data.accessToken) {
+      const user_data = parseJwt(data.accessToken);
+      const user_role = user_data.level;
       const notify = () => {
         toast("Login Berhasil", { type: "success", autoClose: 2000 });
       };
       notify();
-      setUserToLocasStorage(parseJwt(data.accessToken));
-      router.push("/dashboard/user/profile");
+      setTokenToLocalStorage(data.accessToken);
+      setUserToLocasStorage(user_data);
+      setFormData({
+        email: "",
+        password: "",
+      });
+      if (user_role === "admin") {
+        router.push("/dashboard/admin");
+      } else if (user_role === "penjual") {
+        router.push("/dashboard/penjual");
+      } else {
+        router.push("/dashboard/user/profile");
+      }
     } else {
       setErrorMessage(data.message);
     }
-    setFormData({
-      email: "",
-      password: "",
-    });
   };
 
   return (

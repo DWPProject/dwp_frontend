@@ -1,14 +1,21 @@
 "use client";
 import React from "react";
-
+import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+
+import { clearLocalStorage } from "@/utils/localStorage";
 
 import { MdLogout } from "react-icons/md";
 
 const SideBar = ({ menuItems }) => {
   const pathname = usePathname();
+  const router = useRouter();
+
+  const onHandleLogout = () => {
+    clearLocalStorage();
+    router.push("/auth");
+  };
 
   return (
     <div className="flex flex-col p-5 bg-gradient-sidebar min-h-screen w-full">
@@ -19,7 +26,7 @@ const SideBar = ({ menuItems }) => {
       <nav>
         <ul className="py-10">
           {menuItems.map((item) => (
-            <li key={item.id} className="py-3">
+            <li key={item.name} className="py-3">
               <Link
                 href={item.link}
                 className={`flex flex-row justify-start items-center gap-3 ${
@@ -33,13 +40,13 @@ const SideBar = ({ menuItems }) => {
           ))}
         </ul>
         <div className="pt-[10rem]">
-          <Link
-            href={"#"}
+          <button
             className="flex flex-row justify-start items-center gap-3"
+            onClick={onHandleLogout}
           >
             <MdLogout />
             <span>Logout</span>
-          </Link>
+          </button>
         </div>
       </nav>
     </div>
