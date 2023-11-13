@@ -135,7 +135,7 @@ const Layanan = () => {
 
   return (
     <div className="bg-gradient-to-r from-white to-[#FFCEA0]">
-      <h1 className="text-3xl font-bold lg:mt-8">Layanan DWP</h1>
+      <h1 className="text-3xl font-bold lg:mt-8 ml-4 ">Layanan DWP</h1>
       <div className="flex justify-between list-none mt-8">
         <div className="category flex">
           <li className="mr-4">
@@ -148,9 +148,9 @@ const Layanan = () => {
             <a href="#">Barang Pakai</a>
           </li>
         </div>
-        <div className="cart relative">
+        <div className="cart relative ">
           <AiOutlineShoppingCart
-            className={`cursor-pointer ${Style.cart}`}
+            className={`cursor-pointer  ${Style.cart}`}
             onClick={openCartModal}
           />
           {jumlahPesananKeranjang > 0 && (
