@@ -3,7 +3,7 @@ import { ResponsiveBar } from "@nivo/bar";
 
 import BarChartHeading from "./BarChartHeading";
 
-const BarChart = ({ data, totalPendapatan }) => {
+export default function BarChart({ data, totalPendapatan }) {
   return (
     <>
       <BarChartHeading totalPendapatan={totalPendapatan} />
@@ -98,6 +98,4 @@ const BarChart = ({ data, totalPendapatan }) => {
       />
     </>
   );
-};
-
-export default BarChart;
+}

@@ -14,11 +14,19 @@ module.exports = {
         "gradient-sidebar":
           "linear-gradient(358.92deg, #222222 -191.4%, #FFFFFF 120.54%)",
       },
+      container: {
+        center: true,
+        padding: "4rem",
+      },
+      containernav: {
+        padding: "2rem",
+        center: true,
+      },
     },
   },
   plugins: [require("daisyui")],
-  
-   daisyui: {
+
+  daisyui: {
     themes: ["light"],
   },
 };

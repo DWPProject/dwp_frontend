@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-const Footer = () => {
+export default function Footer() {
   return (
     <>
       <footer className="footer p-10 bg-gradient-to-r from-gray-500 to-[#FFCEA0] text-white">
@@ -43,5 +43,4 @@ const Footer = () => {
       </footer>
     </>
   );
-};
-export default Footer;
+}

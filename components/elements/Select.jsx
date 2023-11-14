@@ -1,4 +1,9 @@
-const Select = ({ className = "", selectedValue, valueOption, onChange }) => {
+export default function Select({
+  className = "",
+  selectedValue,
+  valueOption,
+  onChange,
+}) {
   return (
     <select
       className={`select select-bordered max-w-xs ${className}`}
@@ -16,6 +21,4 @@ const Select = ({ className = "", selectedValue, valueOption, onChange }) => {
       ))}
     </select>
   );
-};
-
-export default Select;
+}

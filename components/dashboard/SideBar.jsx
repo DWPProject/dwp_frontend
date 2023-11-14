@@ -8,7 +8,7 @@ import { clearLocalStorage } from "@/utils/localStorage";
 
 import { MdLogout } from "react-icons/md";
 
-const SideBar = ({ menuItems }) => {
+export default function SideBar({ menuItems }) {
   const pathname = usePathname();
   const router = useRouter();
 
@@ -51,6 +51,4 @@ const SideBar = ({ menuItems }) => {
       </nav>
     </div>
   );
-};
-
-export default SideBar;
+}

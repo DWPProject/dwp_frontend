@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import Select from "../elements/Select";
 
-const BarChartHeading = ({ totalPendapatan }) => {
+export default function BarChartHeading({ totalPendapatan }) {
   const [year, setYear] = useState(new Date().getFullYear());
 
   const [minOffset, maxOffset] = [0, 60];
@@ -30,6 +30,4 @@ const BarChartHeading = ({ totalPendapatan }) => {
       </div>
     </div>
   );
-};
-
-export default BarChartHeading;
+}

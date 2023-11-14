@@ -1,7 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-const Kontak = () => {
+export default function Kontak() {
   return (
     <>
       <Navbar />
@@ -60,6 +60,4 @@ const Kontak = () => {
       <Footer />
     </>
   );
-};
-
-export default Kontak;
+}

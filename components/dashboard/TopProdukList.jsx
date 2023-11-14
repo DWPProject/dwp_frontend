@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-const TopProdukList = ({ topProdukData }) => {
+export default function TopProdukList({ topProdukData }) {
   return (
     <>
       {topProdukData.map((produk) => (
@@ -40,6 +40,4 @@ const TopProdukList = ({ topProdukData }) => {
       ))}
     </>
   );
-};
-
-export default TopProdukList;
+}

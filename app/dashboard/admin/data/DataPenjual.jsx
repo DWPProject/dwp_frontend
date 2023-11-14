@@ -42,7 +42,6 @@ const DataPenjual = () => {
   }, []);
 
   const onSubmitHandleAdd = async (e) => {
-    e.preventDefault();
     formDataPenjual.foto = avatar;
     formDataPenjual.type_seller = typeSeller;
     const data = await createDataPenjual(formDataPenjual);

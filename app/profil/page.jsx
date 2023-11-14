@@ -6,7 +6,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination } from "swiper/modules";
+import { Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 
@@ -14,7 +14,7 @@ import Style from "./profile.module.css";
 import pengurus from "@/public/images/example_pengurus.png";
 import { PROFILE_DATA } from "@/constant/profile";
 
-const Profil = () => {
+export default function Profil() {
   const [slidesPerView, setSlidesPerView] = useState(1);
 
   useEffect(() => {
@@ -40,7 +40,7 @@ const Profil = () => {
     <>
       <Navbar />
       <div className="bg-gradient-to-r from-white to-[#FFCEA0]">
-        <div className={Style.containerProfile}>
+        <div className={`container mx-auto ${Style.containerProfile}`}>
           <div className={Style.sejarah}>
             <h1 className="text-3xl ">Sejarah DWP ITERA</h1>
             <div className="pt-4">
@@ -78,19 +78,23 @@ const Profil = () => {
               pagination={{
                 clickable: true,
               }}
+              autoplay={{
+                delay: 2500,
+                disableOnInteraction: false,
+              }}
               modules={[Pagination]}
               className={Style.swiper}
             >
               {PROFILE_DATA.map((data, index) => (
                 <SwiperSlide className="flex p-4" key={index}>
-                  <div className="card bg-base-100 shadow-xl rounded p-4">
+                  <div className="card rounded p-4">
                     <figure>
                       <Image
                         src={pengurus}
                         alt={`${data.name}${data.jabatan}`}
                       />
                     </figure>
-                    <div className="card-body">
+                    <div className="card-body items-center">
                       <h2 className="card-title">{data.name}</h2>
                       <p>{data.jabatan}</p>
                     </div>
@@ -104,6 +108,4 @@ const Profil = () => {
       </div>
     </>
   );
-};
-
-export default Profil;
+}

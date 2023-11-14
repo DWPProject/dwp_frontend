@@ -1,4 +1,4 @@
-const Button = ({ name, className, onClick }) => {
+export default function Button({ name, className, onClick }) {
   return (
     <>
       <button className={className} onClick={onClick}>
@@ -6,6 +6,4 @@ const Button = ({ name, className, onClick }) => {
       </button>
     </>
   );
-};
-
-export default Button;
+}

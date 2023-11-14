@@ -21,7 +21,7 @@ export default function Home() {
     <>
       <Navbar />
       <Jumbotron />
-      <div className="bg-gradient-to-r from-white to-[#FFCEA0] text-black">
+      <div className="bg-gradient-to-r from-white to-[#FFCEA0] text-black pl-8 pr-8">
         <div className="p-8 lg:w-1/2">
           <h3 className="">Apa Itu DWP</h3>
           <h1 className="text-3xl mt-4">
@@ -50,8 +50,8 @@ export default function Home() {
           </a>
         </div>
       </div>
-      <div className="text-black bg-gradient-to-r from-[#FFCEA0] to-white">
-        <div className="p-8">
+      <div className="text-black bg-gradient-to-r from-[#FFCEA0] to-white pl-8 pr-8">
+        <div className="p-8 container mx-auto">
           <h3 className="">Berita dan Artikel</h3>
           <h2 className="text-3xl mt-4 font-bold">Lihat yang Terbaru</h2>
           <Swiper

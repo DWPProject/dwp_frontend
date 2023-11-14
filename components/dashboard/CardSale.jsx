@@ -1,6 +1,6 @@
 import { BsFillCartFill, BsFillPrinterFill } from "react-icons/bs";
 
-const CardSale = ({ orderComplete, totalSales }) => {
+export default function CardSale({ orderComplete, totalSales }) {
   return (
     <>
       <div className="flex gap-3 bg-[#EEEEEE] p-5 rounded-lg">
@@ -19,6 +19,4 @@ const CardSale = ({ orderComplete, totalSales }) => {
       </div>
     </>
   );
-};
-
-export default CardSale;
+}
