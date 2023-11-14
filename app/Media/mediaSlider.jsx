@@ -23,7 +23,7 @@ const MediaSlider = ({ data }) => {
           clickable: true,
         }}
       >
-        {data.map((item, index) => (
+        {data.map((item, index) => ( 
           <SwiperSlide key={index}>
             <div
               className={`w-48 h-48 border border-gray-200 rounded cursor-pointer ${

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
-import { Pagination } from "swiper/modules";
+import { Pagination,Autoplay } from "swiper/modules";
 import Style from "../Profil/page.module.css";
 import Footer from "../components/Footer";
 import Pengurus from "../../public/Images/pengurus.png";
@@ -85,7 +85,7 @@ const Profil = () => {
 
   return (
     <div className="bg-gradient-to-r from-white to-[#FFCEA0]">
-      <div className={Style.containerProfile}>
+      <div className={`container mx-auto ${Style.containerProfile}`}>
         <div className={Style.sejarah}>
           <h1 className="text-3xl ">Sejarah DWP ITERA</h1>
           <div className="pt-4">
@@ -123,19 +123,24 @@ const Profil = () => {
             pagination={{
               clickable: true,
             }}
+            autoplay ={{
+              delay: 2500,
+              disableOnInteraction: false,
+            }}
             modules={[Pagination]}
             className={Style.swiper}
           >
             {swiperData.map((data, index) => (
               <SwiperSlide className="flex p-4" key={index}>
-                <div className="card bg-base-100 shadow-xl rounded p-4">
+                <div className="card rounded p-4">
                   <figure>
                     <Image
                       src={data.foto}
                       alt={`${data.name}${data.jabatan}`}
+                      className="rounded-full"
                     />
                   </figure>
-                  <div className="card-body">
+                  <div className="card-body items-center">
                     <h2 className="card-title">{data.name}</h2>
                     <p>{data.jabatan}</p>
                   </div>

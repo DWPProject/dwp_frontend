@@ -9,6 +9,8 @@ import Style from "./layanan.module.css";
 import Produk from "../../public/Images/makan.png";
 import Image from "next/image";
 import Footer from "../components/Footer";
+import Card from "../components/card";
+import Link from "next/link";
 
 const Layanan = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -134,18 +136,19 @@ const Layanan = () => {
   };
 
   return (
-    <div className="bg-gradient-to-r from-white to-[#FFCEA0]">
-      <h1 className="text-3xl font-bold lg:mt-8 ml-4 ">Layanan DWP</h1>
-      <div className="flex justify-between list-none mt-8">
-        <div className="category flex">
+    <>
+      <div className="md:container md:mx-auto sm:container sm:mx-auto">
+        <h1 className="text-3xl font-bold lg:mt-8 pl-2 ">Layanan DWP</h1>
+      <div className="flex justify-between list-none mt-4 p-2">
+        <div className="category flex ">
           <li className="mr-4">
-            <a href="#">Semua Produk</a>
+            <Link href="#">Semua Produk</Link>
           </li>
           <li className="mr-4">
-            <a href="#">Makanan</a>
+            <Link href="#">Makanan</Link>
           </li>
           <li className="mr-4">
-            <a href="#">Barang Pakai</a>
+            <Link href="#">Barang Pakai</Link>
           </li>
         </div>
         <div className="cart relative ">
@@ -160,14 +163,14 @@ const Layanan = () => {
           )}
         </div>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 m-4">
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-3 m-4 flex items-center justify-center">
         {Toko.map((product, index) => (
-          <div key={index} className="card card-compact bg-base-100 shadow-xl">
-            <figure>
-              <Image src={product.imageSrc} alt={product.title} />
+          <div key={index} className="card card-compact">
+            <figure className="rounded-lg">
+              <Image src={product.imageSrc} alt={product.title} className="rounded-lg"/>
             </figure>
             <div className="card-body">
-              <h2 className="card-title">{product.title}</h2>
+              <h2 className="card-title ">{product.title}</h2>
               <p>{product.price}</p>
               <div className="card-actions justify-center">
                 <button className="btn outline w-full bg-[#FFCEA0] hover:bg-[#FFCEA0]" onClick={openModal}>
@@ -177,6 +180,7 @@ const Layanan = () => {
             </div>
           </div>
         ))}
+      </div>
       </div>
       <Footer />
       {isModalOpen && (
@@ -236,7 +240,7 @@ const Layanan = () => {
       )}
       {isCartModalOpen && (
         <dialog id="cart_modal" className="modal " open>
-          <div className="modal-box max-w-full sm:max-w-2xl md:max-w-3xl lg:max-w-4xl xl:max-w-5xl mx-auto p-4 bg-gradient-to-r from-white to-[#FFCEA0]">
+          <div className="modal-box max-w-full sm:max-w-2xl md:max-w-3xl lg:max-w-4xl xl:max-w-5xl mx-auto p-4 bg-gradient-to-r from-[#FFCEA0] to-white">
             <form method="dialog">
               <button
                 className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
@@ -258,7 +262,7 @@ const Layanan = () => {
                 isi detail alamat dengan benar !!!
               </small>
             </div>
-            <div>
+            <div className="outline">
               {keranjangBelanja.map((item, index) => (
                 <div
                   key={index}
@@ -335,7 +339,7 @@ const Layanan = () => {
           </div>
         </dialog>
       )}
-    </div>
+    </>
   );
 };
 
