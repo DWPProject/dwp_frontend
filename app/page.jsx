@@ -17,7 +17,7 @@ export default function Home() {
     <>
       <Jumbotron />
       <div className="bg-gradient-to-r from-white to-[#FFCEA0] text-black pl-8 pr-8">
-        <div className="p-8 lg:w-1/2">
+        <div className="p-8 lg:w-1/2 ">
           <h3 className="">Apa Itu DWP</h3>
           <h1 className="text-3xl mt-4">
             {" "}
