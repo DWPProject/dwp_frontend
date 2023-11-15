@@ -92,6 +92,7 @@ export default function Profil() {
                       <Image
                         src={pengurus}
                         alt={`${data.name}${data.jabatan}`}
+                        className="rounded-full"
                       />
                     </figure>
                     <div className="card-body items-center">

@@ -6,6 +6,7 @@ import {
   AiOutlineShoppingCart,
   AiOutlinePlus,
   AiOutlineMinus,
+  AiTwotoneDelete,
 } from "react-icons/ai";
 
 import Navbar from "@/components/Navbar";
@@ -24,6 +25,7 @@ export default function Layanan() {
   const [keranjangBelanja, setKeranjangBelanja] = useState([]);
   const [nomorRekening, setNomorRekening] = useState("");
   const [buktiPembayaran, setBuktiPembayaran] = useState(null);
+  const [selectedAlamat, setSelectedAlamat] = useState("gedung-gku");
 
   const handleChangePembayaran = (e) => {
     const selectedValue = e.target.value;
@@ -93,7 +95,9 @@ export default function Layanan() {
     const file = e.target.files[0];
     setBuktiPembayaran(file);
   };
-
+  const handleAlamatChange = (event) => {
+    setSelectedAlamat(event.target.value);
+  };
   const jumlahPesananKeranjang = keranjangBelanja.reduce(
     (total, item) => total + item.jumlah,
     0
@@ -140,19 +144,35 @@ export default function Layanan() {
             )}
           </div>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-3 m-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-10 m-4">
           {DATA_PRODUK_USER.map((product, index) => (
-            <div key={index} className="card card-compact">
-              <figure className="rounded-lg">
+            <div
+              key={index}
+              className="card card-compact bg-gray-100 shadow-lg sm:max-w-xs md:max-w-md lg:max-w-md xl:max-w-md"
+            >
+              <figure className="rounded-lg ">
                 <Image
                   src={produk1}
                   alt={product.title}
-                  className="rounded-lg"
+                  className="rounded-lg w-full"
                 />
               </figure>
               <div className="card-body">
-                <h2 className="card-title ">{product.title}</h2>
-                <p>{product.price}</p>
+                <div className="flex justify-between items-center">
+                  <div className="">
+                    <h2 className="card-title ">{product.title}</h2>
+                    <p>{product.price}</p>
+                  </div>
+                  <div>
+                    <Image
+                      src={produk1}
+                      alt={product.title}
+                      height={60}
+                      width={60}
+                      className="rounded-full"
+                    />
+                  </div>
+                </div>
                 <div className="card-actions justify-center">
                   <button
                     className="btn outline w-full bg-[#FFCEA0] hover:bg-[#FFCEA0]"
@@ -169,54 +189,58 @@ export default function Layanan() {
       <Footer />
       {isModalOpen && (
         <dialog id="my_modal_3" className="modal" open>
-          <div className="modal-box bg-gradient-to-r from-white to-[#FFCEA0]">
+          <div className="modal-box bg-white rounded-lg overflow-hidden">
             <form method="dialog">
               <button
-                className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+                className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 text-gray-500"
                 onClick={closeModal}
               >
                 ✕
               </button>
             </form>
-            <h3 className="text-lg font-bold mt-4">Custom Pesanan</h3>
-            <div className="flex justify-between mt-4">
-              <p>Nasi Lemak </p>
-              <p>20.000 </p>
-            </div>
-            <div className="flex justify-between mt-4">
-              <p className="font-bold">Jumlah Pesanan</p>
-              <div className="flex justify-around font-bold align-center item-center">
-                <AiOutlineMinus
-                  className="mr-4 cursor-pointer"
-                  onClick={decreaseQuantity}
-                />
-                {jumlahPesanan}
-                <AiOutlinePlus
-                  className="ml-4 cursor-pointer"
-                  onClick={increaseQuantity}
-                />
+            <div className="p-6">
+              <h3 className="text-xl font-semibold mb-4">Custom Pesanan</h3>
+              <div className="flex justify-between mb-4">
+                <p className="text-base">Nasi Lemak</p>
+                <p className="text-base font-semibold">Rp 20.000</p>
               </div>
-            </div>
-            <div className="mt-4">
-              <p className="font-bold">Catatan</p>
-              <small>opsional</small>
-              <br />
-
-              <textarea
-                name="catatan"
-                id="catatan"
-                className="outline rounded"
-                style={{ width: "100%", maxWidth: "100%" }}
-                value={catatan}
-                onChange={handleCatatanChange}
-                maxLength="200"
-              />
-
-              <p className="mt-2">{catatan.length}/200</p>
-            </div>
-            <div className="mt-4">
+              <div className="flex justify-between mb-4">
+                <p className="text-base font-semibold">Jumlah Pesanan</p>
+                <div className="flex items-center space-x-4">
+                  <AiOutlineMinus
+                    className="cursor-pointer text-gray-500"
+                    onClick={decreaseQuantity}
+                  />
+                  <span className="text-base font-semibold">
+                    {jumlahPesanan}
+                  </span>
+                  <AiOutlinePlus
+                    className="cursor-pointer text-gray-500"
+                    onClick={increaseQuantity}
+                  />
+                </div>
+              </div>
+              <div className="mb-4">
+                <label
+                  htmlFor="catatan"
+                  className="text-base font-semibold block"
+                >
+                  Catatan
+                </label>
+                <textarea
+                  name="catatan"
+                  id="catatan"
+                  className="w-full h-24 border p-2 rounded"
+                  value={catatan}
+                  onChange={handleCatatanChange}
+                  maxLength="200"
+                />
+                <p className="text-sm text-gray-500 mt-2">
+                  {catatan.length}/200
+                </p>
+              </div>
               <button
-                className="btn w-full bg-[#FFCEA0] hover:bg-[#FFCEA0]"
+                className="btn w-full bg-[#FFCEA0] hover:bg-[#FFCEA0] text-white"
                 onClick={tambahKeKeranjang}
               >
                 Pesan
@@ -225,9 +249,10 @@ export default function Layanan() {
           </div>
         </dialog>
       )}
+
       {isCartModalOpen && (
-        <dialog id="cart_modal" className="modal " open>
-          <div className="modal-box max-w-full sm:max-w-2xl md:max-w-3xl lg:max-w-4xl xl:max-w-5xl mx-auto p-4 bg-gradient-to-r from-[#FFCEA0] to-white">
+        <dialog id="cart_modal" className="modal" open>
+          <div className="modal-box max-w-full sm:max-w-2xl mx-auto p-4 bg-white shadow-lg rounded-lg">
             <form method="dialog">
               <button
                 className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
@@ -240,52 +265,50 @@ export default function Layanan() {
             <div className="address mt-4">
               <small>Alamat Pengiriman</small>
               <div className="font-bold flex justify-between items-center mt-2">
-                <p>Gedung GKU 1, Lt Dasar</p>
-                <button className="btn btn-sm outline outline-green-500">
-                  Ganti Alamat
-                </button>
-              </div>
-              <small className="outline outline-green-400 rounded font-bold mt-2">
-                isi detail alamat dengan benar !!!
-              </small>
-            </div>
-            <div className="outline">
-              {keranjangBelanja.map((item, index) => (
-                <div
-                  key={index}
-                  className="flex flex-col sm:flex-row justify-between items-center mt-4"
+                <select
+                  id="alamatPengiriman"
+                  value={selectedAlamat}
+                  onChange={handleAlamatChange}
+                  className="border rounded p-2"
                 >
-                  <div className="w-full sm:w-2/3">
-                    <p>{item.nama}</p>
-                    <p>Rp {item.harga}</p>
-                    {item.catatan && (
-                      <p className="mt-1">Catatan: {item.catatan}</p>
-                    )}
-                    <button
-                      className="btn btn-sm mt-2 sm:mt-0"
-                      onClick={() => hapusPesanan(index)}
-                    >
-                      Hapus
-                    </button>
-                    <button
-                      className="btn btn-sm mt-2 sm:mt-0 ml-2"
-                      onClick={() => simpanPesanan(index, item)}
-                    >
-                      Simpan
-                    </button>
-                  </div>
-                  <div className="flex items-center w-full sm:w-1/3 mt-4 sm:mt-0">
-                    <Image
-                      src={item.gambar}
-                      alt={item.nama}
-                      width={100}
-                      height={100}
-                    />
-                    <p className="ml-2">{item.jumlah} x</p>
-                  </div>
-                </div>
-              ))}
+                  <option value="gedung-gku">Gedung GKU 1, Lt Dasar</option>
+                  <option value="other-address-1">
+                    Gedung GKU 2, Lt Dasar
+                  </option>
+                  <option value="other-address-2">Gedung E,lt Dasar </option>
+                  <option value="other-address-2">Gedung F,lt Dasar </option>
+                </select>
+              </div>
             </div>
+            {keranjangBelanja.map((item, index) => (
+            <div key={index} className="mt-4 bg-white shadow-lg rounded-lg p-4">
+              <div className="flex items-center">
+                <Image
+                  src={item.gambar}
+                  alt={item.nama}
+                  width={100}
+                  height={100}
+                  className="rounded-lg"
+                />
+                <div className="ml-4">
+                  <p className="text-lg font-bold">{item.nama}</p>
+                  <p className="text-sm text-gray-600">{item.jumlah} x Rp {item.harga}</p>
+                </div>
+              </div>
+              <div className="flex justify-between items-center mt-2">
+                <div>
+                  <h3 className="text-md font-bold">Catatan Pembeli</h3>
+                  <p className="text-sm text-gray-600">{item.catatan}</p>
+                </div>
+                <div>
+                  <button className="btn btn-sm btn-error text-white">
+                    <AiTwotoneDelete />
+                    Hapus Item
+                  </button>
+                </div>
+              </div>
+            </div>
+            ))}
             <div className="mt-4">
               <p className="font-bold">Ringkasan Pembayaran</p>
               <div className="flex justify-between items-center mt-4 space-x-4">
@@ -300,7 +323,11 @@ export default function Layanan() {
               </div>
               <div className="flex justify-between items-center mt-4 space-x-4">
                 <small className="font-bold">Metode Pembayaran:</small>
-                <select id="metodePembayaran" onChange={handleChangePembayaran}>
+                <select
+                  id="metodePembayaran"
+                  onChange={handleChangePembayaran}
+                  className="border rounded p-2"
+                >
                   <option value="">Pilih Metode Pembayaran</option>
                   <option value="gopay">Gopay</option>
                   <option value="bri">BRI</option>
