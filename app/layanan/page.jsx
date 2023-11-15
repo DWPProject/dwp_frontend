@@ -163,8 +163,8 @@ export default function Layanan() {
                     <Image
                       src={iconShop}
                       alt={product.title}
-                      height={60}
-                      width={60}
+                      height={50}
+                      width={50}
                       className="rounded-full"
                     />
                   </div>

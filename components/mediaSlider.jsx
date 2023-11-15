@@ -16,17 +16,25 @@ export default function MediaSlider({ data }) {
   return (
     <div>
       <Swiper
-        slidesPerView={6}
-        navigation
         spaceBetween={10}
-        pagination={{
-          clickable: true,
+        navigation
+        pagination={{ clickable: true }}
+        breakpoints={{
+          768: {
+            slidesPerView: 4,
+          },
+          640: {
+            slidesPerView: 3,
+          },
+          320: {
+            slidesPerView: 2,
+          },
         }}
       >
         {data.map((item, index) => (
           <SwiperSlide key={index}>
             <div
-              className={`w-48 h-48 border border-gray-200 rounded cursor-pointer ${
+              className={`w-80 sm:w-80 md:w-80 lg:w-80 h-48 md:h-64 lg:h-80 rounded cursor-pointer mr-4 ${
                 selectedCard === index ? "border-blue-500" : ""
               }`}
               onClick={() => handleCardClick(index)}
@@ -34,7 +42,7 @@ export default function MediaSlider({ data }) {
               <Image
                 src={item.image}
                 alt={item.title}
-                className="w-full h-32 object-cover rounded"
+                className="w-64 h-40 md:h-40 lg:h-40 object-cover rounded"
               />
               <h3 className="text-base font-semibold mt-2">{item.title}</h3>
               <p className="text-sm text-gray-500 mt-1">{item.description}</p>
