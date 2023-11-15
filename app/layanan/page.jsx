@@ -15,6 +15,7 @@ import CardProduk from "@/components/CardProduk";
 
 import Style from "./layanan.module.css";
 import produk1 from "@/public/images/example_product.png";
+import iconShop from "@/public/logo.svg"
 import { DATA_PRODUK_USER } from "@/constant/layanan";
 
 export default function Layanan() {
@@ -75,6 +76,7 @@ export default function Layanan() {
         jumlah: jumlahPesanan,
         gambar: produk1,
         catatan: catatan,
+        icon : iconShop,
       };
       setKeranjangBelanja([...keranjangBelanja, pesananBaru]);
       setCatatan("");
@@ -148,7 +150,7 @@ export default function Layanan() {
           {DATA_PRODUK_USER.map((product, index) => (
             <div
               key={index}
-              className="card card-compact bg-gray-100 shadow-lg sm:max-w-xs md:max-w-md lg:max-w-md xl:max-w-md"
+              className="card card-compact bg-gray-100 shadow-lg sm:max-w-xs md:max-w-md lg:max-w-md xl:max-w-md relative"
             >
               <figure className="rounded-lg ">
                 <Image
@@ -157,22 +159,19 @@ export default function Layanan() {
                   className="rounded-lg w-full"
                 />
               </figure>
-              <div className="card-body">
-                <div className="flex justify-between items-center">
-                  <div className="">
-                    <h2 className="card-title ">{product.title}</h2>
-                    <p>{product.price}</p>
-                  </div>
-                  <div>
+              <div className="icon absolute top-0 left-0">
                     <Image
-                      src={produk1}
+                      src={iconShop}
                       alt={product.title}
                       height={60}
                       width={60}
                       className="rounded-full"
                     />
                   </div>
-                </div>
+              <div className="card-body">
+                <h2 className="card-title ">{product.title}</h2>
+                <p>{product.price}</p>
+
                 <div className="card-actions justify-center">
                   <button
                     className="btn outline w-full bg-[#FFCEA0] hover:bg-[#FFCEA0]"
@@ -281,33 +280,41 @@ export default function Layanan() {
               </div>
             </div>
             {keranjangBelanja.map((item, index) => (
-            <div key={index} className="mt-4 bg-white shadow-lg rounded-lg p-4">
-              <div className="flex items-center">
-                <Image
-                  src={item.gambar}
-                  alt={item.nama}
-                  width={100}
-                  height={100}
-                  className="rounded-lg"
-                />
-                <div className="ml-4">
-                  <p className="text-lg font-bold">{item.nama}</p>
-                  <p className="text-sm text-gray-600">{item.jumlah} x Rp {item.harga}</p>
+              <div
+                key={index}
+                className="mt-4 bg-white shadow-lg rounded-lg p-4"
+              >
+                <div className="flex items-center">
+                  <Image
+                    src={item.gambar}
+                    alt={item.nama}
+                    width={100}
+                    height={100}
+                    className="rounded-lg"
+                  />
+                  <div className="ml-4">
+                    <p className="text-lg font-bold">{item.nama}</p>
+                    <p className="text-sm text-gray-600">
+                      {item.jumlah} x Rp {item.harga}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex justify-between items-center mt-2">
+                  <div>
+                    <h3 className="text-md font-bold">Catatan Pembeli</h3>
+                    <p className="text-sm text-gray-600">{item.catatan}</p>
+                  </div>
+                  <div>
+                    <button
+                      className="btn btn-sm btn-error text-white"
+                      onClick={() => hapusPesanan(index)}
+                    >
+                      <AiTwotoneDelete />
+                      Hapus Item
+                    </button>
+                  </div>
                 </div>
               </div>
-              <div className="flex justify-between items-center mt-2">
-                <div>
-                  <h3 className="text-md font-bold">Catatan Pembeli</h3>
-                  <p className="text-sm text-gray-600">{item.catatan}</p>
-                </div>
-                <div>
-                  <button className="btn btn-sm btn-error text-white">
-                    <AiTwotoneDelete />
-                    Hapus Item
-                  </button>
-                </div>
-              </div>
-            </div>
             ))}
             <div className="mt-4">
               <p className="font-bold">Ringkasan Pembayaran</p>
