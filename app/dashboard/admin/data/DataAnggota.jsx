@@ -25,36 +25,50 @@ const DataAnggota = () => {
   });
   const [avatar, setAvatar] = useState(null);
 
+  const fetchData = async () => {
+    const data_anggota = await getDataAnggota();
+    setDataAnggota([...data_anggota.data]);
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      const data_anggota = await getDataAnggota();
-      setDataAnggota([...data_anggota.data]);
-    };
     fetchData();
   }, []);
 
-  const onSubmitHandleAdd = async (e) => {
+  const onSubmitHandleAdd = async (event) => {
+    event.preventDefault();
     formDataAnggota.foto = avatar;
-    const data = await createDataAnggota(formDataAnggota);
-    console.log(data);
 
-    setFormDataAnggota({
-      nama: "",
-      jabatan: "",
-      foto: null,
-    });
+    try {
+      await createDataAnggota(formDataAnggota);
+      setFormDataAnggota({
+        nama: "",
+        jabatan: "",
+        foto: null,
+      });
+      fetchData();
+      setShowForm(false);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const onSubmitHandleEdit = async (event, id) => {
-    dataEditAnggota.foto = avatar;
-    const data = await updateDataAnggota(dataEditAnggota, id);
-    console.log(data);
+    event.preventDefault();
 
-    setDataEditAnggota({
-      nama: "",
-      jabatan: "",
-      foto: null,
-    });
+    dataEditAnggota.foto = avatar;
+    try {
+      await updateDataAnggota(dataEditAnggota, id);
+
+      setDataEditAnggota({
+        nama: "",
+        jabatan: "",
+        foto: null,
+      });
+      fetchData();
+      setShowModal(false);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const onHandleEdit = (id) => {
@@ -81,10 +95,13 @@ const DataAnggota = () => {
       confirmButtonText: "Yes, delete it!",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        const data = await deleteDataAnggota(id);
-        console.log(data);
-
-        Swal.fire("Deleted!", "Your file has been deleted.", "success");
+        try {
+          await deleteDataAnggota(id);
+          fetchData();
+          Swal.fire(`Success Deleted Data Anggota`, "", "success");
+        } catch (error) {
+          console.log(error);
+        }
       }
     });
   };
@@ -125,6 +142,7 @@ const DataAnggota = () => {
                           nama: e.target.value,
                         }),
                       ]}
+                      required
                     />
                   </div>
                   <div className="w-full px-3">
@@ -145,6 +163,7 @@ const DataAnggota = () => {
                           jabatan: e.target.value,
                         }),
                       ]}
+                      required
                     />
                   </div>
                 </div>
@@ -156,7 +175,6 @@ const DataAnggota = () => {
                     Avatar
                   </label>
                   <input
-                    className=""
                     id="avatar-anggota"
                     type="file"
                     onChange={onHandleImage}
@@ -301,7 +319,6 @@ const DataAnggota = () => {
                           Avatar
                         </label>
                         <input
-                          className=""
                           id="avatar-anggota"
                           type="file"
                           onChange={onHandleImage}
