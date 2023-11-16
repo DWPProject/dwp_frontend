@@ -1,21 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 
+import Swal from "sweetalert2";
 import { FiEdit } from "react-icons/fi";
 import { BsPlusLg, BsTrashFill } from "react-icons/bs";
-import Swal from "sweetalert2";
-import { v4 as uuid } from "uuid";
 
-const TABLE_HEAD_BANK_PRODUK = [
-  "ID Produk",
-  "Nama Produk",
-  "Nama Toko",
-  "Harga",
-  "Stok",
-  "Action",
-];
+import { getDataPenjual } from "@/services/penjual";
+import { getDataBankProduct, getDataSellProduct } from "@/services/product";
 
-const TABLE_HEAD_PRODUK_JUAL = [
+const TABLE_HEAD = [
   "ID Produk",
   "Nama Produk",
   "Nama Toko",
@@ -27,51 +20,33 @@ const TABLE_HEAD_PRODUK_JUAL = [
 const ProdukMakanan = () => {
   const [showForm, setShowForm] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [dataBankProduk, setDataBankProduk] = useState([]);
+  const [dataProdukJual, setDataProdukJual] = useState([]);
+  const [dataPenjual, setDataPenjual] = useState([]);
   const [formData, setFormData] = useState({
-    id_produk: "",
     nama_produk: "",
     harga: 0,
     stok: 0,
+    kategori: "makanan",
   });
   const [toko, setToko] = useState("DEFAULT");
   const [fotoProduk, setFotoProduk] = useState(null);
-  const [bankProduk, setBankProduk] = useState([
-    {
-      id_produk: "#0001",
-      nama_produk: "Ayam Geprek",
-      nama_toko: "Toko ABC",
-      harga: 10000,
-      stok: 20,
-    },
-    {
-      id_produk: "#0002",
-      nama_produk: "Es Teh",
-      nama_toko: "Toko ABC",
-      harga: 5000,
-      stok: 15,
-    },
-  ]);
-  const [produkJual, setProdukJual] = useState([]);
+
+  const fetchData = async () => {
+    const data_penjual = await getDataPenjual();
+    const data_bank_produk = await getDataBankProduct();
+    const data_produk_jual = await getDataSellProduct();
+    setDataPenjual([...data_penjual.payload]);
+    setDataBankProduk([...data_bank_produk.data]);
+    setDataProdukJual([...data_produk_jual.data]);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const onSubmitHandleAdd = (e) => {
     e.preventDefault();
-    setBankProduk([
-      ...bankProduk,
-      {
-        id_produk: uuid(),
-        nama_produk: formData.nama_produk,
-        harga: formData.harga,
-        stok: formData.stok,
-      },
-    ]);
-
-    setFormData({
-      id_produk: "",
-      nama_produk: "",
-      harga: 0,
-      stok: 0,
-    });
-    setShowForm(false);
   };
 
   const onHandleDelete = () => {
@@ -90,19 +65,16 @@ const ProdukMakanan = () => {
     });
   };
 
-  const onHandleJual = (product) => {
-    setProdukJual([...produkJual, product]);
-    setBankProduk(
-      bankProduk.filter((item) => item.id_produk !== product.id_produk)
-    );
+  const onHandleImage = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      const image = e.target.files[0];
+      setFotoProduk(image);
+    }
   };
 
-  const onHandleNotJual = (product) => {
-    setBankProduk([...bankProduk, product]);
-    setProdukJual(
-      produkJual.filter((item) => item.id_produk !== product.id_produk)
-    );
-  };
+  const onHandleJual = (product) => {};
+
+  const onHandleNotJual = (product) => {};
 
   return (
     <>
@@ -248,64 +220,50 @@ const ProdukMakanan = () => {
                 {/* head */}
                 <thead className="font-bold text-black">
                   <tr>
-                    {TABLE_HEAD_BANK_PRODUK.map((head) => (
+                    {TABLE_HEAD.map((head) => (
                       <th key={head}>{head}</th>
                     ))}
                   </tr>
                 </thead>
                 <tbody>
-                  {bankProduk.map(
-                    ({ id_produk, nama_produk, nama_toko, harga, stok }) => (
-                      <tr key={id_produk}>
-                        <td>{id_produk}</td>
-                        <td>
-                          <div className="flex gap-2 items-center">
-                            <Image
-                              src="/images/example_product.png"
-                              alt="Produk1"
-                              width={50}
-                              height={50}
-                            />
-                            {nama_produk}
-                          </div>
-                        </td>
-                        <td>{nama_toko}</td>
-                        <td>Rp. {harga}</td>
-                        <td>{stok}</td>
-                        <td>
-                          <div className="flex gap-3">
-                            <button
-                              className="text-[#624DE3]"
-                              onClick={() => setShowModal(true)}
-                            >
-                              <FiEdit size={20} />
-                            </button>
-                            <button
-                              className="text-[#A30D11]"
-                              onClick={onHandleDelete}
-                            >
-                              <BsTrashFill size={20} />
-                            </button>
-                            <button
-                              className="py-2 px-3 bg-red-500 text-white rounded-lg"
-                              type="button"
-                              onClick={() =>
-                                onHandleJual({
-                                  id_produk,
-                                  nama_produk,
-                                  nama_toko,
-                                  harga,
-                                  stok,
-                                })
-                              }
-                            >
-                              <p className="font-bold text-center">Sell</p>
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    )
-                  )}
+                  {dataBankProduk.map((bankProduct) => (
+                    <tr key={bankProduct.id}>
+                      <td>{bankProduct.id}</td>
+                      <td>
+                        <div className="flex gap-2 items-center">
+                          <Image
+                            src="/images/example_product.png"
+                            alt="Produk1"
+                            width={50}
+                            height={50}
+                          />
+                          {bankProduct.nama}
+                        </div>
+                      </td>
+                      <td>{bankProduct.user.nama_toko}</td>
+                      <td>Rp. 10000</td>
+                      <td>{bankProduct.stok}</td>
+                      <td>
+                        <div className="flex gap-3">
+                          <button
+                            className="text-[#624DE3]"
+                            onClick={() => setShowModal(true)}
+                          >
+                            <FiEdit size={20} />
+                          </button>
+                          <button
+                            className="text-[#A30D11]"
+                            onClick={onHandleDelete}
+                          >
+                            <BsTrashFill size={20} />
+                          </button>
+                          <button className="py-2 px-3 bg-red-500 text-white rounded-lg">
+                            <p className="font-bold text-center">Sell</p>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
@@ -319,50 +277,36 @@ const ProdukMakanan = () => {
                 {/* head */}
                 <thead className="font-bold text-black">
                   <tr>
-                    {TABLE_HEAD_PRODUK_JUAL.map((head) => (
+                    {TABLE_HEAD.map((head) => (
                       <th key={head}>{head}</th>
                     ))}
                   </tr>
                 </thead>
                 <tbody>
-                  {produkJual.map(
-                    ({ id_produk, nama_produk, nama_toko, harga, stok }) => (
-                      <tr key={id_produk}>
-                        <td>{id_produk}</td>
-                        <td>
-                          <div className="flex gap-2 items-center">
-                            <Image
-                              src="/images/example_product2.png"
-                              alt="Produk1"
-                              width={50}
-                              height={50}
-                            />
-                            {nama_produk}
-                          </div>
-                        </td>
-                        <td>{nama_toko}</td>
-                        <td>Rp. {harga}</td>
-                        <td>{stok}</td>
-                        <td>
-                          <button
-                            className="py-2 px-3 bg-red-500 text-white rounded-lg"
-                            type="button"
-                            onClick={() =>
-                              onHandleNotJual({
-                                id_produk,
-                                nama_produk,
-                                nama_toko,
-                                harga,
-                                stok,
-                              })
-                            }
-                          >
-                            <p className="font-bold text-center">Not Sell</p>
-                          </button>
-                        </td>
-                      </tr>
-                    )
-                  )}
+                  {dataProdukJual.map((produkJual) => (
+                    <tr key={produkJual.id}>
+                      <td>{produkJual.id}</td>
+                      <td>
+                        <div className="flex gap-2 items-center">
+                          <Image
+                            src="/images/example_product2.png"
+                            alt="Produk1"
+                            width={50}
+                            height={50}
+                          />
+                          {produkJual.nama}
+                        </div>
+                      </td>
+                      <td>{produkJual.user.nama_toko}</td>
+                      <td>Rp. 10000</td>
+                      <td>{produkJual.stok}</td>
+                      <td>
+                        <button className="py-2 px-3 bg-red-500 text-white rounded-lg">
+                          <p className="font-bold text-center">Not Sell</p>
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>

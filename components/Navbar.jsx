@@ -21,7 +21,7 @@ export default function Navbar() {
 
   const onHandleLogout = () => {
     clearLocalStorage();
-    router.push("/auth");
+    router.push("/auth/login");
   };
 
   return (
@@ -50,7 +50,7 @@ export default function Navbar() {
           <div className="navbar-end">
             {!isLogin ? (
               <div className="mr-5 bg-[#FBBA74] py-2 px-5 rounded-lg">
-                <Link href={"/auth"}>Login</Link>
+                <Link href={"/auth/login"}>Login</Link>
               </div>
             ) : (
               <div className="dropdown dropdown-end">

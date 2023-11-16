@@ -14,7 +14,7 @@ export default function SideBar({ menuItems }) {
 
   const onHandleLogout = () => {
     clearLocalStorage();
-    router.push("/auth");
+    router.push("/auth/login");
   };
 
   return (

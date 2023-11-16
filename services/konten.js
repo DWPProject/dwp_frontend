@@ -53,7 +53,6 @@ export async function deleteDataKonten(id) {
       `${process.env.NEXT_PUBLIC_BACKEND_API}/admin/konten/${id}`,
       {
         headers: {
-          "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }

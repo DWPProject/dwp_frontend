@@ -1,5 +1,7 @@
+"use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 import { login } from "@/services/auth";
 import { parseJwt } from "@/utils/parseJwt";
@@ -10,7 +12,7 @@ import {
 
 import { toast } from "react-toastify";
 
-export default function Login({ onClick }) {
+export default function Login() {
   const router = useRouter();
   const [errorMessage, setErrorMessage] = useState("");
   const [formData, setFormData] = useState({
@@ -20,30 +22,38 @@ export default function Login({ onClick }) {
 
   const onSubmitHandle = async (e) => {
     e.preventDefault();
-    const data = await login(formData);
 
-    if (data.accessToken) {
-      const user_data = parseJwt(data.accessToken);
-      const user_role = user_data.level;
-      const notify = () => {
-        toast("Login Berhasil", { type: "success", autoClose: 2000 });
-      };
-      notify();
-      setTokenToLocalStorage(data.accessToken);
-      setUserToLocasStorage(user_data);
-      setFormData({
-        email: "",
-        password: "",
-      });
-      if (user_role === "admin") {
-        router.push("/dashboard/admin");
-      } else if (user_role === "penjual") {
-        router.push("/dashboard/penjual");
+    try {
+      const data = await login(formData);
+
+      if (data.accessToken) {
+        const user_data = parseJwt(data.accessToken);
+        const user_role = user_data.level;
+
+        const notify = () => {
+          toast("Login Berhasil", { type: "success", autoClose: 2000 });
+        };
+        notify();
+
+        setTokenToLocalStorage(data.accessToken);
+        setUserToLocasStorage(user_data);
+        setFormData({
+          email: "",
+          password: "",
+        });
+
+        if (user_role === "admin") {
+          router.push("/dashboard/admin");
+        } else if (user_role === "penjual") {
+          router.push("/dashboard/penjual");
+        } else {
+          router.push("/dashboard/user/profile");
+        }
       } else {
-        router.push("/dashboard/user/profile");
+        setErrorMessage(data.message);
       }
-    } else {
-      setErrorMessage(data.message);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -98,12 +108,13 @@ export default function Login({ onClick }) {
         <div>
           <small>
             Belum punya akun?{" "}
-            <a
-              onClick={onClick}
+            <Link
+              href="/auth/register"
               className="hover:text-red-500 hover:underline-offset-1 uppercase"
             >
+              {" "}
               Daftar sekarang
-            </a>
+            </Link>
           </small>
         </div>
         <button
