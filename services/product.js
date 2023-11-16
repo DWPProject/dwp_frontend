@@ -43,6 +43,22 @@ export async function setProductToSell(id) {
   }
 }
 
+export async function setProductToNotSell(id) {
+  try {
+    const { data } = await axios.put(
+      `${process.env.NEXT_PUBLIC_BACKEND_API}/admin/product/sellProduct/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export async function createDataProduct(formData) {
   try {
     const { data } = await axios.post(

@@ -118,9 +118,15 @@ const KelolaKonten = () => {
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        Swal.fire("Deleted!", "Your file has been deleted.", "success");
+        try {
+          await deleteDataKonten(id);
+          fetchData();
+          Swal.fire(`Success Deleted Data Product`, "", "success");
+        } catch (error) {
+          console.log(error);
+        }
       }
     });
   };
@@ -314,7 +320,7 @@ const KelolaKonten = () => {
                           </button>
                           <button
                             className="text-[#A30D11]"
-                            onClick={onHandleDelete}
+                            onClick={() => onHandleDelete(id)}
                           >
                             <BsTrashFill size={20} />
                           </button>

@@ -6,7 +6,15 @@ import { FiEdit } from "react-icons/fi";
 import { BsPlusLg, BsTrashFill } from "react-icons/bs";
 
 import { getDataPenjual } from "@/services/penjual";
-import { getDataBankProduct, getDataSellProduct } from "@/services/product";
+import {
+  getDataBankProduct,
+  getDataSellProduct,
+  createDataProduct,
+  updateDataProduct,
+  setProductToSell,
+  setProductToNotSell,
+  deleteProduct,
+} from "@/services/product";
 
 const TABLE_HEAD = [
   "ID Produk",
@@ -23,11 +31,14 @@ const ProdukMakanan = () => {
   const [dataBankProduk, setDataBankProduk] = useState([]);
   const [dataProdukJual, setDataProdukJual] = useState([]);
   const [dataPenjual, setDataPenjual] = useState([]);
+  const [dataEditProduct, setDataEditProduct] = useState({});
   const [formData, setFormData] = useState({
-    nama_produk: "",
+    nama: "",
     harga: 0,
     stok: 0,
     kategori: "makanan",
+    foto: null,
+    id_penjual: "",
   });
   const [toko, setToko] = useState("DEFAULT");
   const [fotoProduk, setFotoProduk] = useState(null);
@@ -45,11 +56,69 @@ const ProdukMakanan = () => {
     fetchData();
   }, []);
 
-  const onSubmitHandleAdd = (e) => {
+  const onSubmitHandleAdd = async (e) => {
     e.preventDefault();
+
+    formData.foto = fotoProduk;
+    formData.id_penjual = toko;
+
+    try {
+      await createDataProduct(formData);
+
+      setFormData({
+        nama: "",
+        harga: 0,
+        stok: 0,
+        kategori: "makanan",
+        foto: null,
+        id_penjual: "",
+      });
+      fetchData();
+      setToko("DEFAULT");
+      setFotoProduk(null);
+      setShowForm(false);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const onHandleDelete = () => {
+  const onSubmitHandleEdit = async (event, id) => {
+    event.preventDefault();
+    dataEditProduct.foto = fotoProduk;
+
+    try {
+      await updateDataProduct(
+        {
+          nama: dataEditProduct.nama,
+          harga: dataEditProduct.harga,
+          kategori: "makanan",
+          stok: dataEditProduct.stok,
+        },
+        id
+      );
+
+      setDataEditProduct({
+        nama: "",
+        harga: 0,
+        stok: 0,
+        kategori: "makanan",
+        foto: null,
+      });
+      fetchData();
+      setFotoProduk(null);
+      setShowModal(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const onHandleEdit = (id) => {
+    const data_bank_product = dataBankProduk.find((item) => item.id === id);
+    setDataEditProduct({ ...data_bank_product });
+    setShowModal(true);
+  };
+
+  const onHandleDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -58,9 +127,15 @@ const ProdukMakanan = () => {
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        Swal.fire("Deleted!", "Your file has been deleted.", "success");
+        try {
+          await deleteProduct(id);
+          fetchData();
+          Swal.fire("Deleted!", "Your file has been deleted.", "success");
+        } catch (error) {
+          console.log(error);
+        }
       }
     });
   };
@@ -72,9 +147,23 @@ const ProdukMakanan = () => {
     }
   };
 
-  const onHandleJual = (product) => {};
+  const onHandleJual = async (id) => {
+    try {
+      await setProductToSell(id);
+      fetchData();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-  const onHandleNotJual = (product) => {};
+  const onHandleNotJual = async (id) => {
+    try {
+      await setProductToNotSell(id);
+      fetchData();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -105,20 +194,12 @@ const ProdukMakanan = () => {
                       id="nama-produk"
                       type="text"
                       placeholder="Nama Produk Anda..."
-                    />
-                  </div>
-                  <div className="w-full px-3">
-                    <label
-                      className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                      htmlFor="nama-toko"
-                    >
-                      Nama Toko
-                    </label>
-                    <input
-                      className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                      id="nama-toko"
-                      type="text"
-                      placeholder="Nama Toko Penjual..."
+                      onChange={(e) => {
+                        setFormData({
+                          ...formData,
+                          nama: e.target.value,
+                        });
+                      }}
                     />
                   </div>
                   <div className="w-full px-3">
@@ -133,6 +214,12 @@ const ProdukMakanan = () => {
                       id="harga"
                       type="number"
                       placeholder="Harga Produk Anda..."
+                      onChange={(e) => {
+                        setFormData({
+                          ...formData,
+                          harga: e.target.value,
+                        });
+                      }}
                     />
                   </div>
                   <div className="w-full px-3">
@@ -147,6 +234,12 @@ const ProdukMakanan = () => {
                       id="stok"
                       type="number"
                       placeholder="Stok Produk Anda..."
+                      onChange={(e) => {
+                        setFormData({
+                          ...formData,
+                          stok: e.target.value,
+                        });
+                      }}
                     />
                   </div>
                 </div>
@@ -167,8 +260,13 @@ const ProdukMakanan = () => {
                       <option value={"DEFAULT"} disabled>
                         Pilih Toko
                       </option>
-                      <option value={"Toko ABC"}>Toko ABC</option>
-                      <option value={"Toko XYZ"}>Toko XYZ</option>
+                      {dataPenjual.map((item) => {
+                        return (
+                          <option key={item.id} value={item.id}>
+                            {item.nama_toko}
+                          </option>
+                        );
+                      })}
                     </select>
                   </div>
                   <div className="px-3">
@@ -178,7 +276,12 @@ const ProdukMakanan = () => {
                     >
                       Avatar
                     </label>
-                    <input className="" id="avatar-anggota" type="file" />
+                    <input
+                      className=""
+                      id="avatar-anggota"
+                      type="file"
+                      onChange={onHandleImage}
+                    />
                   </div>
                 </div>
               </div>
@@ -208,7 +311,6 @@ const ProdukMakanan = () => {
               </h1>
               <button
                 className="btn text-gray-500 bg-[#FDE9CC] hover:bg-[#E0924A] hover:text-white"
-                type="button"
                 onClick={() => setShowForm(!showForm)}
               >
                 <BsPlusLg size={20} />
@@ -232,7 +334,7 @@ const ProdukMakanan = () => {
                       <td>
                         <div className="flex gap-2 items-center">
                           <Image
-                            src="/images/example_product.png"
+                            src={bankProduct.foto}
                             alt="Produk1"
                             width={50}
                             height={50}
@@ -241,23 +343,26 @@ const ProdukMakanan = () => {
                         </div>
                       </td>
                       <td>{bankProduct.user.nama_toko}</td>
-                      <td>Rp. 10000</td>
+                      <td>Rp. {bankProduct.harga}</td>
                       <td>{bankProduct.stok}</td>
                       <td>
                         <div className="flex gap-3">
                           <button
                             className="text-[#624DE3]"
-                            onClick={() => setShowModal(true)}
+                            onClick={() => onHandleEdit(bankProduct.id)}
                           >
                             <FiEdit size={20} />
                           </button>
                           <button
                             className="text-[#A30D11]"
-                            onClick={onHandleDelete}
+                            onClick={() => onHandleDelete(bankProduct.id)}
                           >
                             <BsTrashFill size={20} />
                           </button>
-                          <button className="py-2 px-3 bg-red-500 text-white rounded-lg">
+                          <button
+                            className="py-2 px-3 bg-red-500 text-white rounded-lg"
+                            onClick={() => onHandleJual(bankProduct.id)}
+                          >
                             <p className="font-bold text-center">Sell</p>
                           </button>
                         </div>
@@ -289,7 +394,7 @@ const ProdukMakanan = () => {
                       <td>
                         <div className="flex gap-2 items-center">
                           <Image
-                            src="/images/example_product2.png"
+                            src={produkJual.foto}
                             alt="Produk1"
                             width={50}
                             height={50}
@@ -298,10 +403,13 @@ const ProdukMakanan = () => {
                         </div>
                       </td>
                       <td>{produkJual.user.nama_toko}</td>
-                      <td>Rp. 10000</td>
+                      <td>Rp. {produkJual.harga}</td>
                       <td>{produkJual.stok}</td>
                       <td>
-                        <button className="py-2 px-3 bg-red-500 text-white rounded-lg">
+                        <button
+                          className="py-2 px-3 bg-red-500 text-white rounded-lg"
+                          onClick={() => onHandleNotJual(produkJual.id)}
+                        >
                           <p className="font-bold text-center">Not Sell</p>
                         </button>
                       </td>
@@ -328,7 +436,14 @@ const ProdukMakanan = () => {
                 </div>
                 {/*body*/}
                 <div className="relative p-6 flex-auto">
-                  <form action="" className="flex flex-col pt-5">
+                  <form
+                    action=""
+                    className="flex flex-col pt-5"
+                    encType="multipart/form-data"
+                    onSubmit={(event) =>
+                      onSubmitHandleEdit(event, dataEditProduct.id)
+                    }
+                  >
                     <div className="flex justify-between ">
                       <div className="flex flex-col">
                         <div className="w-full px-3">
@@ -343,20 +458,13 @@ const ProdukMakanan = () => {
                             id="nama-produk"
                             type="text"
                             placeholder="Nama Produk Anda..."
-                          />
-                        </div>
-                        <div className="w-full px-3">
-                          <label
-                            className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                            htmlFor="nama-toko"
-                          >
-                            Nama Toko
-                          </label>
-                          <input
-                            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                            id="nama-toko"
-                            type="text"
-                            placeholder="Nama Toko Penjual..."
+                            value={dataEditProduct.nama}
+                            onChange={(e) => {
+                              setDataEditProduct({
+                                ...dataEditProduct,
+                                nama: e.target.value,
+                              });
+                            }}
                           />
                         </div>
                         <div className="w-full px-3">
@@ -371,6 +479,13 @@ const ProdukMakanan = () => {
                             id="harga"
                             type="number"
                             placeholder="Harga Produk Anda..."
+                            value={dataEditProduct.harga}
+                            onChange={(e) => {
+                              setDataEditProduct({
+                                ...dataEditProduct,
+                                harga: e.target.value,
+                              });
+                            }}
                           />
                         </div>
                         <div className="w-full px-3">
@@ -385,17 +500,49 @@ const ProdukMakanan = () => {
                             id="stok"
                             type="number"
                             placeholder="Stok Produk Anda..."
+                            value={dataEditProduct.stok}
+                            onChange={(e) => {
+                              setDataEditProduct({
+                                ...dataEditProduct,
+                                stok: e.target.value,
+                              });
+                            }}
                           />
                         </div>
                       </div>
-                      <div className="px-3">
-                        <label
-                          className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                          htmlFor="avatar-anggota"
-                        >
-                          Avatar
-                        </label>
-                        <input className="" id="avatar-anggota" type="file" />
+                      <div className="flex flex-col gap-3">
+                        <div className="px-3">
+                          <label
+                            className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                            htmlFor="toko"
+                          >
+                            Toko
+                          </label>
+                          <select
+                            className="select select-bordered"
+                            value={dataEditProduct.user.id}
+                            disabled
+                            id="toko"
+                          >
+                            <option value={dataEditProduct.user.id}>
+                              {dataEditProduct.user.nama_toko}
+                            </option>
+                          </select>
+                        </div>
+                        <div className="px-3">
+                          <label
+                            className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                            htmlFor="avatar-anggota"
+                          >
+                            Avatar
+                          </label>
+                          <input
+                            className=""
+                            id="avatar-anggota"
+                            type="file"
+                            onChange={onHandleImage}
+                          />
+                        </div>
                       </div>
                     </div>
                     <div className="flex flex-col justify-center items-center gap-3 mt-5">
@@ -403,10 +550,9 @@ const ProdukMakanan = () => {
                         type="submit"
                         className="rounded-xl bg-orange-500 text-white font-bold px-3 py-2"
                       >
-                        Tambah Produk
+                        Edit Data Produk
                       </button>
                       <button
-                        type="button"
                         className="rounded-xl bg-black text-white font-bold px-3 py-2"
                         onClick={() => setShowModal(false)}
                       >
