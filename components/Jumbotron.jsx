@@ -30,31 +30,31 @@ export default function Jumbotron() {
         className={`rounded ${Style.mySwiper}`}
       >
         <SwiperSlide className={Style.swiperSlide}>
-          <Image src={frame} alt="#" />
+          <Image src={frame} alt="#" className="h-64" />
         </SwiperSlide>
         <SwiperSlide className={Style.swiperSlide}>
-          <Image src={frame2} alt="#" />
+          <Image src={frame2} alt="#" className="h-64" />
         </SwiperSlide>
         <SwiperSlide className={Style.swiperSlide}>
-          <Image src={frame3} alt="#" />
+          <Image src={frame3} alt="#" className="h-64" />
         </SwiperSlide>
         <SwiperSlide className={Style.swiperSlide}>
-          <Image src={frame2} alt="#" />
+          <Image src={frame2} alt="#" className="h-64" />
         </SwiperSlide>
         <SwiperSlide className={Style.swiperSlide}>
-          <Image src={frame} alt="#" />
+          <Image src={frame} alt="#" className="h-64" />
         </SwiperSlide>
         <SwiperSlide className={Style.swiperSlide}>
-          <Image src={frame2} alt="#" />
+          <Image src={frame2} alt="#" className="h-64" />
         </SwiperSlide>
         <SwiperSlide className={Style.swiperSlide}>
-          <Image src={frame} alt="#" />
+          <Image src={frame} alt="#" className="h-64" />
         </SwiperSlide>
         <SwiperSlide className={Style.swiperSlide}>
-          <Image src={frame2} alt="#" />
+          <Image src={frame2} alt="#" className="h-64" />
         </SwiperSlide>
         <SwiperSlide className={Style.swiperSlide}>
-          <Image src={frame} alt="#" />
+          <Image src={frame} alt="#" className="h-64" />
         </SwiperSlide>
       </Swiper>
     </>

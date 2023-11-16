@@ -21,16 +21,14 @@ export default function Home() {
     <>
       <Navbar />
       <Jumbotron />
-      <div className="bg-gradient-to-r from-white to-[#FFCEA0] text-black pl-8 pr-8">
-        <div className="p-8 lg:w-1/2">
-          <h3 className="">Apa Itu DWP</h3>
-          <h1 className="text-3xl mt-4">
-            {" "}
+      <div className="bg-gradient-to-r from-white to-[#FFCEA0] text-black pl-4 pr-4 sm:pl-8 sm:pr-8">
+        <div className="p-4 lg:p-8 lg:w-1/2 ">
+          <h3 className="text-lg sm:text-xl md:text-2xl">Apa Itu DWP</h3>
+          <h1 className="text-xl sm:text-3xl mt-2 sm:mt-4">
             Dharma Wanita Persatuan <br />
             Institut Teknologi Sumatera
           </h1>
           <p className="mt-4">
-            {" "}
             Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aperiam
             perferendis, consectetur deserunt quasi eligendi, tempora velit
             fugiat vel magnam voluptatum aspernatur? Consectetur fugit delectus
@@ -50,43 +48,77 @@ export default function Home() {
           </a>
         </div>
       </div>
-      <div className="text-black bg-gradient-to-r from-[#FFCEA0] to-white pl-8 pr-8">
-        <div className="p-8 container mx-auto">
-          <h3 className="">Berita dan Artikel</h3>
-          <h2 className="text-3xl mt-4 font-bold">Lihat yang Terbaru</h2>
+
+      <div className="text-black bg-gradient-to-r from-[#FFCEA0] to-white p-8 mx-auto flex items-center">
+        <div className="container mx-auto text-center">
+          <h3 className="text-xl sm:text-2xl md:text-3xl">
+            Berita dan Artikel
+          </h3>
+          <h2 className="text-2xl sm:text-3xl mt-4 font-bold">
+            Lihat yang Terbaru
+          </h2>
           <Swiper
-            slidesPerView={2}
-            spaceBetween={67}
-            pagination={{
-              clickable: true,
-            }}
-            navigation={{
-              clickable: true,
-            }}
+            spaceBetween={10}
+            pagination={{ clickable: true }}
             modules={[Pagination, Navigation]}
-            className="slide mt-4"
+            className="mt-4"
+            breakpoints={{
+              768: {
+                slidesPerView: 3,
+                spaceBetween: 8,
+              },
+              640: {
+                slidesPerView: 2,
+                spaceBetween: 4,
+              },
+            }}
           >
             <SwiperSlide className="slideSwiper">
-              <Image src={frame} alt="#" className="w-full" />
+              <Image
+                src={frame2}
+                alt="#"
+                className=" w-80 h-64 md:h-48 lg:h-64  mx-auto rounded-lg"
+              />
             </SwiperSlide>
             <SwiperSlide className="slideSwiper">
-              <Image src={frame2} alt="#" className="w-full" />
+              <Image
+                src={frame3}
+                alt="#"
+                className=" w-80 h-64 md:h-48 lg:h-64  mx-auto rounded-lg"
+              />
             </SwiperSlide>
             <SwiperSlide className="slideSwiper">
-              <Image src={frame3} alt="#" className="w-full" />
+              <Image
+                src={frame2}
+                alt="#"
+                className=" w-80 h-64 md:h-48 lg:h-64  mx-auto rounded-lg"
+              />
             </SwiperSlide>
             <SwiperSlide className="slideSwiper">
-              <Image src={frame} alt="#" className="w-full" />
+              <Image
+                src={frame3}
+                alt="#"
+                className=" w-80 h-64 md:h-48 lg:h-64  mx-auto rounded-lg"
+              />
             </SwiperSlide>
             <SwiperSlide className="slideSwiper">
-              <Image src={frame2} alt="#" className="w-full" />
+              <Image
+                src={frame2}
+                alt="#"
+                className=" w-80 h-64 md:h-48 lg:h-64  mx-auto rounded-lg"
+              />
             </SwiperSlide>
             <SwiperSlide className="slideSwiper">
-              <Image src={frame3} alt="#" className="w-full" />
+              <Image
+                src={frame3}
+                alt="#"
+                className=" w-80 h-64 md:h-48 lg:h-64  mx-auto rounded-lg"
+              />
             </SwiperSlide>
           </Swiper>
         </div>
       </div>
+
       <Footer />
     </>
   );
