@@ -11,13 +11,20 @@ import "swiper/css";
 import "swiper/css/pagination";
 
 import Style from "./profile.module.css";
-import Dwp from "@/public/images/dwp2.png";
-import { PROFILE_DATA } from "@/constant/profile";
+
+import { getDataAnggota } from "@/services/anggota";
 
 export default function Profil() {
   const [slidesPerView, setSlidesPerView] = useState(1);
+  const [dataAnggota, setDataAnggota] = useState([]);
+
+  const fetchData = async () => {
+    const data_anggota = await getDataAnggota();
+    setDataAnggota([...data_anggota.data]);
+  };
 
   useEffect(() => {
+    fetchData();
     const handleResize = () => {
       if (window.innerWidth < 768) {
         setSlidesPerView(1);
@@ -85,14 +92,14 @@ export default function Profil() {
               modules={[Pagination]}
               className={Style.swiper}
             >
-              {PROFILE_DATA.map((data, index) => (
-                <SwiperSlide className="flex p-4" key={index}>
+              {dataAnggota.map((data) => (
+                <SwiperSlide className="flex p-4" key={data.id}>
                   <div className="card rounded p-4">
                     <figure className="flex items-center justify-center">
-                      <div className="rounded-full overflow-hidden w-32 h-32">
+                      <div className="rounded-full overflow-hidden w-40 h-40">
                         <Image
                           src={data.foto}
-                          alt={`${data.name}${data.jabatan}`}
+                          alt={`${data.nama}${data.jabatan}`}
                           width={200}
                           height={200}
                           layout="responsive"
@@ -100,7 +107,7 @@ export default function Profil() {
                       </div>
                     </figure>
                     <div className="card-body items-center">
-                      <h2 className="card-title">{data.name}</h2>
+                      <h2 className="card-title">{data.nama}</h2>
                       <p>{data.jabatan}</p>
                     </div>
                   </div>

@@ -63,10 +63,7 @@ export default function Login() {
       <p className={`${errorMessage ? "py-3" : ""} text-red-500 font-semibold`}>
         {errorMessage}
       </p>
-      <form
-        onSubmit={onSubmitHandle}
-        encType="application/x-www-form-urlencoded"
-      >
+      <form onSubmit={onSubmitHandle}>
         <div className="mb-4">
           <label
             className="block text-gray-700 text-sm font-medium mb-2"

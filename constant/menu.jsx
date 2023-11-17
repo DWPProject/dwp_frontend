@@ -63,5 +63,4 @@ export const MENU_ITEMS_USER = [
   { name: "Profil", link: "/profil" },
   { name: "Layanan", link: "/layanan" },
   { name: "Media", link: "/media" },
-  { name: "Kontak", link: "/kontak" },
 ];

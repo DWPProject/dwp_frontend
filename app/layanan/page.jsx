@@ -1,5 +1,6 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -8,36 +9,69 @@ import {
   AiOutlineMinus,
   AiTwotoneDelete,
 } from "react-icons/ai";
+import { toast } from "react-toastify";
 
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import CardProduk from "@/components/CardProduk";
 
 import Style from "./layanan.module.css";
-import produk1 from "@/public/images/example_product.png";
-import iconShop from "@/public/logo.svg"
-import { DATA_PRODUK_USER } from "@/constant/layanan";
+import iconShop from "@/public/logo.svg";
+
+import {
+  getSellProduct,
+  addProductToCart,
+  getCartItem,
+  orderProduk,
+} from "@/services/user/shop";
+import { getUserFromLocalStorage } from "@/utils/localStorage";
 
 export default function Layanan() {
+  const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isCartModalOpen, setIsCartModalOpen] = useState(false);
-  const [catatan, setCatatan] = useState("");
   const [jumlahPesanan, setJumlahPesanan] = useState(0);
-  const [keranjangBelanja, setKeranjangBelanja] = useState([]);
+  const [catatan, setCatatan] = useState("");
+  const [selectedAlamat, setSelectedAlamat] = useState(
+    "Gedung GKU 1, Lt Dasar"
+  );
+  const [metodePembayaran, setMetodePembayaran] = useState("DEFAULT");
   const [nomorRekening, setNomorRekening] = useState("");
   const [buktiPembayaran, setBuktiPembayaran] = useState(null);
-  const [selectedAlamat, setSelectedAlamat] = useState("gedung-gku");
+  const [userId, setUserId] = useState("");
+  const [dataProduk, setDataProduk] = useState([]);
+  const [selectedProduk, setSelectedProduk] = useState({});
+  const [dataCart, setDataCart] = useState([]);
+  const [totalPrice, setTotalPrice] = useState("");
 
-  const handleChangePembayaran = (e) => {
+  const fetchData = async (userId) => {
+    const data_produk = await getSellProduct();
+    const data_cart = await getCartItem(userId);
+    setDataCart([...data_cart.data.payload]);
+    setTotalPrice(data_cart.data.price);
+    setDataProduk([...data_produk.data]);
+  };
+
+  useEffect(() => {
+    const user = getUserFromLocalStorage();
+    if (user.length > 0) {
+      setUserId(user[0].id);
+    } else {
+      setUserId("");
+    }
+    fetchData(userId);
+  }, [userId]);
+
+  const onHandleChangePembayaran = (e) => {
     const selectedValue = e.target.value;
+    setMetodePembayaran(selectedValue);
     switch (selectedValue) {
-      case "gopay":
+      case "1":
         setNomorRekening("Nomor Rekening Gopay: 0822222222");
         break;
-      case "bri":
+      case "2":
         setNomorRekening("Nomor Rekening BRI: 1234-5678-9012-3456");
         break;
-      case "dana":
+      case "3":
         setNomorRekening("Nomor Rekening Dana: 9876543210");
         break;
       default:
@@ -46,12 +80,10 @@ export default function Layanan() {
     }
   };
 
-  const openModal = () => {
+  const onHandleTambahPesanan = (id) => {
+    const data_produk = dataProduk.find((item) => item.id === id);
+    setSelectedProduk({ ...data_produk });
     setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
   };
 
   const increaseQuantity = () => {
@@ -64,57 +96,63 @@ export default function Layanan() {
     }
   };
 
-  const handleCatatanChange = (event) => {
-    setCatatan(event.target.value);
-  };
+  const tambahKeKeranjang = async () => {
+    if (userId !== "") {
+      if (jumlahPesanan > 0) {
+        try {
+          await addProductToCart(
+            userId,
+            selectedProduk.id,
+            catatan,
+            jumlahPesanan
+          );
 
-  const tambahKeKeranjang = () => {
-    if (jumlahPesanan > 0) {
-      const pesananBaru = {
-        nama: "Nasi Lemak",
-        harga: 20000,
-        jumlah: jumlahPesanan,
-        gambar: produk1,
-        catatan: catatan,
-        icon : iconShop,
+          fetchData(userId);
+          setCatatan("");
+          setJumlahPesanan(0);
+          setIsModalOpen(false);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    } else {
+      const notify = () => {
+        setIsModalOpen(false);
+        toast("Harap Login Terlebih Dahulu!", {
+          type: "error",
+          autoClose: 5000,
+        });
       };
-      setKeranjangBelanja([...keranjangBelanja, pesananBaru]);
-      setCatatan("");
-      setJumlahPesanan(0);
-      setIsModalOpen(false);
+      notify();
+      router.push("/auth/login");
     }
   };
 
-  const openCartModal = () => {
-    setIsCartModalOpen(true);
+  const onHandleOrder = async () => {
+    try {
+      const data = await orderProduk(
+        userId,
+        metodePembayaran,
+        selectedAlamat,
+        buktiPembayaran
+      );
+      setSelectedAlamat("Gedung GKU 1, Lt Dasar");
+      setBuktiPembayaran(null);
+      setMetodePembayaran("DEFAULT");
+      setIsCartModalOpen(false);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const closeCartModal = () => {
-    setIsCartModalOpen(false);
-  };
+  const jumlahPesananKeranjang = dataCart.reduce(
+    (total, item) => total + item.cart_item_quantity,
+    0
+  );
 
   const handleBuktiPembayaranChange = (e) => {
     const file = e.target.files[0];
     setBuktiPembayaran(file);
-  };
-  const handleAlamatChange = (event) => {
-    setSelectedAlamat(event.target.value);
-  };
-  const jumlahPesananKeranjang = keranjangBelanja.reduce(
-    (total, item) => total + item.jumlah,
-    0
-  );
-
-  const hapusPesanan = (index) => {
-    const newKeranjangBelanja = [...keranjangBelanja];
-    newKeranjangBelanja.splice(index, 1);
-    setKeranjangBelanja(newKeranjangBelanja);
-  };
-
-  const simpanPesanan = (index, itemData) => {
-    const newKeranjangBelanja = [...keranjangBelanja];
-    newKeranjangBelanja[index] = itemData;
-    setKeranjangBelanja(newKeranjangBelanja);
   };
 
   return (
@@ -137,7 +175,7 @@ export default function Layanan() {
           <div className="cart relative ">
             <AiOutlineShoppingCart
               className={`cursor-pointer  ${Style.cart}`}
-              onClick={openCartModal}
+              onClick={() => setIsCartModalOpen(true)}
             />
             {jumlahPesananKeranjang > 0 && (
               <span className="bg-red-500 text-white rounded-full px-2 py-1 text-xs absolute -top-1 -right-1">
@@ -147,35 +185,38 @@ export default function Layanan() {
           </div>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-10 m-4">
-          {DATA_PRODUK_USER.map((product, index) => (
+          {dataProduk.map((product) => (
             <div
-              key={index}
+              key={product.id}
               className="card card-compact bg-gray-100 shadow-lg sm:max-w-xs md:max-w-md lg:max-w-md xl:max-w-md relative"
             >
               <figure className="rounded-lg ">
                 <Image
-                  src={produk1}
-                  alt={product.title}
+                  src={product.foto}
+                  alt={product.nama}
                   className="rounded-lg w-full"
+                  width={0}
+                  height={0}
+                  sizes="100vw"
+                  style={{ width: "100%", height: "auto" }}
                 />
               </figure>
               <div className="icon absolute top-0 left-0">
-                    <Image
-                      src={iconShop}
-                      alt={product.title}
-                      height={50}
-                      width={50}
-                      className="rounded-full"
-                    />
-                  </div>
+                <Image
+                  src={iconShop}
+                  alt={product.nama}
+                  height={50}
+                  width={50}
+                  className="rounded-full"
+                />
+              </div>
               <div className="card-body">
-                <h2 className="card-title ">{product.title}</h2>
-                <p>{product.price}</p>
-
+                <h2 className="card-title ">{product.nama}</h2>
+                <p>Rp {product.harga}</p>
                 <div className="card-actions justify-center">
                   <button
                     className="btn outline w-full bg-[#FFCEA0] hover:bg-[#FFCEA0]"
-                    onClick={openModal}
+                    onClick={() => onHandleTambahPesanan(product.id)}
                   >
                     Tambah
                   </button>
@@ -192,7 +233,7 @@ export default function Layanan() {
             <form method="dialog">
               <button
                 className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 text-gray-500"
-                onClick={closeModal}
+                onClick={() => setIsModalOpen(false)}
               >
                 ✕
               </button>
@@ -200,8 +241,10 @@ export default function Layanan() {
             <div className="p-6">
               <h3 className="text-xl font-semibold mb-4">Custom Pesanan</h3>
               <div className="flex justify-between mb-4">
-                <p className="text-base">Nasi Lemak</p>
-                <p className="text-base font-semibold">Rp 20.000</p>
+                <p className="text-base">{selectedProduk.nama}</p>
+                <p className="text-base font-semibold">
+                  Rp {selectedProduk.harga}
+                </p>
               </div>
               <div className="flex justify-between mb-4">
                 <p className="text-base font-semibold">Jumlah Pesanan</p>
@@ -231,7 +274,7 @@ export default function Layanan() {
                   id="catatan"
                   className="w-full h-24 border p-2 rounded"
                   value={catatan}
-                  onChange={handleCatatanChange}
+                  onChange={(event) => setCatatan(event.target.value)}
                   maxLength="200"
                 />
                 <p className="text-sm text-gray-500 mt-2">
@@ -248,14 +291,13 @@ export default function Layanan() {
           </div>
         </dialog>
       )}
-
       {isCartModalOpen && (
         <dialog id="cart_modal" className="modal" open>
           <div className="modal-box max-w-full sm:max-w-2xl mx-auto p-4 bg-white shadow-lg rounded-lg">
             <form method="dialog">
               <button
                 className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
-                onClick={closeCartModal}
+                onClick={() => setIsCartModalOpen(false)}
               >
                 ✕
               </button>
@@ -267,42 +309,44 @@ export default function Layanan() {
                 <select
                   id="alamatPengiriman"
                   value={selectedAlamat}
-                  onChange={handleAlamatChange}
+                  onChange={(event) => setSelectedAlamat(event.target.value)}
                   className="border rounded p-2"
                 >
-                  <option value="gedung-gku">Gedung GKU 1, Lt Dasar</option>
-                  <option value="other-address-1">
+                  <option value="Gedung GKU 1, Lt Dasar">
+                    Gedung GKU 1, Lt Dasar
+                  </option>
+                  <option value="Gedung GKU 2, Lt Dasar">
                     Gedung GKU 2, Lt Dasar
                   </option>
-                  <option value="other-address-2">Gedung E,lt Dasar </option>
-                  <option value="other-address-2">Gedung F,lt Dasar </option>
+                  <option value="Gedung E,lt Dasar">Gedung E,lt Dasar </option>
+                  <option value="Gedung F,lt Dasar">Gedung F,lt Dasar </option>
                 </select>
               </div>
             </div>
-            {keranjangBelanja.map((item, index) => (
+            {dataCart.map((item, index) => (
               <div
                 key={index}
                 className="mt-4 bg-white shadow-lg rounded-lg p-4"
               >
                 <div className="flex items-center">
                   <Image
-                    src={item.gambar}
-                    alt={item.nama}
+                    src={item.produk_foto}
+                    alt={item.produk_nama}
                     width={100}
                     height={100}
                     className="rounded-lg"
                   />
                   <div className="ml-4">
-                    <p className="text-lg font-bold">{item.nama}</p>
-                    <p className="text-sm text-gray-600">
-                      {item.jumlah} x Rp {item.harga}
-                    </p>
+                    <p className="text-lg font-bold">{item.produk_nama}</p>
+                    <p className="text-sm text-gray-600">Rp {item.total}</p>
                   </div>
                 </div>
                 <div className="flex justify-between items-center mt-2">
                   <div>
                     <h3 className="text-md font-bold">Catatan Pembeli</h3>
-                    <p className="text-sm text-gray-600">{item.catatan}</p>
+                    <p className="text-sm text-gray-600">
+                      {item.cart_item_note}
+                    </p>
                   </div>
                   <div>
                     <button
@@ -320,25 +364,19 @@ export default function Layanan() {
               <p className="font-bold">Ringkasan Pembayaran</p>
               <div className="flex justify-between items-center mt-4 space-x-4">
                 <p>Total Pembayaran</p>
-                <p>
-                  Rp{" "}
-                  {keranjangBelanja.reduce(
-                    (total, item) => total + item.harga * item.jumlah,
-                    0
-                  )}
-                </p>
+                <p>Rp {totalPrice}</p>
               </div>
               <div className="flex justify-between items-center mt-4 space-x-4">
                 <small className="font-bold">Metode Pembayaran:</small>
                 <select
                   id="metodePembayaran"
-                  onChange={handleChangePembayaran}
+                  onChange={onHandleChangePembayaran}
                   className="border rounded p-2"
                 >
-                  <option value="">Pilih Metode Pembayaran</option>
-                  <option value="gopay">Gopay</option>
-                  <option value="bri">BRI</option>
-                  <option value="dana">Dana</option>
+                  <option value="DEFAULT">Pilih Metode Pembayaran</option>
+                  <option value="1">Gopay</option>
+                  <option value="2">BRI</option>
+                  <option value="3">Dana</option>
                 </select>
               </div>
               <div className="mt-2">
@@ -354,7 +392,10 @@ export default function Layanan() {
                 />
               </div>
             </div>
-            <button className="btn w-full mt-4 bg-[#FFCEA0] hover:bg-[#FFCEA0]">
+            <button
+              className="btn w-full mt-4 bg-[#FFCEA0] hover:bg-[#FFCEA0]"
+              onClick={onHandleOrder}
+            >
               Beli dan Siap Diantar
             </button>
           </div>

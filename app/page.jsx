@@ -1,4 +1,5 @@
 "use client";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 
 import Navbar from "@/components/Navbar";
@@ -16,7 +17,20 @@ import frame from "@/public/images/frame.png";
 import frame2 from "@/public/images/frame2.png";
 import frame3 from "@/public/images/frame3.png";
 
+import { getDataKonten } from "@/services/konten";
+
 export default function Home() {
+  const [dataKonten, setDataKonten] = useState([]);
+
+  const fetchData = async () => {
+    const data_konten = await getDataKonten();
+    setDataKonten([...data_konten.data]);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <>
       <Navbar />
@@ -75,64 +89,24 @@ export default function Home() {
               },
             }}
           >
-            <SwiperSlide className="slideSwiper">
-              <Image
-                src="http://res.cloudinary.com/dic2dqube/image/upload/v1700190533/wwy9yktp8br5ulwkoutt.png"
-                alt="#"
-                className=" w-80 h-64 md:h-48 lg:h-64  mx-auto rounded-lg"
-                width={320}
-                height={256}
-              />
-            </SwiperSlide>
-            <SwiperSlide className="slideSwiper">
-              <Image
-                src="http://res.cloudinary.com/dic2dqube/image/upload/v1700190483/lni1ffi1sqxicehsibgu.png"
-                alt="#"
-                className=" w-80 h-64 md:h-48 lg:h-64  mx-auto rounded-lg"
-                width={320}
-                height={256}
-              />
-            </SwiperSlide>
-            <SwiperSlide className="slideSwiper">
-              <Image
-                src="http://res.cloudinary.com/dic2dqube/image/upload/v1700190533/wwy9yktp8br5ulwkoutt.png"
-                alt="#"
-                className=" w-80 h-64 md:h-48 lg:h-64  mx-auto rounded-lg"
-                width={320}
-                height={256}
-              />
-            </SwiperSlide>
-            <SwiperSlide className="slideSwiper">
-              <Image
-                src="http://res.cloudinary.com/dic2dqube/image/upload/v1700190483/lni1ffi1sqxicehsibgu.png"
-                alt="#"
-                className=" w-80 h-64 md:h-48 lg:h-64  mx-auto rounded-lg"
-                width={320}
-                height={256}
-              />
-            </SwiperSlide>
-            <SwiperSlide className="slideSwiper">
-              <Image
-                src="http://res.cloudinary.com/dic2dqube/image/upload/v1700190533/wwy9yktp8br5ulwkoutt.png"
-                alt="#"
-                className=" w-80 h-64 md:h-48 lg:h-64  mx-auto rounded-lg"
-                width={320}
-                height={256}
-              />
-            </SwiperSlide>
-            <SwiperSlide className="slideSwiper">
-              <Image
-                src="http://res.cloudinary.com/dic2dqube/image/upload/v1700190483/lni1ffi1sqxicehsibgu.png"
-                alt="#"
-                className=" w-80 h-64 md:h-48 lg:h-64 sm:w-full lg:w-full  mx-auto rounded-lg"
-                width={320}
-                height={256}
-              />
-            </SwiperSlide>
+            {dataKonten.length > 0 &&
+              dataKonten.map((item, index) => (
+                <SwiperSlide className="slideSwiper" key={index}>
+                  <Image
+                    src={item.gambar}
+                    alt="#"
+                    className="w-80 h-64 md:h-48 lg:h-64  mx-auto rounded-lg"
+                    width={0}
+                    height={0}
+                    sizes="100vw"
+                    style={{ width: "100%", height: "auto" }}
+                  />
+                </SwiperSlide>
+              ))}
+            {dataKonten.length <= 0 && <h1>Belum Ada Konten DWP</h1>}
           </Swiper>
         </div>
       </div>
-
       <Footer />
     </>
   );

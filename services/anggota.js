@@ -57,7 +57,6 @@ export async function deleteDataAnggota(id) {
         },
       }
     );
-
     return data;
   } catch (error) {
     console.log(error);
