@@ -1,10 +1,15 @@
+"use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 import { register } from "@/services/auth";
 
-export default function Register({ onClick }) {
+import { toast } from "react-toastify";
+
+export default function Register() {
   const router = useRouter();
+  const [errorMessage, setErrorMessage] = useState("");
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -15,21 +20,42 @@ export default function Register({ onClick }) {
 
   const onSubmitHandle = async (e) => {
     e.preventDefault();
-    const data = await register(formData);
-    console.log(data);
-    setFormData({
-      email: "",
-      password: "",
-      repassword: "",
-      username: "",
-      telepon: "",
-    });
-    router.push("/auth");
+    setErrorMessage("");
+
+    try {
+      const data = await register(formData);
+
+      if (data.statusCode === 200) {
+        const notify = () =>
+          toast("Register Berhasil", { type: "success", autoClose: 2000 });
+        notify();
+
+        setFormData({
+          email: "",
+          password: "",
+          repassword: "",
+          username: "",
+          telepon: "",
+        });
+        router.push("/auth/login");
+      } else {
+        if (data.error !== undefined) {
+          console.log(data.error);
+        } else {
+          setErrorMessage(data.message);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
     <div>
       <h1 className="font-bold text-2xl">Daftar</h1>
+      <p className={`${errorMessage ? "py-3" : ""} text-red-500 font-semibold`}>
+        {errorMessage}
+      </p>
       <form onSubmit={onSubmitHandle} encType="multipart/form-data">
         <div className="mb-4">
           <label
@@ -149,13 +175,13 @@ export default function Register({ onClick }) {
         <div>
           <small>
             Sudah Punya Akun?{" "}
-            <a
-              href="#"
-              onClick={onClick}
+            <Link
+              href="/auth/login"
               className="hover:text-red-500 hover:underline-offset-1 uppercase"
             >
+              {" "}
               Login Sekarang
-            </a>
+            </Link>
           </small>
         </div>
         <button

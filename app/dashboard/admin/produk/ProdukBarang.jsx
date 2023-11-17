@@ -6,16 +6,7 @@ import { BsPlusLg, BsTrashFill } from "react-icons/bs";
 import Swal from "sweetalert2";
 import { v4 as uuid } from "uuid";
 
-const TABLE_HEAD_BANK_PRODUK = [
-  "ID Produk",
-  "Nama Produk",
-  "Nama Toko",
-  "Harga",
-  "Stok",
-  "Action",
-];
-
-const TABLE_HEAD_PRODUK_JUAL = [
+const TABLE_HEAD = [
   "ID Produk",
   "Nama Produk",
   "Nama Toko",

@@ -24,8 +24,9 @@ const DataPenjual = () => {
   const [formDataPenjual, setFormDataPenjual] = useState({
     username: "",
     nama_toko: "",
-    type_seller: 0,
     telepon: "",
+    type_seller: 0,
+    foto: null,
     email: "",
     password: "",
     repassword: "",
@@ -33,29 +34,38 @@ const DataPenjual = () => {
   const [avatar, setAvatar] = useState(null);
   const [typeSeller, setTypeSeller] = useState("DEFAULT");
 
+  const fetchData = async () => {
+    const data_penjual = await getDataPenjual();
+    setDataPenjual([...data_penjual.payload]);
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      const data_penjual = await getDataPenjual();
-      setDataPenjual([...data_penjual.payload]);
-    };
     fetchData();
   }, []);
 
-  const onSubmitHandleAdd = async (e) => {
+  const onSubmitHandleAdd = async (event) => {
+    event.preventDefault();
     formDataPenjual.foto = avatar;
     formDataPenjual.type_seller = typeSeller;
-    const data = await createDataPenjual(formDataPenjual);
-    console.log(data);
 
-    setFormDataPenjual({
-      username: "",
-      nama_toko: "",
-      type_seller: 0,
-      telepon: "",
-      email: "",
-      password: "",
-      repassword: "",
-    });
+    try {
+      await createDataPenjual(formDataPenjual);
+      setFormDataPenjual({
+        username: "",
+        nama_toko: "",
+        type_seller: 0,
+        telepon: "",
+        foto: null,
+        email: "",
+        password: "",
+        repassword: "",
+      });
+      fetchData();
+      setTypeSeller("DEFAULT");
+      setShowForm(false);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const onHandleImage = (e) => {
@@ -95,6 +105,7 @@ const DataPenjual = () => {
               action=""
               className="flex flex-col pt-5"
               onSubmit={onSubmitHandleAdd}
+              encType="multipart/form-data"
             >
               <div className="flex justify-between ">
                 <div className="flex flex-col">
@@ -116,6 +127,7 @@ const DataPenjual = () => {
                           username: e.target.value,
                         }),
                       ]}
+                      required
                     />
                   </div>
                   <div className="w-full px-3">
@@ -136,6 +148,7 @@ const DataPenjual = () => {
                           nama_toko: e.target.value,
                         }),
                       ]}
+                      required
                     />
                   </div>
                   <div className="w-full px-3">
@@ -156,6 +169,7 @@ const DataPenjual = () => {
                           telepon: e.target.value,
                         }),
                       ]}
+                      required
                     />
                   </div>
                   <div className="w-full px-3">
@@ -176,6 +190,7 @@ const DataPenjual = () => {
                           email: e.target.value,
                         }),
                       ]}
+                      required
                     />
                   </div>
                   <div className="w-full px-3">
@@ -196,6 +211,7 @@ const DataPenjual = () => {
                           password: e.target.value,
                         }),
                       ]}
+                      required
                     />
                   </div>
                   <div className="w-full px-3">
@@ -216,6 +232,7 @@ const DataPenjual = () => {
                           repassword: e.target.value,
                         }),
                       ]}
+                      required
                     />
                   </div>
                 </div>
@@ -232,6 +249,7 @@ const DataPenjual = () => {
                       value={typeSeller}
                       onChange={(e) => setTypeSeller(e.target.value)}
                       id="type_seller"
+                      required
                     >
                       <option value={"DEFAULT"} disabled>
                         Pilih Kategori
@@ -243,13 +261,12 @@ const DataPenjual = () => {
                   <div className="px-3">
                     <label
                       className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                      htmlFor="avatar-anggota"
+                      htmlFor="avatar-toko-penjual"
                     >
                       Avatar
                     </label>
                     <input
-                      className=""
-                      id="avatar-anggota"
+                      id="avatar-toko-penjual"
                       type="file"
                       onChange={onHandleImage}
                     />
@@ -264,7 +281,6 @@ const DataPenjual = () => {
                   Tambah Penjual
                 </button>
                 <button
-                  type="button"
                   className="rounded-xl bg-black text-white font-bold px-3 py-2"
                   onClick={() => setShowForm(false)}
                 >
@@ -435,7 +451,7 @@ const DataPenjual = () => {
                         >
                           Avatar
                         </label>
-                        <input className="" id="avatar-anggota" type="file" />
+                        <input id="avatar-anggota" type="file" />
                       </div>
                     </div>
                     <div className="flex flex-col justify-center items-center gap-3 mt-5">
@@ -443,10 +459,9 @@ const DataPenjual = () => {
                         type="submit"
                         className="rounded-xl bg-orange-500 text-white font-bold px-3 py-2"
                       >
-                        Tambah Penjual
+                        Edit Data Penjual
                       </button>
                       <button
-                        type="button"
                         className="rounded-xl bg-black text-white font-bold px-3 py-2"
                         onClick={() => setShowModal(false)}
                       >

@@ -14,7 +14,7 @@ export default function Media() {
         </h1>
         <MediaSlider data={MEDIA_DATA} />
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }

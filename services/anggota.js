@@ -53,7 +53,6 @@ export async function deleteDataAnggota(id) {
       `${process.env.NEXT_PUBLIC_BACKEND_API}/admin/anggota/${id}`,
       {
         headers: {
-          "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }
