@@ -9,12 +9,12 @@ export default function Media() {
     <>
       <Navbar />
       <div className="container mx-auto p-4">
-        <h1 className="text-2xl font-semibold mb-4">
+        <h1 className="text-2xl font-semibold mb-4 md:container lg:container">
           Berita Dharma Wanita Persatuan ITERA
         </h1>
         <MediaSlider data={MEDIA_DATA} />
       </div>
-      {/* <Footer /> */}
+      <Footer />
     </>
   );
 }

@@ -75,44 +75,56 @@ export default function Home() {
           >
             <SwiperSlide className="slideSwiper">
               <Image
-                src={frame2}
+                src="http://res.cloudinary.com/dic2dqube/image/upload/v1700190533/wwy9yktp8br5ulwkoutt.png"
                 alt="#"
                 className=" w-80 h-64 md:h-48 lg:h-64  mx-auto rounded-lg"
+                width={320}
+                height={256}
               />
             </SwiperSlide>
             <SwiperSlide className="slideSwiper">
               <Image
-                src={frame3}
+                src="http://res.cloudinary.com/dic2dqube/image/upload/v1700190483/lni1ffi1sqxicehsibgu.png"
                 alt="#"
                 className=" w-80 h-64 md:h-48 lg:h-64  mx-auto rounded-lg"
+                width={320}
+                height={256}
               />
             </SwiperSlide>
             <SwiperSlide className="slideSwiper">
               <Image
-                src={frame2}
+                src="http://res.cloudinary.com/dic2dqube/image/upload/v1700190533/wwy9yktp8br5ulwkoutt.png"
                 alt="#"
                 className=" w-80 h-64 md:h-48 lg:h-64  mx-auto rounded-lg"
+                width={320}
+                height={256}
               />
             </SwiperSlide>
             <SwiperSlide className="slideSwiper">
               <Image
-                src={frame3}
+                src="http://res.cloudinary.com/dic2dqube/image/upload/v1700190483/lni1ffi1sqxicehsibgu.png"
                 alt="#"
                 className=" w-80 h-64 md:h-48 lg:h-64  mx-auto rounded-lg"
+                width={320}
+                height={256}
               />
             </SwiperSlide>
             <SwiperSlide className="slideSwiper">
               <Image
-                src={frame2}
+                src="http://res.cloudinary.com/dic2dqube/image/upload/v1700190533/wwy9yktp8br5ulwkoutt.png"
                 alt="#"
                 className=" w-80 h-64 md:h-48 lg:h-64  mx-auto rounded-lg"
+                width={320}
+                height={256}
               />
             </SwiperSlide>
             <SwiperSlide className="slideSwiper">
               <Image
-                src={frame3}
+                src="http://res.cloudinary.com/dic2dqube/image/upload/v1700190483/lni1ffi1sqxicehsibgu.png"
                 alt="#"
-                className=" w-80 h-64 md:h-48 lg:h-64  mx-auto rounded-lg"
+                className=" w-80 h-64 md:h-48 lg:h-64 sm:w-full lg:w-full  mx-auto rounded-lg"
+                width={320}
+                height={256}
               />
             </SwiperSlide>
           </Swiper>
