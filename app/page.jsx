@@ -22,7 +22,7 @@ export default function Home() {
       <Navbar />
       <Jumbotron />
       <div className="bg-gradient-to-r from-white to-[#FFCEA0] text-black pl-4 pr-4 sm:pl-8 sm:pr-8">
-        <div className="p-4 lg:p-8 lg:w-1/2 ">
+        <div className="p-2 lg:p-4 lg:w-1/2 container ">
           <h3 className="text-lg sm:text-xl md:text-2xl">Apa Itu DWP</h3>
           <h1 className="text-xl sm:text-3xl mt-2 sm:mt-4">
             Dharma Wanita Persatuan <br />
