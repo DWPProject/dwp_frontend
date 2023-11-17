@@ -1,9 +1,9 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Image from "next/image";
 
 import { AiTwotoneEdit, AiTwotoneSave } from "react-icons/ai";
-
+import { FiEdit } from "react-icons/fi";
 import pengurus from "@/public/images/example_pengurus.png";
 
 const Profil = () => {
@@ -11,6 +11,7 @@ const Profil = () => {
   const [nama, setNama] = useState("Basrunki Siburian");
   const [email, setEmail] = useState("basrunkisiburian@gmail.com");
   const [telepon, setTelepon] = useState("6709709707070");
+  const fileInputRef = useRef(null);
 
   const handleEditClick = () => {
     setEditMode(true);
@@ -29,6 +30,16 @@ const Profil = () => {
     } else if (name === "telepon") {
       setTelepon(value);
     }
+  };
+
+  const handleEditPhotoClick = () => {
+    // Trigger the file input click when edit photo icon is clicked
+    fileInputRef.current.click();
+  };
+
+  const handleFileChange = (e) => {
+    // Handle file change logic here (e.g., upload the file)
+    console.log("File changed:", e.target.files[0]);
   };
 
   return (
@@ -80,7 +91,7 @@ const Profil = () => {
               )}
             </div>
             <div>
-              {editMode ? (
+            {editMode ? (
                 <button
                   onClick={handleSaveClick}
                   className="text-white bg-blue-500 hover:bg-blue-600 p-2 rounded"
@@ -97,8 +108,19 @@ const Profil = () => {
               )}
             </div>
           </div>
-          <div className="mr-4">
+          <div className="mr-4 relative">
             <Image src={pengurus} alt="Foto Profil" className="rounded-full" />
+            <input
+              type="file"
+              accept="image/*"
+              ref={fileInputRef}
+              style={{ display: "none" }}
+              onChange={handleFileChange}
+            />
+            <FiEdit
+              className="absolute bottom-0 left-1/2 transform -translate-x-1/2 text-3xl bg-gray-500 text-white cursor-pointer"
+              onClick={handleEditPhotoClick}
+            />
           </div>
         </div>
       </div>
