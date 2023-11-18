@@ -1,3 +1,4 @@
+"use client";
 import PageHeading from "@/components/dashboard/PageHeading";
 import BarChart from "@/components/dashboard/BarChart";
 import TopProdukList from "@/components/dashboard/TopProdukList";

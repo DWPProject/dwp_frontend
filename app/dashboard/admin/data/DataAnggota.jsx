@@ -9,7 +9,7 @@ import {
   createDataAnggota,
   updateDataAnggota,
   deleteDataAnggota,
-} from "@/services/anggota";
+} from "@/services/admin/anggota";
 
 const TABLE_HEAD = ["ID Anggota", "Nama Anggota", "Jabatan", "Action"];
 
@@ -27,6 +27,7 @@ const DataAnggota = () => {
 
   const fetchData = async () => {
     const data_anggota = await getDataAnggota();
+    console.log(data_anggota);
     setDataAnggota([...data_anggota.data]);
   };
 
@@ -39,7 +40,8 @@ const DataAnggota = () => {
     formDataAnggota.foto = avatar;
 
     try {
-      await createDataAnggota(formDataAnggota);
+      const data = await createDataAnggota(formDataAnggota);
+      console.log(data);
       setFormDataAnggota({
         nama: "",
         jabatan: "",
@@ -57,7 +59,8 @@ const DataAnggota = () => {
 
     dataEditAnggota.foto = avatar;
     try {
-      await updateDataAnggota(dataEditAnggota, id);
+      const data = await updateDataAnggota(dataEditAnggota, id);
+      console.log(data);
 
       setDataEditAnggota({
         nama: "",
@@ -96,7 +99,8 @@ const DataAnggota = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await deleteDataAnggota(id);
+          const data = await deleteDataAnggota(id);
+          console.log(data);
           fetchData();
           Swal.fire(`Success Deleted Data Anggota`, "", "success");
         } catch (error) {

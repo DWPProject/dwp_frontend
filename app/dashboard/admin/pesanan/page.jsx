@@ -1,52 +1,52 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Swal from "sweetalert2";
 
 import PageHeading from "@/components/dashboard/PageHeading";
 
-import { BsFillEyeFill, BsTrashFill } from "react-icons/bs";
 import { IoArrowBackOutline } from "react-icons/io5";
 import { ImCross } from "react-icons/im";
+
+import {
+  getPesananUser,
+  aprovePesanan,
+  rejectPesanan,
+} from "@/services/admin/pesanan";
 
 const TABLE_HEAD = [
   "ID Pesanan",
   "Customer",
-  "Tanggal",
+  "Tanggal Pesan",
   "Total Harga",
-  "Status Pembayaran",
-  "Order Status",
+  "Status Pesanan",
   "Bukti Transfer",
+  "Detail Pesanan",
   "Action",
-];
-
-const TABLE_ROWS = [
-  {
-    id_pesanan: "#0001",
-    customer: "Krisna",
-    tanggal: "04/10/2023 09:00",
-    total_harga: 30000,
-  },
-  {
-    id_pesanan: "#0002",
-    customer: "Chrisnico",
-    tanggal: "04/10/2023 09:00",
-    total_harga: 15000,
-  },
-  {
-    id_pesanan: "#0003",
-    customer: "Iqbal",
-    tanggal: "04/10/2023 08:00",
-    total_harga: 15000,
-  },
 ];
 
 const KelolaPesanan = () => {
   const [showModalDetail, setShowModalDetail] = useState(false);
   const [showModalPayment, setShowModalPayment] = useState(false);
-  const [categories, setCategories] = useState("Belum Diproses");
+  const [dataOrder, setDataOrder] = useState([]);
+  const [dataDetailOrder, setDataDetailOrder] = useState({});
 
-  const onHandleDelete = () => {
+  const fetchData = async () => {
+    const data_order = await getPesananUser();
+    setDataOrder([...data_order.data]);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const onHandleDetail = (id) => {
+    const data_order = dataOrder.find((order) => order.id === id);
+    setDataDetailOrder(data_order);
+    setShowModalDetail(true);
+  };
+
+  const onHandleAprove = (id) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -54,10 +54,40 @@ const KelolaPesanan = () => {
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
+      confirmButtonText: "Yes, Aprove it!",
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        Swal.fire("Deleted!", "Your file has been deleted.", "success");
+        try {
+          const data = await aprovePesanan(id);
+          console.log(data);
+          fetchData();
+          Swal.fire("Aproved!", "Order has been Aproved.", "success");
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    });
+  };
+
+  const onHandleReject = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Reject it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const data = await rejectPesanan(id);
+          console.log(data);
+          fetchData();
+          Swal.fire("Rejected!", "Order has been Rejected.", "success");
+        } catch (error) {
+          console.log(error);
+        }
       }
     });
   };
@@ -77,9 +107,9 @@ const KelolaPesanan = () => {
               </tr>
             </thead>
             <tbody>
-              {TABLE_ROWS.map((pesanan) => (
-                <tr key={pesanan.id_pesanan}>
-                  <td>{pesanan.id_pesanan}</td>
+              {dataOrder.map((pesanan) => (
+                <tr key={pesanan.id}>
+                  <td>{pesanan.id}</td>
                   <td>
                     <div className="flex gap-2 items-center">
                       <Image
@@ -88,37 +118,23 @@ const KelolaPesanan = () => {
                         width={50}
                         height={50}
                       />
-                      {pesanan.customer}
+                      {pesanan.user.username}
                     </div>
                   </td>
-                  <td>{pesanan.tanggal}</td>
-                  <td>Rp. {pesanan.total_harga}</td>
+                  <td>{pesanan.order_date}</td>
+                  <td>Rp. {pesanan.price}</td>
                   <td>
-                    <div className="form-control">
-                      <label className="label cursor-pointer">
-                        <input
-                          type="checkbox"
-                          className="checkbox checkbox-success"
-                        />
-                      </label>
-                    </div>
-                  </td>
-                  <td>
-                    <select
-                      className={`select select-bordered max-w-xs rounded-2xl 
-                      ${categories === "Belum diproses" && "bg-[#D7D7D7]"} 
-                      ${categories === "Dalam Perjalanan" && "bg-[#F4FFB0]"}
-                      ${categories === "Selesai" && "bg-[#8FA8FF]"}
+                    <div
+                      className={`text-center p-2 rounded-3xl ${
+                        pesanan.status === "Pesanan Ditolak" && "bg-red-500"
+                      } ${pesanan.status === "DiProses" && "bg-[#F4FFB0]"} ${
+                        pesanan.status === "Belum diProses" && "bg-[#D7D7D7]"
+                      }  ${
+                        pesanan.status === "Pesanan Selesai" && "bg-[#06FF1F]"
                       }`}
-                      value={categories}
-                      onChange={(e) => setCategories(e.target.value)}
                     >
-                      <option value={"Belum diproses"}>Belum diproses</option>
-                      <option value={"Dalam Perjalanan"}>
-                        Dalam Perjalanan
-                      </option>
-                      <option value={"Selesai"}>Selesai</option>
-                    </select>
+                      {pesanan.status}
+                    </div>
                   </td>
                   <td>
                     <button
@@ -129,14 +145,27 @@ const KelolaPesanan = () => {
                     </button>
                   </td>
                   <td>
+                    <button
+                      className="p-3 bg-[#58CBE4] text-black rounded-3xl"
+                      onClick={() => onHandleDetail(pesanan.id)}
+                    >
+                      <p className=" text-center">Detail Pesanan</p>
+                    </button>
+                  </td>
+                  <td>
                     <div className="flex gap-3">
                       <button
-                        className="text-[#624DE3]"
-                        onClick={() => setShowModalDetail(true)}
+                        className="py-2 px-3 bg-green-500 text-white rounded-lg"
+                        onClick={() => onHandleAprove(pesanan.id)}
+                        disabled={pesanan.status !== "Belum diProses"}
                       >
-                        <BsFillEyeFill size={25} />
+                        <p className="font-bold text-center">Aprove</p>
                       </button>
-                      <button className="py-2 px-3 bg-red-500 text-white rounded-lg">
+                      <button
+                        className="py-2 px-3 bg-red-500 text-white rounded-lg"
+                        onClick={() => onHandleReject(pesanan.id)}
+                        disabled={pesanan.status !== "Belum diProses"}
+                      >
                         <p className="font-bold text-center">Reject</p>
                       </button>
                     </div>
@@ -175,27 +204,31 @@ const KelolaPesanan = () => {
                           width={50}
                           height={50}
                         />
-                        <p>Krisna</p>
-                        <p>087775440461</p>
+                        <p>{dataDetailOrder.user.username}</p>
+                        <p>{dataDetailOrder.user.telepon}</p>
                       </div>
                       <div className="flex flex-col gap-5">
                         <h2 className="font-bold">Alamat Pengantaran</h2>
-                        <p>Gedung C, Lt 3, Ruang 302</p>
+                        <p>{dataDetailOrder.address}</p>
                       </div>
                     </div>
                   </div>
                   <div className="flex flex-col gap-5 pt-5">
                     <h1 className="font-semibold">Detail Pesanan Pembeli</h1>
-                    <div className="flex flex-col gap-3">
-                      <Image
-                        src="/images/example_product.png"
-                        alt="Produk1"
-                        width={50}
-                        height={50}
-                      />
-                      <h2>Ayam Geprek</h2>
-                      <p>Rp. 100000</p>
-                      <p>Jumlah Pesanan: 10</p>
+                    <div className="grid grid-cols-3 gap-3">
+                      {dataDetailOrder.orderProduct.map((item, index) => (
+                        <div key={index}>
+                          <Image
+                            src={item.product.foto}
+                            alt="Produk1"
+                            width={50}
+                            height={50}
+                          />
+                          <h2>{item.product.nama}</h2>
+                          <p>Rp. {item.product.harga}</p>
+                          <p>Jumlah Pesanan: {item.quantity}</p>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>
@@ -225,7 +258,7 @@ const KelolaPesanan = () => {
                 {/*body*/}
                 <div className="relative p-6 flex-auto ">
                   <Image
-                    src="/images/example_payment.jpg"
+                    src={dataDetailOrder.payment}
                     width={0}
                     height={0}
                     sizes="100vw"

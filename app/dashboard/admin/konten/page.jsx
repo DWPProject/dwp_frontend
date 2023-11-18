@@ -12,7 +12,7 @@ import {
   createKonten,
   updateDataKonten,
   deleteDataKonten,
-} from "@/services/konten";
+} from "@/services/admin/konten";
 
 const TABLE_HEAD = [
   "ID Konten",
@@ -41,6 +41,7 @@ const KelolaKonten = () => {
 
   const fetchData = async () => {
     const data_konten = await getDataKonten();
+    console.log(data_konten);
     setDataKonten([...data_konten.data]);
   };
 
@@ -54,7 +55,8 @@ const KelolaKonten = () => {
     formDataKonten.kategori = categories;
 
     try {
-      await createKonten(formDataKonten);
+      const data = await createKonten(formDataKonten);
+      console.log(data);
 
       setFormDataKonten({
         judul: "",
@@ -77,7 +79,7 @@ const KelolaKonten = () => {
     dataEditKonten.kategori = categoriesEdit;
 
     try {
-      await updateDataKonten(
+      const data = await updateDataKonten(
         {
           judul: dataEditKonten.judul,
           penulis: dataEditKonten.penulis,
@@ -87,6 +89,8 @@ const KelolaKonten = () => {
         },
         id
       );
+
+      console.log(data);
 
       setDataEditKonten({
         judul: "",
@@ -121,7 +125,8 @@ const KelolaKonten = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await deleteDataKonten(id);
+          const data = await deleteDataKonten(id);
+          console.log(data);
           fetchData();
           Swal.fire(`Success Deleted Data Product`, "", "success");
         } catch (error) {

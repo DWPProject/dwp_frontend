@@ -1,4 +1,3 @@
-"use client";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
@@ -17,7 +16,7 @@ export default function Navbar() {
   const router = useRouter();
 
   const user = getUserFromLocalStorage();
-  const isLogin = user.length > 0 ? true : false;
+  const isLogin = user?.length > 0 ? true : false;
 
   const onHandleLogout = () => {
     clearLocalStorage();
@@ -58,9 +57,11 @@ export default function Navbar() {
                   tabIndex={0}
                   className="btn btn-ghost btn-circle avatar bg-[#FFCEA0]"
                 >
-                  <div className="w-10 rounded-full">
-                    <Image src={profile} alt="fotoprofil" />
-                  </div>
+                  <Image
+                    src={profile}
+                    alt="fotoprofil"
+                    className="w-10 rounded-full"
+                  />
                 </label>
                 <ul
                   tabIndex={0}

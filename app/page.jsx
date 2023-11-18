@@ -17,13 +17,14 @@ import frame from "@/public/images/frame.png";
 import frame2 from "@/public/images/frame2.png";
 import frame3 from "@/public/images/frame3.png";
 
-import { getDataKonten } from "@/services/konten";
+import { getDataKonten } from "@/services/admin/konten";
 
 export default function Home() {
   const [dataKonten, setDataKonten] = useState([]);
 
   const fetchData = async () => {
     const data_konten = await getDataKonten();
+    console.log(data_konten);
     setDataKonten([...data_konten.data]);
   };
 

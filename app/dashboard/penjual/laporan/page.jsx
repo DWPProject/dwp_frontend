@@ -1,13 +1,19 @@
 "use client";
+import { useEffect, useState } from "react";
+
 import PageHeading from "@/components/dashboard/PageHeading";
 
 import { BsDownload } from "react-icons/bs";
+
+import { getUserFromLocalStorage } from "@/utils/localStorage";
+import { getLaporanPenjual } from "@/services/penjual/laporan";
 
 const TABLE_HEAD = [
   "ID Transaksi",
   "Tanggal",
   "Nama Produk",
   "Nama Toko",
+  "Tipe Penjual",
   "Jumlah Pesanan",
   "Harga",
   "Total",
@@ -15,65 +21,26 @@ const TABLE_HEAD = [
   "Pendapatan (Penjual)",
 ];
 
-const TABLE_ROWS = [
-  {
-    id_transaksi: "#C0001",
-    tanggal: "12/07/2023",
-    nama_produk: "Ayam Geprek",
-    nama_toko: "Toko ABC",
-    jumlah_pesanan: 10,
-    harga: 10000,
-    total: 100000,
-    pendapatan_dwp: 5000,
-    pendapatan_penjual: 95000,
-  },
-  {
-    id_transaksi: "#C0002",
-    tanggal: "12/07/2023",
-    nama_produk: "Es Teh",
-    nama_toko: "Toko ABC",
-    jumlah_pesanan: 10,
-    harga: 5000,
-    total: 50000,
-    pendapatan_dwp: 2500,
-    pendapatan_penjual: 47500,
-  },
-  {
-    id_transaksi: "#C0003",
-    tanggal: "13/07/2023",
-    nama_produk: "Ayam Goreng Kecap",
-    nama_toko: "Toko XYZ",
-    jumlah_pesanan: 5,
-    harga: 15000,
-    total: 75000,
-    pendapatan_dwp: 3750,
-    pendapatan_penjual: 71250,
-  },
-  {
-    id_transaksi: "#C0004",
-    tanggal: "13/07/2023",
-    nama_produk: "Es Kelapa",
-    nama_toko: "Toko XYZ",
-    jumlah_pesanan: 5,
-    harga: 7500,
-    total: 37500,
-    pendapatan_dwp: 1875,
-    pendapatan_penjual: 35625,
-  },
-  {
-    id_transaksi: "#C0005",
-    tanggal: "14/07/2023",
-    nama_produk: "Nasi Goreng",
-    nama_toko: "Toko Imron",
-    jumlah_pesanan: 2,
-    harga: 20000,
-    total: 40000,
-    pendapatan_dwp: 2000,
-    pendapatan_penjual: 38000,
-  },
-];
-
 const KelolaLaporan = () => {
+  const [userId, setUserId] = useState("");
+  const [dataLaporan, setDataLaporan] = useState([]);
+  const [totalPendapatan, setTotalPendapatan] = useState(0);
+
+  const fetchData = async (id_penjual, start = "", end = "") => {
+    const data_laporan = await getLaporanPenjual(id_penjual, start, end);
+    setTotalPendapatan(data_laporan.data.pendapatan);
+    setDataLaporan([...data_laporan.data.payload]);
+  };
+
+  useEffect(() => {
+    const user = getUserFromLocalStorage();
+    if (user.length > 0) {
+      setUserId(user[0].id);
+    } else {
+      setUserId("");
+    }
+    fetchData(userId);
+  }, [userId]);
   return (
     <>
       <PageHeading title="Kelola Laporan" />
@@ -118,7 +85,7 @@ const KelolaLaporan = () => {
                 </button>
               </div>
               <h1 className="text-2xl font-bold">
-                Total Penjualan: Rp. 600000
+                Total Penjualan: Rp. {totalPendapatan}
               </h1>
             </div>
           </div>
@@ -141,31 +108,20 @@ const KelolaLaporan = () => {
               </tr>
             </thead>
             <tbody>
-              {TABLE_ROWS.map(
-                ({
-                  id_transaksi,
-                  tanggal,
-                  nama_produk,
-                  nama_toko,
-                  jumlah_pesanan,
-                  harga,
-                  total,
-                  pendapatan_dwp,
-                  pendapatan_penjual,
-                }) => (
-                  <tr key={id_transaksi}>
-                    <td>{id_transaksi}</td>
-                    <td>{tanggal}</td>
-                    <td>{nama_produk}</td>
-                    <td>{nama_toko}</td>
-                    <td>{jumlah_pesanan}</td>
-                    <td>Rp. {harga}</td>
-                    <td>Rp. {total}</td>
-                    <td>Rp. {pendapatan_dwp}</td>
-                    <td>Rp. {pendapatan_penjual}</td>
-                  </tr>
-                )
-              )}
+              {dataLaporan.map((data, index) => (
+                <tr key={index}>
+                  <td>{data.id_order}</td>
+                  <td>{data.order_date}</td>
+                  <td>{data.nama}</td>
+                  <td>{data.nama_toko}</td>
+                  <td>{data.type_seller === 0 ? "Dalam DWP" : "Luar DWP"}</td>
+                  <td>{data.quantity}</td>
+                  <td>Rp. {data.harga}</td>
+                  <td>Rp. {data.total_harga}</td>
+                  <td>Rp. {data.dwp_cash}</td>
+                  <td>Rp. {data.seller_cash}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

@@ -12,7 +12,7 @@ import "swiper/css/pagination";
 
 import Style from "./profile.module.css";
 
-import { getDataAnggota } from "@/services/anggota";
+import { getDataAnggota } from "@/services/admin/anggota";
 
 export default function Profil() {
   const [slidesPerView, setSlidesPerView] = useState(1);
@@ -20,6 +20,7 @@ export default function Profil() {
 
   const fetchData = async () => {
     const data_anggota = await getDataAnggota();
+    console.log(data_anggota);
     setDataAnggota([...data_anggota.data]);
   };
 
@@ -102,7 +103,6 @@ export default function Profil() {
                           alt={`${data.nama}${data.jabatan}`}
                           width={200}
                           height={200}
-                          layout="responsive"
                         />
                       </div>
                     </figure>

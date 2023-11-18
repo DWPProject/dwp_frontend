@@ -4,7 +4,7 @@ import { FiEdit } from "react-icons/fi";
 import { BsPlusLg, BsTrashFill } from "react-icons/bs";
 import Swal from "sweetalert2";
 
-import { getDataPenjual, createDataPenjual } from "@/services/penjual";
+import { getDataPenjual, createDataPenjual } from "@/services/admin/penjual";
 
 const TABLE_HEAD = [
   "ID Penjual",
@@ -36,6 +36,7 @@ const DataPenjual = () => {
 
   const fetchData = async () => {
     const data_penjual = await getDataPenjual();
+    console.log(data_penjual);
     setDataPenjual([...data_penjual.payload]);
   };
 
@@ -49,7 +50,8 @@ const DataPenjual = () => {
     formDataPenjual.type_seller = typeSeller;
 
     try {
-      await createDataPenjual(formDataPenjual);
+      const data = await createDataPenjual(formDataPenjual);
+      console.log(data);
       setFormDataPenjual({
         username: "",
         nama_toko: "",

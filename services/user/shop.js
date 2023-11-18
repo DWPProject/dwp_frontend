@@ -74,3 +74,22 @@ export async function orderProduk(user_id, purchase, address, foto) {
     console.log(error);
   }
 }
+
+export async function deleteCartItem(id) {
+  try {
+    const { data } = await axios.post(
+      `${process.env.NEXT_PUBLIC_BACKEND_API}/user/shop/deleteCart`,
+      {
+        id: id,
+      },
+      {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      }
+    );
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+}

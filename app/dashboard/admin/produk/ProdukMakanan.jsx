@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 import { FiEdit } from "react-icons/fi";
 import { BsPlusLg, BsTrashFill } from "react-icons/bs";
 
-import { getDataPenjual } from "@/services/penjual";
+import { getDataPenjual } from "@/services/admin/penjual";
 import {
   getDataBankProduct,
   getDataSellProduct,
@@ -14,7 +14,7 @@ import {
   setProductToSell,
   setProductToNotSell,
   deleteProduct,
-} from "@/services/product";
+} from "@/services/admin/product";
 
 const TABLE_HEAD = [
   "ID Produk",
@@ -47,6 +47,9 @@ const ProdukMakanan = () => {
     const data_penjual = await getDataPenjual();
     const data_bank_produk = await getDataBankProduct();
     const data_produk_jual = await getDataSellProduct();
+    console.log(data_penjual);
+    console.log(data_bank_produk);
+    console.log(data_produk_jual);
     setDataPenjual([...data_penjual.payload]);
     setDataBankProduk([...data_bank_produk.data]);
     setDataProdukJual([...data_produk_jual.data]);
@@ -63,7 +66,8 @@ const ProdukMakanan = () => {
     formData.id_penjual = toko;
 
     try {
-      await createDataProduct(formData);
+      const data = await createDataProduct(formData);
+      console.log(data);
 
       setFormData({
         nama: "",
@@ -87,7 +91,7 @@ const ProdukMakanan = () => {
     dataEditProduct.foto = fotoProduk;
 
     try {
-      await updateDataProduct(
+      const data = await updateDataProduct(
         {
           nama: dataEditProduct.nama,
           harga: dataEditProduct.harga,
@@ -96,6 +100,7 @@ const ProdukMakanan = () => {
         },
         id
       );
+      console.log(data);
 
       setDataEditProduct({
         nama: "",
@@ -130,7 +135,8 @@ const ProdukMakanan = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await deleteProduct(id);
+          const data = await deleteProduct(id);
+          console.log(data);
           fetchData();
           Swal.fire("Deleted!", "Your file has been deleted.", "success");
         } catch (error) {

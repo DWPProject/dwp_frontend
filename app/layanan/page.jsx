@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
+import Swal from "sweetalert2";
 import {
   AiOutlineShoppingCart,
   AiOutlinePlus,
@@ -22,6 +23,7 @@ import {
   addProductToCart,
   getCartItem,
   orderProduk,
+  deleteCartItem,
 } from "@/services/user/shop";
 import { getUserFromLocalStorage } from "@/utils/localStorage";
 
@@ -46,6 +48,8 @@ export default function Layanan() {
   const fetchData = async (userId) => {
     const data_produk = await getSellProduct();
     const data_cart = await getCartItem(userId);
+    console.log(data_produk);
+    console.log(data_cart);
     setDataCart([...data_cart.data.payload]);
     setTotalPrice(data_cart.data.price);
     setDataProduk([...data_produk.data]);
@@ -100,12 +104,14 @@ export default function Layanan() {
     if (userId !== "") {
       if (jumlahPesanan > 0) {
         try {
-          await addProductToCart(
+          const data = await addProductToCart(
             userId,
             selectedProduk.id,
             catatan,
             jumlahPesanan
           );
+
+          console.log(data);
 
           fetchData(userId);
           setCatatan("");
@@ -136,6 +142,8 @@ export default function Layanan() {
         selectedAlamat,
         buktiPembayaran
       );
+      console.log(data);
+
       setSelectedAlamat("Gedung GKU 1, Lt Dasar");
       setBuktiPembayaran(null);
       setMetodePembayaran("DEFAULT");
@@ -143,6 +151,30 @@ export default function Layanan() {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const onHandleDelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          console.log(id);
+          const data = await deleteCartItem(id);
+          console.log(data);
+          fetchData(userId);
+          Swal.fire(`Success Deleted Product`, "", "success");
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    });
   };
 
   const jumlahPesananKeranjang = dataCart.reduce(
@@ -351,7 +383,7 @@ export default function Layanan() {
                   <div>
                     <button
                       className="btn btn-sm btn-error text-white"
-                      onClick={() => hapusPesanan(index)}
+                      onClick={() => onHandleDelete(item.cart_item_id)}
                     >
                       <AiTwotoneDelete />
                       Hapus Item

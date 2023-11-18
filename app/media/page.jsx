@@ -5,13 +5,14 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import MediaSlider from "@/components/mediaSlider";
 
-import { getDataKonten } from "@/services/konten";
+import { getDataKonten } from "@/services/admin/konten";
 
 export default function Media() {
   const [dataKonten, setDataKonten] = useState([]);
 
   const fetchData = async () => {
     const data_konten = await getDataKonten();
+    console.log(data_konten);
     setDataKonten([...data_konten.data]);
   };
 
