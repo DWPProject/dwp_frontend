@@ -28,6 +28,7 @@ import {
 import { getUserFromLocalStorage } from "@/utils/localStorage";
 
 export default function Layanan() {
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isCartModalOpen, setIsCartModalOpen] = useState(false);
@@ -110,7 +111,6 @@ export default function Layanan() {
             catatan,
             jumlahPesanan
           );
-
           console.log(data);
 
           fetchData(userId);
@@ -135,6 +135,9 @@ export default function Layanan() {
   };
 
   const onHandleOrder = async () => {
+    setIsLoading(true);
+    const idd = toast.loading("Order Pesanan...");
+
     try {
       const data = await orderProduk(
         userId,
@@ -144,10 +147,41 @@ export default function Layanan() {
       );
       console.log(data);
 
-      setSelectedAlamat("Gedung GKU 1, Lt Dasar");
-      setBuktiPembayaran(null);
-      setMetodePembayaran("DEFAULT");
-      setIsCartModalOpen(false);
+      if (
+        data.statusCode === 200 ||
+        data.statusCode === 201 ||
+        data.statusCode === 202
+      ) {
+        setIsLoading(false);
+        toast.update(idd, {
+          render: "All is good",
+          type: "success",
+          isLoading: isLoading,
+          autoClose: 2000,
+        });
+
+        setSelectedAlamat("Gedung GKU 1, Lt Dasar");
+        setBuktiPembayaran(null);
+        setMetodePembayaran("DEFAULT");
+        setIsCartModalOpen(false);
+      } else {
+        setIsLoading(false);
+        if (data.error !== undefined) {
+          toast.update(idd, {
+            render: `${data.error}`,
+            type: "error",
+            isLoading: isLoading,
+            autoClose: 2000,
+          });
+        } else {
+          toast.update(idd, {
+            render: `${data.message}`,
+            type: "error",
+            isLoading: isLoading,
+            autoClose: 2000,
+          });
+        }
+      }
     } catch (error) {
       console.log(error);
     }
@@ -165,9 +199,9 @@ export default function Layanan() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          console.log(id);
           const data = await deleteCartItem(id);
           console.log(data);
+
           fetchData(userId);
           Swal.fire(`Success Deleted Product`, "", "success");
         } catch (error) {
@@ -205,15 +239,18 @@ export default function Layanan() {
             </li>
           </div>
           <div className="cart relative ">
-            <AiOutlineShoppingCart
+            <button
               className={`cursor-pointer  ${Style.cart}`}
               onClick={() => setIsCartModalOpen(true)}
-            />
-            {jumlahPesananKeranjang > 0 && (
-              <span className="bg-red-500 text-white rounded-full px-2 py-1 text-xs absolute -top-1 -right-1">
-                {jumlahPesananKeranjang}
-              </span>
-            )}
+              disabled={userId === "" ? true : false}
+            >
+              <AiOutlineShoppingCart />
+              {jumlahPesananKeranjang > 0 && (
+                <span className="bg-red-500 text-white rounded-full px-2 py-1 text-xs absolute -top-1 -right-1">
+                  {jumlahPesananKeranjang}
+                </span>
+              )}
+            </button>
           </div>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-10 m-4">
@@ -427,6 +464,7 @@ export default function Layanan() {
             <button
               className="btn w-full mt-4 bg-[#FFCEA0] hover:bg-[#FFCEA0]"
               onClick={onHandleOrder}
+              disabled={isLoading}
             >
               Beli dan Siap Diantar
             </button>

@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 
 export default function Register() {
   const router = useRouter();
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState([]);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -20,12 +20,15 @@ export default function Register() {
 
   const onSubmitHandle = async (e) => {
     e.preventDefault();
-    setErrorMessage("");
 
     try {
       const data = await register(formData);
 
-      if (data.statusCode === 200) {
+      if (
+        data.statusCode === 200 ||
+        data.statusCode === 201 ||
+        data.statusCode === 202
+      ) {
         const notify = () =>
           toast("Register Berhasil", { type: "success", autoClose: 2000 });
         notify();
@@ -39,10 +42,12 @@ export default function Register() {
         });
         router.push("/auth/login");
       } else {
-        if (data.error !== undefined) {
-          console.log(data.error);
+        if (data.errors !== undefined) {
+          setErrorMessage([...data.errors]);
+        } else if (data.error !== undefined) {
+          setErrorMessage([data.error]);
         } else {
-          setErrorMessage(data.message);
+          setErrorMessage([data.message]);
         }
       }
     } catch (error) {
@@ -53,8 +58,20 @@ export default function Register() {
   return (
     <div>
       <h1 className="font-bold text-2xl">Daftar</h1>
-      <p className={`${errorMessage ? "py-3" : ""} text-red-500 font-semibold`}>
-        {errorMessage}
+      <p
+        className={`${
+          errorMessage.length > 0 ? "py-3" : ""
+        } text-red-500 font-semibold`}
+      >
+        {errorMessage.length > 0
+          ? errorMessage.map((item, index) => {
+              return (
+                <li className="list-disc" key={index}>
+                  {item}
+                </li>
+              );
+            })
+          : ""}
       </p>
       <form onSubmit={onSubmitHandle} encType="multipart/form-data">
         <div className="mb-4">

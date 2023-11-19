@@ -33,6 +33,7 @@ const KelolaPesanan = () => {
 
   const fetchData = async () => {
     const data_order = await getPesananUser();
+    console.log(data_order);
     setDataOrder([...data_order.data]);
   };
 
@@ -60,6 +61,7 @@ const KelolaPesanan = () => {
         try {
           const data = await aprovePesanan(id);
           console.log(data);
+
           fetchData();
           Swal.fire("Aproved!", "Order has been Aproved.", "success");
         } catch (error) {
@@ -83,6 +85,7 @@ const KelolaPesanan = () => {
         try {
           const data = await rejectPesanan(id);
           console.log(data);
+
           fetchData();
           Swal.fire("Rejected!", "Order has been Rejected.", "success");
         } catch (error) {

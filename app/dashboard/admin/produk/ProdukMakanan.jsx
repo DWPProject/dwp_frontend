@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 
 import Swal from "sweetalert2";
+import { toast } from "react-toastify";
 import { FiEdit } from "react-icons/fi";
 import { BsPlusLg, BsTrashFill } from "react-icons/bs";
 
@@ -26,8 +27,11 @@ const TABLE_HEAD = [
 ];
 
 const ProdukMakanan = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [editErrorMessage, setEditErrorMessage] = useState("");
   const [dataBankProduk, setDataBankProduk] = useState([]);
   const [dataProdukJual, setDataProdukJual] = useState([]);
   const [dataPenjual, setDataPenjual] = useState([]);
@@ -47,12 +51,18 @@ const ProdukMakanan = () => {
     const data_penjual = await getDataPenjual();
     const data_bank_produk = await getDataBankProduct();
     const data_produk_jual = await getDataSellProduct();
+    const data_bank_produk_makanan = data_bank_produk.data.filter(
+      (item) => item.kategori === "makanan"
+    );
+    const data_produk_jual_makanan = data_produk_jual.data.filter(
+      (item) => item.kategori === "makanan"
+    );
     console.log(data_penjual);
     console.log(data_bank_produk);
     console.log(data_produk_jual);
     setDataPenjual([...data_penjual.payload]);
-    setDataBankProduk([...data_bank_produk.data]);
-    setDataProdukJual([...data_produk_jual.data]);
+    setDataBankProduk([...data_bank_produk_makanan]);
+    setDataProdukJual([...data_produk_jual_makanan]);
   };
 
   useEffect(() => {
@@ -61,26 +71,56 @@ const ProdukMakanan = () => {
 
   const onSubmitHandleAdd = async (e) => {
     e.preventDefault();
-
     formData.foto = fotoProduk;
     formData.id_penjual = toko;
+
+    setIsLoading(true);
+    const idd = toast.loading("Create Data Product...");
 
     try {
       const data = await createDataProduct(formData);
       console.log(data);
 
-      setFormData({
-        nama: "",
-        harga: 0,
-        stok: 0,
-        kategori: "makanan",
-        foto: null,
-        id_penjual: "",
-      });
-      fetchData();
-      setToko("DEFAULT");
-      setFotoProduk(null);
-      setShowForm(false);
+      if (
+        data.statusCode === 200 ||
+        data.statusCode === 201 ||
+        data.statusCode === 202
+      ) {
+        setIsLoading(false);
+        toast.update(idd, {
+          render: "All is good",
+          type: "success",
+          isLoading: isLoading,
+          autoClose: 1000,
+        });
+
+        setFormData({
+          nama: "",
+          harga: 0,
+          stok: 0,
+          kategori: "makanan",
+          foto: null,
+          id_penjual: "",
+        });
+        fetchData();
+        setToko("DEFAULT");
+        setFotoProduk(null);
+        setShowForm(false);
+      } else {
+        setIsLoading(false);
+        toast.update(idd, {
+          render: "Something went wrong",
+          type: "error",
+          isLoading: isLoading,
+          autoClose: 1000,
+        });
+
+        if (data.error !== undefined) {
+          setErrorMessage(data.error);
+        } else {
+          setErrorMessage(data.message);
+        }
+      }
     } catch (error) {
       console.log(error);
     }
@@ -89,6 +129,9 @@ const ProdukMakanan = () => {
   const onSubmitHandleEdit = async (event, id) => {
     event.preventDefault();
     dataEditProduct.foto = fotoProduk;
+
+    setIsLoading(true);
+    const idd = toast.loading("Update Data Product...");
 
     try {
       const data = await updateDataProduct(
@@ -102,16 +145,38 @@ const ProdukMakanan = () => {
       );
       console.log(data);
 
-      setDataEditProduct({
-        nama: "",
-        harga: 0,
-        stok: 0,
-        kategori: "makanan",
-        foto: null,
-      });
-      fetchData();
-      setFotoProduk(null);
-      setShowModal(false);
+      if (
+        data.statusCode === 200 ||
+        data.statusCode === 201 ||
+        data.statusCode === 202
+      ) {
+        setIsLoading(false);
+        toast.update(idd, {
+          render: "All is good",
+          type: "success",
+          isLoading: isLoading,
+          autoClose: 1000,
+        });
+
+        fetchData();
+        setDataEditProduct({});
+        setFotoProduk(null);
+        setShowModal(false);
+      } else {
+        setIsLoading(false);
+        toast.update(idd, {
+          render: "Something went wrong",
+          type: "error",
+          isLoading: isLoading,
+          autoClose: 1000,
+        });
+
+        if (data.error !== undefined) {
+          setEditErrorMessage(data.error);
+        } else {
+          setEditErrorMessage(data.message);
+        }
+      }
     } catch (error) {
       console.log(error);
     }
@@ -137,6 +202,7 @@ const ProdukMakanan = () => {
         try {
           const data = await deleteProduct(id);
           console.log(data);
+
           fetchData();
           Swal.fire("Deleted!", "Your file has been deleted.", "success");
         } catch (error) {
@@ -180,6 +246,13 @@ const ProdukMakanan = () => {
             <div className="">
               <h1 className="text-2xl font-bold mb-5">Produk Makanan</h1>
               <p>Isi data produk dengan benar</p>
+              <p
+                className={`${
+                  errorMessage ? "py-3" : ""
+                } text-red-500 font-semibold`}
+              >
+                {errorMessage}
+              </p>
             </div>
             <form
               action=""
@@ -295,12 +368,14 @@ const ProdukMakanan = () => {
                 <button
                   type="submit"
                   className="rounded-xl bg-orange-500 text-white font-bold px-3 py-2"
+                  disabled={isLoading}
                 >
                   Tambah Produk
                 </button>
                 <button
                   className="rounded-xl bg-black text-white font-bold px-3 py-2"
                   onClick={() => setShowForm(false)}
+                  disabled={isLoading}
                 >
                   Batalkan
                 </button>
@@ -439,6 +514,13 @@ const ProdukMakanan = () => {
                     Form Edit Produk Makanan
                   </h3>
                   <p>Update Produk Makanan dengan teliti</p>
+                  <p
+                    className={`${
+                      editErrorMessage ? "py-3" : ""
+                    } text-red-500 font-semibold`}
+                  >
+                    {editErrorMessage}
+                  </p>
                 </div>
                 {/*body*/}
                 <div className="relative p-6 flex-auto">
@@ -555,12 +637,14 @@ const ProdukMakanan = () => {
                       <button
                         type="submit"
                         className="rounded-xl bg-orange-500 text-white font-bold px-3 py-2"
+                        disabled={isLoading}
                       >
                         Edit Data Produk
                       </button>
                       <button
                         className="rounded-xl bg-black text-white font-bold px-3 py-2"
                         onClick={() => setShowModal(false)}
+                        disabled={isLoading}
                       >
                         Batalkan
                       </button>

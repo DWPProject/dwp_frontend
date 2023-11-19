@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 
 import Swal from "sweetalert2";
+import { toast } from "react-toastify";
 import { BsPlusLg, BsTrashFill } from "react-icons/bs";
 import { FiEdit } from "react-icons/fi";
 
@@ -24,8 +25,11 @@ const TABLE_HEAD = [
 ];
 
 const KelolaKonten = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [editErrorMessage, setEditErrorMessage] = useState("");
   const [dataKonten, setDataKonten] = useState([]);
   const [dataEditKonten, setDataEditKonten] = useState({});
   const [formDataKonten, setFormDataKonten] = useState({
@@ -54,20 +58,52 @@ const KelolaKonten = () => {
     formDataKonten.gambar = foto;
     formDataKonten.kategori = categories;
 
+    setIsLoading(true);
+    const idd = toast.loading("Create Data Konten...");
+
     try {
       const data = await createKonten(formDataKonten);
       console.log(data);
 
-      setFormDataKonten({
-        judul: "",
-        penulis: "",
-        kategori: "",
-        deskripsi: "",
-        gambar: null,
-      });
-      fetchData();
-      setCategories("DEFAULT");
-      setShowForm(false);
+      if (
+        data.statusCode === 200 ||
+        data.statusCode === 201 ||
+        data.statusCode === 202
+      ) {
+        setIsLoading(false);
+        toast.update(idd, {
+          render: "All is good",
+          type: "success",
+          isLoading: isLoading,
+          autoClose: 1000,
+        });
+
+        setFormDataKonten({
+          judul: "",
+          penulis: "",
+          kategori: "",
+          deskripsi: "",
+          gambar: null,
+        });
+        fetchData();
+        setCategories("DEFAULT");
+        setFoto(null);
+        setShowForm(false);
+      } else {
+        setIsLoading(false);
+        toast.update(idd, {
+          render: "Something went wrong",
+          type: "error",
+          isLoading: isLoading,
+          autoClose: 1000,
+        });
+
+        if (data.error !== undefined) {
+          setErrorMessage(data.error);
+        } else {
+          setErrorMessage(data.message);
+        }
+      }
     } catch (error) {
       console.log(error);
     }
@@ -77,6 +113,9 @@ const KelolaKonten = () => {
     event.preventDefault();
     dataEditKonten.gambar = foto;
     dataEditKonten.kategori = categoriesEdit;
+
+    setIsLoading(true);
+    const idd = toast.loading("Create Data Konten...");
 
     try {
       const data = await updateDataKonten(
@@ -89,18 +128,39 @@ const KelolaKonten = () => {
         },
         id
       );
-
       console.log(data);
 
-      setDataEditKonten({
-        judul: "",
-        penulis: "",
-        kategori: "",
-        deskripsi: "",
-        gambar: null,
-      });
-      fetchData();
-      setShowModal(false);
+      if (
+        data.statusCode === 200 ||
+        data.statusCode === 201 ||
+        data.statusCode === 202
+      ) {
+        setIsLoading(false);
+        toast.update(idd, {
+          render: "All is good",
+          type: "success",
+          isLoading: isLoading,
+          autoClose: 1000,
+        });
+
+        setDataEditKonten({});
+        fetchData();
+        setShowModal(false);
+      } else {
+        setIsLoading(false);
+        toast.update(idd, {
+          render: "Something went wrong",
+          type: "error",
+          isLoading: isLoading,
+          autoClose: 1000,
+        });
+
+        if (data.error !== undefined) {
+          setEditErrorMessage(data.error);
+        } else {
+          setEditErrorMessage(data.message);
+        }
+      }
     } catch (error) {
       console.log(error);
     }
@@ -127,6 +187,7 @@ const KelolaKonten = () => {
         try {
           const data = await deleteDataKonten(id);
           console.log(data);
+
           fetchData();
           Swal.fire(`Success Deleted Data Product`, "", "success");
         } catch (error) {
@@ -152,7 +213,14 @@ const KelolaKonten = () => {
           <div className="flex flex-col bg-white p-10 rounded-xl  divide-y">
             <div className="">
               <h1 className="text-2xl font-bold mb-5">Data Konten</h1>
-              <p>Isi data konten dengan benar</p>
+              <p>Isi Data Konten dengan Benar</p>
+              <p
+                className={`${
+                  errorMessage ? "py-3" : ""
+                } text-red-500 font-semibold`}
+              >
+                {errorMessage}
+              </p>
             </div>
             <form
               action=""
@@ -271,12 +339,14 @@ const KelolaKonten = () => {
                 <button
                   type="submit"
                   className="rounded-xl bg-orange-500 text-white font-bold px-3 py-2"
+                  disabled={isLoading}
                 >
                   Tambah Konten
                 </button>
                 <button
                   className="rounded-xl bg-black text-white font-bold px-3 py-2"
                   onClick={() => setShowForm(false)}
+                  disabled={isLoading}
                 >
                   Batalkan
                 </button>
@@ -348,7 +418,14 @@ const KelolaKonten = () => {
                 {/*header*/}
                 <div className="flex flex-col justify-center items-start px-5 pt-5 pb-2 border-b border-solid border-blueGray-200 rounded-t">
                   <h3 className="text-3xl font-bold pb-2">Form Edit Konten</h3>
-                  <p>Update Data Konten dengan teliti</p>
+                  <p>Update Data Konten dengan Teliti</p>
+                  <p
+                    className={`${
+                      editErrorMessage ? "py-3" : ""
+                    } text-red-500 font-semibold`}
+                  >
+                    {editErrorMessage}
+                  </p>
                 </div>
                 {/*body*/}
                 <div className="relative p-6 flex-auto">
@@ -470,12 +547,14 @@ const KelolaKonten = () => {
                       <button
                         type="submit"
                         className="rounded-xl bg-orange-500 text-white font-bold px-3 py-2"
+                        disabled={isLoading}
                       >
                         Edit Data Konten
                       </button>
                       <button
                         className="rounded-xl bg-black text-white font-bold px-3 py-2"
                         onClick={() => setShowModal(false)}
+                        disabled={isLoading}
                       >
                         Batalkan
                       </button>

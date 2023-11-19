@@ -1,4 +1,4 @@
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -16,6 +16,7 @@ export default function Navbar() {
   const router = useRouter();
 
   const user = getUserFromLocalStorage();
+  const role = user.length > 0 ? user[0].level : "";
   const isLogin = user?.length > 0 ? true : false;
 
   const onHandleLogout = () => {
@@ -56,6 +57,7 @@ export default function Navbar() {
                 <label
                   tabIndex={0}
                   className="btn btn-ghost btn-circle avatar bg-[#FFCEA0]"
+                  suppressHydrationWarning={true}
                 >
                   <Image
                     src={profile}
@@ -67,11 +69,27 @@ export default function Navbar() {
                   tabIndex={0}
                   className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
                 >
-                  <li>
-                    <Link href="/dashboard/user/profile">Profil</Link>
-                    <Link href="/dashboard/user/pesanan">Riwayat Pesanan</Link>
-                    <button onClick={onHandleLogout}>Logout</button>
-                  </li>
+                  {role === "user" && (
+                    <li>
+                      <Link href="/dashboard/user/profile">Profil</Link>
+                      <Link href="/dashboard/user/pesanan">
+                        Riwayat Pesanan
+                      </Link>
+                      <button onClick={onHandleLogout}>Logout</button>
+                    </li>
+                  )}
+                  {role === "admin" && (
+                    <li>
+                      <Link href="/dashboard/admin">Dashboard</Link>
+                      <button onClick={onHandleLogout}>Logout</button>
+                    </li>
+                  )}
+                  {role === "penjual" && (
+                    <li>
+                      <Link href="/dashboard/penjual">Dashboard</Link>
+                      <button onClick={onHandleLogout}>Logout</button>
+                    </li>
+                  )}
                 </ul>
               </div>
             )}

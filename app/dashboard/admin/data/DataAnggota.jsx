@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { FiEdit } from "react-icons/fi";
 import { BsPlusLg, BsTrashFill } from "react-icons/bs";
 import Swal from "sweetalert2";
+import { toast } from "react-toastify";
 
 import {
   getDataAnggota,
@@ -14,8 +15,11 @@ import {
 const TABLE_HEAD = ["ID Anggota", "Nama Anggota", "Jabatan", "Action"];
 
 const DataAnggota = () => {
+  const [isLoading, setIsloading] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [editErrorMessage, setEditErrorMessage] = useState("");
   const [dataAnggota, setDataAnggota] = useState([]);
   const [dataEditAnggota, setDataEditAnggota] = useState({});
   const [formDataAnggota, setFormDataAnggota] = useState({
@@ -39,16 +43,49 @@ const DataAnggota = () => {
     event.preventDefault();
     formDataAnggota.foto = avatar;
 
+    setIsloading(true);
+    const idd = toast.loading("Create Data Anggota...");
+
     try {
       const data = await createDataAnggota(formDataAnggota);
       console.log(data);
-      setFormDataAnggota({
-        nama: "",
-        jabatan: "",
-        foto: null,
-      });
-      fetchData();
-      setShowForm(false);
+
+      if (
+        data.statusCode === 200 ||
+        data.statusCode === 201 ||
+        data.statusCode === 202
+      ) {
+        setIsloading(false);
+        toast.update(idd, {
+          render: "All is good",
+          type: "success",
+          isLoading: isLoading,
+          autoClose: 1000,
+        });
+
+        setFormDataAnggota({
+          nama: "",
+          jabatan: "",
+          foto: null,
+        });
+        fetchData();
+        setAvatar(null);
+        setShowForm(false);
+      } else {
+        setIsloading(false);
+        toast.update(idd, {
+          render: "Something went wrong",
+          type: "error",
+          isLoading: isLoading,
+          autoClose: 1000,
+        });
+
+        if (data.error !== undefined) {
+          setErrorMessage(data.error);
+        } else {
+          setErrorMessage(data.message);
+        }
+      }
     } catch (error) {
       console.log(error);
     }
@@ -56,19 +93,47 @@ const DataAnggota = () => {
 
   const onSubmitHandleEdit = async (event, id) => {
     event.preventDefault();
-
     dataEditAnggota.foto = avatar;
+
+    setIsloading(true);
+    const idd = toast.loading("Create Data Anggota...");
+
     try {
       const data = await updateDataAnggota(dataEditAnggota, id);
       console.log(data);
 
-      setDataEditAnggota({
-        nama: "",
-        jabatan: "",
-        foto: null,
-      });
-      fetchData();
-      setShowModal(false);
+      if (
+        data.statusCode === 200 ||
+        data.statusCode === 201 ||
+        data.statusCode === 202
+      ) {
+        setIsloading(false);
+        toast.update(idd, {
+          render: "All is good",
+          type: "success",
+          isLoading: isLoading,
+          autoClose: 1000,
+        });
+
+        fetchData();
+        setDataEditAnggota({});
+        setAvatar(null);
+        setShowModal(false);
+      } else {
+        setIsloading(false);
+        toast.update(idd, {
+          render: "Something went wrong",
+          type: "error",
+          isLoading: isLoading,
+          autoClose: 1000,
+        });
+
+        if (data.error !== undefined) {
+          setEditErrorMessage(data.error);
+        } else {
+          setEditErrorMessage(data.message);
+        }
+      }
     } catch (error) {
       console.log(error);
     }
@@ -101,6 +166,7 @@ const DataAnggota = () => {
         try {
           const data = await deleteDataAnggota(id);
           console.log(data);
+
           fetchData();
           Swal.fire(`Success Deleted Data Anggota`, "", "success");
         } catch (error) {
@@ -118,7 +184,14 @@ const DataAnggota = () => {
           <div className="flex flex-col bg-white p-10 rounded-xl  divide-y">
             <div className="">
               <h1 className="text-2xl font-bold mb-5">Data Anggota</h1>
-              <p>Isi data anggota dengan benar</p>
+              <p>Isi Data Anggota Dengan Benar</p>
+              <p
+                className={`${
+                  errorMessage ? "py-3" : ""
+                } text-red-500 font-semibold`}
+              >
+                {errorMessage}
+              </p>
             </div>
             <form
               action=""
@@ -189,12 +262,14 @@ const DataAnggota = () => {
                 <button
                   type="submit"
                   className="rounded-xl bg-orange-500 text-white font-bold px-3 py-2"
+                  disabled={isLoading}
                 >
                   Tambah Anggota
                 </button>
                 <button
                   className="rounded-xl bg-black text-white font-bold px-3 py-2"
                   onClick={() => setShowForm(false)}
+                  disabled={isLoading}
                 >
                   Batalkan
                 </button>
@@ -261,7 +336,14 @@ const DataAnggota = () => {
                   <h3 className="text-3xl font-bold pb-2">
                     Form Edit Data Anggota
                   </h3>
-                  <p>Update Data Anggota dengan teliti</p>
+                  <p>Update Data Anggota dengan Teliti</p>
+                  <p
+                    className={`${
+                      editErrorMessage ? "py-3" : ""
+                    } text-red-500 font-semibold`}
+                  >
+                    {editErrorMessage}
+                  </p>
                 </div>
                 <div className="relative p-6 flex-auto">
                   <form
@@ -333,12 +415,14 @@ const DataAnggota = () => {
                       <button
                         type="submit"
                         className="rounded-xl bg-orange-500 text-white font-bold px-3 py-2"
+                        disabled={isLoading}
                       >
                         Edit Data Anggota
                       </button>
                       <button
                         className="rounded-xl bg-black text-white font-bold px-3 py-2"
                         onClick={() => setShowModal(false)}
+                        disabled={isLoading}
                       >
                         Batalkan
                       </button>

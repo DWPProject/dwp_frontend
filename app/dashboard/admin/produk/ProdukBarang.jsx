@@ -1,10 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 
+import Swal from "sweetalert2";
+import { toast } from "react-toastify";
 import { FiEdit } from "react-icons/fi";
 import { BsPlusLg, BsTrashFill } from "react-icons/bs";
-import Swal from "sweetalert2";
-import { v4 as uuid } from "uuid";
+
+import { getDataPenjual } from "@/services/admin/penjual";
+import {
+  getDataBankProduct,
+  getDataSellProduct,
+  createDataProduct,
+  updateDataProduct,
+  setProductToSell,
+  setProductToNotSell,
+  deleteProduct,
+} from "@/services/admin/product";
 
 const TABLE_HEAD = [
   "ID Produk",
@@ -16,57 +27,168 @@ const TABLE_HEAD = [
 ];
 
 const ProdukBarang = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [editErrorMessage, setEditErrorMessage] = useState("");
+  const [dataBankProduk, setDataBankProduk] = useState([]);
+  const [dataProdukJual, setDataProdukJual] = useState([]);
+  const [dataPenjual, setDataPenjual] = useState([]);
+  const [dataEditProduct, setDataEditProduct] = useState({});
   const [formData, setFormData] = useState({
-    id_produk: "",
-    nama_produk: "",
+    nama: "",
     harga: 0,
     stok: 0,
+    kategori: "barang",
+    foto: null,
+    id_penjual: "",
   });
   const [toko, setToko] = useState("DEFAULT");
   const [fotoProduk, setFotoProduk] = useState(null);
-  const [bankProduk, setBankProduk] = useState([
-    {
-      id_produk: "#0001",
-      nama_produk: "Baju Koko",
-      nama_toko: "Toko ABC",
-      harga: 10000,
-      stok: 20,
-    },
-    {
-      id_produk: "#0002",
-      nama_produk: "Kotak Pensil",
-      nama_toko: "Toko ABC",
-      harga: 5000,
-      stok: 15,
-    },
-  ]);
-  const [produkJual, setProdukJual] = useState([]);
 
-  const onSubmitHandleAdd = (e) => {
-    e.preventDefault();
-    setBankProduk([
-      ...bankProduk,
-      {
-        id_produk: uuid(),
-        nama_produk: formData.nama_produk,
-        harga: formData.harga,
-        stok: formData.stok,
-      },
-    ]);
-
-    setFormData({
-      id_produk: "",
-      nama_produk: "",
-      nama_toko: "",
-      harga: 0,
-      stok: 0,
-    });
-    setShowForm(false);
+  const fetchData = async () => {
+    const data_penjual = await getDataPenjual();
+    const data_bank_produk = await getDataBankProduct();
+    const data_produk_jual = await getDataSellProduct();
+    const data_bank_produk_barang = data_bank_produk.data.filter(
+      (item) => item.kategori === "barang"
+    );
+    const data_produk_jual_barang = data_produk_jual.data.filter(
+      (item) => item.kategori === "barang"
+    );
+    console.log(data_penjual);
+    console.log(data_bank_produk);
+    console.log(data_produk_jual);
+    setDataPenjual([...data_penjual.payload]);
+    setDataBankProduk([...data_bank_produk_barang]);
+    setDataProdukJual([...data_produk_jual_barang]);
   };
 
-  const onHandleDelete = () => {
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const onSubmitHandleAdd = async (e) => {
+    e.preventDefault();
+    formData.foto = fotoProduk;
+    formData.id_penjual = toko;
+
+    setIsLoading(true);
+    const idd = toast.loading("Create Data Product...");
+
+    try {
+      const data = await createDataProduct(formData);
+      console.log(data);
+
+      if (
+        data.statusCode === 200 ||
+        data.statusCode === 201 ||
+        data.statusCode === 202
+      ) {
+        setIsLoading(false);
+        toast.update(idd, {
+          render: "All is good",
+          type: "success",
+          isLoading: isLoading,
+          autoClose: 1000,
+        });
+
+        setFormData({
+          nama: "",
+          harga: 0,
+          stok: 0,
+          kategori: "barang",
+          foto: null,
+          id_penjual: "",
+        });
+        fetchData();
+        setToko("DEFAULT");
+        setFotoProduk(null);
+        setShowForm(false);
+      } else {
+        setIsLoading(false);
+        toast.update(idd, {
+          render: "Something went wrong",
+          type: "error",
+          isLoading: isLoading,
+          autoClose: 1000,
+        });
+
+        if (data.error !== undefined) {
+          setErrorMessage(data.error);
+        } else {
+          setErrorMessage(data.message);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const onSubmitHandleEdit = async (event, id) => {
+    event.preventDefault();
+    dataEditProduct.foto = fotoProduk;
+
+    setIsLoading(true);
+    const idd = toast.loading("Update Data Product...");
+
+    try {
+      const data = await updateDataProduct(
+        {
+          nama: dataEditProduct.nama,
+          harga: dataEditProduct.harga,
+          kategori: "barang",
+          stok: dataEditProduct.stok,
+        },
+        id
+      );
+      console.log(data);
+
+      if (
+        data.statusCode === 200 ||
+        data.statusCode === 201 ||
+        data.statusCode === 202
+      ) {
+        setIsLoading(false);
+        toast.update(idd, {
+          render: "All is good",
+          type: "success",
+          isLoading: isLoading,
+          autoClose: 1000,
+        });
+
+        fetchData();
+        setDataEditProduct({});
+        setFotoProduk(null);
+        setShowModal(false);
+      } else {
+        setIsLoading(false);
+        toast.update(idd, {
+          render: "Something went wrong",
+          type: "error",
+          isLoading: isLoading,
+          autoClose: 1000,
+        });
+
+        if (data.error !== undefined) {
+          setEditErrorMessage(data.error);
+        } else {
+          setEditErrorMessage(data.message);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const onHandleEdit = (id) => {
+    const data_bank_product = dataBankProduk.find((item) => item.id === id);
+    setDataEditProduct({ ...data_bank_product });
+    setShowModal(true);
+  };
+
+  const onHandleDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -75,25 +197,44 @@ const ProdukBarang = () => {
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        Swal.fire("Deleted!", "Your file has been deleted.", "success");
+        try {
+          const data = await deleteProduct(id);
+          console.log(data);
+
+          fetchData();
+          Swal.fire("Deleted!", "Your file has been deleted.", "success");
+        } catch (error) {
+          console.log(error);
+        }
       }
     });
   };
 
-  const onHandleJual = (product) => {
-    setProdukJual([...produkJual, product]);
-    setBankProduk(
-      bankProduk.filter((item) => item.id_produk !== product.id_produk)
-    );
+  const onHandleImage = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      const image = e.target.files[0];
+      setFotoProduk(image);
+    }
   };
 
-  const onHandleNotJual = (product) => {
-    setBankProduk([...bankProduk, product]);
-    setProdukJual(
-      produkJual.filter((item) => item.id_produk !== product.id_produk)
-    );
+  const onHandleJual = async (id) => {
+    try {
+      await setProductToSell(id);
+      fetchData();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const onHandleNotJual = async (id) => {
+    try {
+      await setProductToNotSell(id);
+      fetchData();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -105,6 +246,13 @@ const ProdukBarang = () => {
             <div className="">
               <h1 className="text-2xl font-bold mb-5">Produk Barang</h1>
               <p>Isi data produk dengan benar</p>
+              <p
+                className={`${
+                  errorMessage ? "py-3" : ""
+                } text-red-500 font-semibold`}
+              >
+                {errorMessage}
+              </p>
             </div>
             <form
               action=""
@@ -125,20 +273,12 @@ const ProdukBarang = () => {
                       id="nama-produk"
                       type="text"
                       placeholder="Nama Produk Anda..."
-                    />
-                  </div>
-                  <div className="w-full px-3">
-                    <label
-                      className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                      htmlFor="nama-toko"
-                    >
-                      Nama Toko
-                    </label>
-                    <input
-                      className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                      id="nama-toko"
-                      type="text"
-                      placeholder="Nama Toko Penjual..."
+                      onChange={(e) => {
+                        setFormData({
+                          ...formData,
+                          nama: e.target.value,
+                        });
+                      }}
                     />
                   </div>
                   <div className="w-full px-3">
@@ -153,6 +293,12 @@ const ProdukBarang = () => {
                       id="harga"
                       type="number"
                       placeholder="Harga Produk Anda..."
+                      onChange={(e) => {
+                        setFormData({
+                          ...formData,
+                          harga: e.target.value,
+                        });
+                      }}
                     />
                   </div>
                   <div className="w-full px-3">
@@ -167,6 +313,12 @@ const ProdukBarang = () => {
                       id="stok"
                       type="number"
                       placeholder="Stok Produk Anda..."
+                      onChange={(e) => {
+                        setFormData({
+                          ...formData,
+                          stok: e.target.value,
+                        });
+                      }}
                     />
                   </div>
                 </div>
@@ -187,8 +339,13 @@ const ProdukBarang = () => {
                       <option value={"DEFAULT"} disabled>
                         Pilih Toko
                       </option>
-                      <option value={"Toko ABC"}>Toko ABC</option>
-                      <option value={"Toko XYZ"}>Toko XYZ</option>
+                      {dataPenjual.map((item) => {
+                        return (
+                          <option key={item.id} value={item.id}>
+                            {item.nama_toko}
+                          </option>
+                        );
+                      })}
                     </select>
                   </div>
                   <div className="px-3">
@@ -198,7 +355,12 @@ const ProdukBarang = () => {
                     >
                       Avatar
                     </label>
-                    <input className="" id="avatar-anggota" type="file" />
+                    <input
+                      className=""
+                      id="avatar-anggota"
+                      type="file"
+                      onChange={onHandleImage}
+                    />
                   </div>
                 </div>
               </div>
@@ -206,12 +368,14 @@ const ProdukBarang = () => {
                 <button
                   type="submit"
                   className="rounded-xl bg-orange-500 text-white font-bold px-3 py-2"
+                  disabled={isLoading}
                 >
                   Tambah Produk
                 </button>
                 <button
                   className="rounded-xl bg-black text-white font-bold px-3 py-2"
                   onClick={() => setShowForm(false)}
+                  disabled={isLoading}
                 >
                   Batalkan
                 </button>
@@ -228,7 +392,6 @@ const ProdukBarang = () => {
               </h1>
               <button
                 className="btn text-gray-500 bg-[#FDE9CC] hover:bg-[#E0924A] hover:text-white"
-                type="button"
                 onClick={() => setShowForm(!showForm)}
               >
                 <BsPlusLg size={20} />
@@ -240,64 +403,53 @@ const ProdukBarang = () => {
                 {/* head */}
                 <thead className="font-bold text-black">
                   <tr>
-                    {TABLE_HEAD_BANK_PRODUK.map((head) => (
+                    {TABLE_HEAD.map((head) => (
                       <th key={head}>{head}</th>
                     ))}
                   </tr>
                 </thead>
                 <tbody>
-                  {bankProduk.map(
-                    ({ id_produk, nama_produk, nama_toko, harga, stok }) => (
-                      <tr key={id_produk}>
-                        <td>{id_produk}</td>
-                        <td>
-                          <div className="flex gap-2 items-center">
-                            <Image
-                              src="/images/example_product2.png"
-                              alt="Produk1"
-                              width={50}
-                              height={50}
-                            />
-                            {nama_produk}
-                          </div>
-                        </td>
-                        <td>{nama_toko}</td>
-                        <td>Rp. {harga}</td>
-                        <td>{stok}</td>
-                        <td>
-                          <div className="flex gap-3">
-                            <button
-                              className="text-[#624DE3]"
-                              onClick={() => setShowModal(true)}
-                            >
-                              <FiEdit size={20} />
-                            </button>
-                            <button
-                              className="text-[#A30D11]"
-                              onClick={onHandleDelete}
-                            >
-                              <BsTrashFill size={20} />
-                            </button>
-                            <button
-                              className="py-2 px-3 bg-red-500 text-white rounded-lg"
-                              type="button"
-                              onClick={() =>
-                                onHandleJual({
-                                  id_produk,
-                                  nama_produk,
-                                  nama_toko,
-                                  harga,
-                                  stok,
-                                })
-                              }
-                            >
-                              <p className="font-bold text-center">Sell</p>
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    )
-                  )}
+                  {dataBankProduk.map((bankProduct) => (
+                    <tr key={bankProduct.id}>
+                      <td>{bankProduct.id}</td>
+                      <td>
+                        <div className="flex gap-2 items-center">
+                          <Image
+                            src={bankProduct.foto}
+                            alt="Produk1"
+                            width={50}
+                            height={50}
+                          />
+                          {bankProduct.nama}
+                        </div>
+                      </td>
+                      <td>{bankProduct.user.nama_toko}</td>
+                      <td>Rp. {bankProduct.harga}</td>
+                      <td>{bankProduct.stok}</td>
+                      <td>
+                        <div className="flex gap-3">
+                          <button
+                            className="text-[#624DE3]"
+                            onClick={() => onHandleEdit(bankProduct.id)}
+                          >
+                            <FiEdit size={20} />
+                          </button>
+                          <button
+                            className="text-[#A30D11]"
+                            onClick={() => onHandleDelete(bankProduct.id)}
+                          >
+                            <BsTrashFill size={20} />
+                          </button>
+                          <button
+                            className="py-2 px-3 bg-red-500 text-white rounded-lg"
+                            onClick={() => onHandleJual(bankProduct.id)}
+                          >
+                            <p className="font-bold text-center">Sell</p>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
@@ -311,50 +463,39 @@ const ProdukBarang = () => {
                 {/* head */}
                 <thead className="font-bold text-black">
                   <tr>
-                    {TABLE_HEAD_PRODUK_JUAL.map((head) => (
+                    {TABLE_HEAD.map((head) => (
                       <th key={head}>{head}</th>
                     ))}
                   </tr>
                 </thead>
                 <tbody>
-                  {produkJual.map(
-                    ({ id_produk, nama_produk, nama_toko, harga, stok }) => (
-                      <tr key={id_produk}>
-                        <td>{id_produk}</td>
-                        <td>
-                          <div className="flex gap-2 items-center">
-                            <Image
-                              src="/images/example_product.png"
-                              alt="Produk1"
-                              width={50}
-                              height={50}
-                            />
-                            {nama_produk}
-                          </div>
-                        </td>
-                        <td>{nama_toko}</td>
-                        <td>Rp. {harga}</td>
-                        <td>{stok}</td>
-                        <td>
-                          <button
-                            className="py-2 px-3 bg-red-500 text-white rounded-lg"
-                            type="button"
-                            onClick={() =>
-                              onHandleNotJual({
-                                id_produk,
-                                nama_produk,
-                                nama_toko,
-                                harga,
-                                stok,
-                              })
-                            }
-                          >
-                            <p className="font-bold text-center">Not Sell</p>
-                          </button>
-                        </td>
-                      </tr>
-                    )
-                  )}
+                  {dataProdukJual.map((produkJual) => (
+                    <tr key={produkJual.id}>
+                      <td>{produkJual.id}</td>
+                      <td>
+                        <div className="flex gap-2 items-center">
+                          <Image
+                            src={produkJual.foto}
+                            alt="Produk1"
+                            width={50}
+                            height={50}
+                          />
+                          {produkJual.nama}
+                        </div>
+                      </td>
+                      <td>{produkJual.user.nama_toko}</td>
+                      <td>Rp. {produkJual.harga}</td>
+                      <td>{produkJual.stok}</td>
+                      <td>
+                        <button
+                          className="py-2 px-3 bg-red-500 text-white rounded-lg"
+                          onClick={() => onHandleNotJual(produkJual.id)}
+                        >
+                          <p className="font-bold text-center">Not Sell</p>
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
@@ -373,10 +514,24 @@ const ProdukBarang = () => {
                     Form Edit Produk Barang
                   </h3>
                   <p>Update Produk Barang dengan teliti</p>
+                  <p
+                    className={`${
+                      editErrorMessage ? "py-3" : ""
+                    } text-red-500 font-semibold`}
+                  >
+                    {editErrorMessage}
+                  </p>
                 </div>
                 {/*body*/}
                 <div className="relative p-6 flex-auto">
-                  <form action="" className="flex flex-col pt-5">
+                  <form
+                    action=""
+                    className="flex flex-col pt-5"
+                    encType="multipart/form-data"
+                    onSubmit={(event) =>
+                      onSubmitHandleEdit(event, dataEditProduct.id)
+                    }
+                  >
                     <div className="flex justify-between ">
                       <div className="flex flex-col">
                         <div className="w-full px-3">
@@ -391,20 +546,13 @@ const ProdukBarang = () => {
                             id="nama-produk"
                             type="text"
                             placeholder="Nama Produk Anda..."
-                          />
-                        </div>
-                        <div className="w-full px-3">
-                          <label
-                            className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                            htmlFor="nama-toko"
-                          >
-                            Nama Toko
-                          </label>
-                          <input
-                            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                            id="nama-toko"
-                            type="text"
-                            placeholder="Nama Toko Penjual..."
+                            value={dataEditProduct.nama}
+                            onChange={(e) => {
+                              setDataEditProduct({
+                                ...dataEditProduct,
+                                nama: e.target.value,
+                              });
+                            }}
                           />
                         </div>
                         <div className="w-full px-3">
@@ -419,6 +567,13 @@ const ProdukBarang = () => {
                             id="harga"
                             type="number"
                             placeholder="Harga Produk Anda..."
+                            value={dataEditProduct.harga}
+                            onChange={(e) => {
+                              setDataEditProduct({
+                                ...dataEditProduct,
+                                harga: e.target.value,
+                              });
+                            }}
                           />
                         </div>
                         <div className="w-full px-3">
@@ -433,30 +588,63 @@ const ProdukBarang = () => {
                             id="stok"
                             type="number"
                             placeholder="Stok Produk Anda..."
+                            value={dataEditProduct.stok}
+                            onChange={(e) => {
+                              setDataEditProduct({
+                                ...dataEditProduct,
+                                stok: e.target.value,
+                              });
+                            }}
                           />
                         </div>
                       </div>
-                      <div className="px-3">
-                        <label
-                          className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                          htmlFor="avatar-anggota"
-                        >
-                          Avatar
-                        </label>
-                        <input className="" id="avatar-anggota" type="file" />
+                      <div className="flex flex-col gap-3">
+                        <div className="px-3">
+                          <label
+                            className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                            htmlFor="toko"
+                          >
+                            Toko
+                          </label>
+                          <select
+                            className="select select-bordered"
+                            value={dataEditProduct.user.id}
+                            disabled
+                            id="toko"
+                          >
+                            <option value={dataEditProduct.user.id}>
+                              {dataEditProduct.user.nama_toko}
+                            </option>
+                          </select>
+                        </div>
+                        <div className="px-3">
+                          <label
+                            className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                            htmlFor="avatar-anggota"
+                          >
+                            Avatar
+                          </label>
+                          <input
+                            className=""
+                            id="avatar-anggota"
+                            type="file"
+                            onChange={onHandleImage}
+                          />
+                        </div>
                       </div>
                     </div>
                     <div className="flex flex-col justify-center items-center gap-3 mt-5">
                       <button
                         type="submit"
                         className="rounded-xl bg-orange-500 text-white font-bold px-3 py-2"
+                        disabled={isLoading}
                       >
-                        Tambah Produk
+                        Edit Data Produk
                       </button>
                       <button
-                        type="button"
                         className="rounded-xl bg-black text-white font-bold px-3 py-2"
                         onClick={() => setShowModal(false)}
+                        disabled={isLoading}
                       >
                         Batalkan
                       </button>

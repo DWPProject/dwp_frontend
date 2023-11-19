@@ -1,13 +1,43 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 
 import produk2 from "@/public/images/example_product2.png";
 
 import Navbar from "@/components/Navbar";
 
+import { getUserFromLocalStorage } from "@/utils/localStorage";
+import {
+  getPesananDiproses,
+  getPesananSelesai,
+  getPesananDitolak,
+} from "@/services/user/history";
+
 const Pesanan = () => {
   const [activeTab, setActiveTab] = useState("Riwayat");
+  const [userId, setUserId] = useState("");
+  const [dataPesananProses, setDataPesananProses] = useState([]);
+  const [dataPesananSelesai, setDataPesananSelesai] = useState([]);
+  const [dataPesananDitolak, setDataPesananDitolak] = useState([]);
+
+  const fetchData = async (userId) => {
+    const data_proses = await getPesananDiproses(userId);
+    const data_selesai = await getPesananSelesai(userId);
+    const data_ditolak = await getPesananDitolak(userId);
+    setDataPesananProses([...data_proses.data]);
+    setDataPesananSelesai([...data_selesai.data]);
+    setDataPesananDitolak([...data_ditolak.data]);
+  };
+
+  useEffect(() => {
+    const user = getUserFromLocalStorage();
+    if (user.length > 0) {
+      setUserId(user[0].id);
+    } else {
+      setUserId("");
+    }
+    fetchData(userId);
+  }, [userId]);
 
   const changeTab = (tabName) => {
     setActiveTab(tabName);
@@ -38,40 +68,111 @@ const Pesanan = () => {
             >
               Dalam Proses
             </a>
+            <a
+              href="#"
+              className={`mr-4 ${
+                activeTab === "Pesanan Ditolak" ? "text-blue-500" : ""
+              }`}
+              onClick={() => changeTab("Pesanan Ditolak")}
+            >
+              Pesanan Ditolak
+            </a>
           </div>
+          {activeTab === "Riwayat" &&
+            dataPesananSelesai.map((data, index) => (
+              <div
+                className="flex justify-between items-center mt-4"
+                key={index}
+              >
+                <div className="left flex items-center">
+                  <div className="mr-4">
+                    <Image
+                      src={data.produk_foto}
+                      alt="gambar"
+                      className="rounded-lg"
+                      width={100}
+                      height={100}
+                    />
+                  </div>
+                  <div>
+                    <p>{data.produk_nama}</p>
+                    <small className="block">
+                      Jumlah Pesanan: {data.order_product_quantity}
+                    </small>
+                    <small className="font-semibold pt-5">
+                      {data.buyer_history_status}
+                    </small>
+                  </div>
+                </div>
+                <div className="right">
+                  <p>Rp {data.price}</p>
+                </div>
+              </div>
+            ))}
 
-          {activeTab === "Riwayat" && (
-            <div className="flex justify-between items-center mt-4">
-              <div className="left flex items-center">
-                <div className="mr-4">
-                  <Image src={produk2} alt="gambar" className="rounded-lg" />
+          {activeTab === "Dalam Proses" &&
+            dataPesananProses.map((data, index) => (
+              <div
+                className="flex justify-between items-center mt-4"
+                key={index}
+              >
+                <div className="left flex items-center">
+                  <div className="mr-4">
+                    <Image
+                      src={data.produk_foto}
+                      alt="gambar"
+                      className="rounded-lg"
+                      width={100}
+                      height={100}
+                    />
+                  </div>
+                  <div>
+                    <p>{data.produk_nama}</p>
+                    <small className="block">
+                      Jumlah Pesanan: {data.order_product_quantity}
+                    </small>
+                    <small className="font-semibold pt-5">
+                      {data.buyer_history_status}
+                    </small>
+                  </div>
                 </div>
-                <div>
-                  <p>Ayam Geprek Extra Tulang</p>
-                  <small>Status Pesanan</small>
+                <div className="right">
+                  <p>Rp {data.price}</p>
                 </div>
               </div>
-              <div className="right">
-                <p>Rp 20.000</p>
-              </div>
-            </div>
-          )}
-          {activeTab === "Dalam Proses" && (
-            <div className="flex justify-between items-center mt-4">
-              <div className="left flex items-center">
-                <div className="mr-4">
-                  <Image src={produk2} alt="gambar" className="rounded-lg" />
+            ))}
+
+          {activeTab === "Pesanan Ditolak" &&
+            dataPesananDitolak.map((data, index) => (
+              <div
+                className="flex justify-between items-center mt-4"
+                key={index}
+              >
+                <div className="left flex items-center">
+                  <div className="mr-4">
+                    <Image
+                      src={data.produk_foto}
+                      alt="gambar"
+                      className="rounded-lg"
+                      width={100}
+                      height={100}
+                    />
+                  </div>
+                  <div>
+                    <p>{data.produk_nama}</p>
+                    <small className="block">
+                      Jumlah Pesanan: {data.order_product_quantity}
+                    </small>
+                    <small className="font-semibold pt-5">
+                      {data.buyer_history_status}
+                    </small>
+                  </div>
                 </div>
-                <div>
-                  <p>Ayam Geprek Extra Tulang</p>
-                  <small>Dalam Proses</small>
+                <div className="right">
+                  <p>Rp {data.price}</p>
                 </div>
               </div>
-              <div className="right">
-                <p>Rp 20.000</p>
-              </div>
-            </div>
-          )}
+            ))}
         </div>
       </div>
     </>

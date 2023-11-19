@@ -23,3 +23,22 @@ export async function register(formData) {
     console.log(err);
   }
 }
+
+export async function getProfileUser(id) {
+  try {
+    const { data } = await axios.post(
+      `${process.env.NEXT_PUBLIC_BACKEND_API}/user/auth/profile`,
+      {
+        id: id,
+      },
+      {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      }
+    );
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+}

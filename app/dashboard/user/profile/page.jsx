@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 
 import { AiTwotoneEdit, AiTwotoneSave } from "react-icons/ai";
@@ -8,12 +8,35 @@ import pengurus from "@/public/images/example_pengurus.png";
 
 import Navbar from "@/components/Navbar";
 
+import { getUserFromLocalStorage } from "@/utils/localStorage";
+import { getProfileUser } from "@/services/auth";
+
 const Profil = () => {
   const [editMode, setEditMode] = useState(false);
-  const [nama, setNama] = useState("Basrunki Siburian");
-  const [email, setEmail] = useState("basrunkisiburian@gmail.com");
-  const [telepon, setTelepon] = useState("6709709707070");
+  const [nama, setNama] = useState("");
+  const [email, setEmail] = useState("");
+  const [telepon, setTelepon] = useState("");
   const fileInputRef = useRef(null);
+  const [userId, setUserId] = useState("");
+
+  const fetchData = async (userId) => {
+    const data_user = await getProfileUser(userId);
+    if (data_user.data !== null) {
+      setNama(data_user.data.username);
+      setEmail(data_user.data.email);
+      setTelepon(data_user.data.telepon);
+    }
+  };
+
+  useEffect(() => {
+    const user = getUserFromLocalStorage();
+    if (user.length > 0) {
+      setUserId(user[0].id);
+    } else {
+      setUserId("");
+    }
+    fetchData(userId);
+  }, [userId]);
 
   const handleEditClick = () => {
     setEditMode(true);

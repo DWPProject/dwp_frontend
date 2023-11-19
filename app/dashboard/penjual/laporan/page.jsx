@@ -41,6 +41,7 @@ const KelolaLaporan = () => {
     }
     fetchData(userId);
   }, [userId]);
+
   return (
     <>
       <PageHeading title="Kelola Laporan" />

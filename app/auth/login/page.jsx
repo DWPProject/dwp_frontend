@@ -22,6 +22,7 @@ export default function Login() {
 
   const onSubmitHandle = async (e) => {
     e.preventDefault();
+    setErrorMessage("");
 
     try {
       const data = await login(formData);
@@ -31,7 +32,7 @@ export default function Login() {
         const user_role = user_data.level;
 
         const notify = () => {
-          toast("Login Berhasil", { type: "success", autoClose: 2000 });
+          toast("Login Berhasil", { type: "success", autoClose: 4000 });
         };
         notify();
 
