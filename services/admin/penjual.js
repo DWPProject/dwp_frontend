@@ -1,5 +1,16 @@
 import axios from "axios";
 
+export async function getDataPenjual() {
+  try {
+    const { data } = await axios.get(
+      `${process.env.NEXT_PUBLIC_BACKEND_API}/admin/seller`
+    );
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export async function createDataPenjual(formData) {
   try {
     const { data } = await axios.post(
@@ -11,17 +22,6 @@ export async function createDataPenjual(formData) {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }
-    );
-    return data;
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-export async function getDataPenjual() {
-  try {
-    const { data } = await axios.get(
-      `${process.env.NEXT_PUBLIC_BACKEND_API}/admin/seller`
     );
     return data;
   } catch (error) {

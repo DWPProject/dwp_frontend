@@ -16,7 +16,7 @@ export default function Navbar() {
   const router = useRouter();
 
   const user = getUserFromLocalStorage();
-  const role = user.length > 0 ? user[0].level : "";
+  const role = user?.length > 0 ? user[0].level : "";
   const isLogin = user?.length > 0 ? true : false;
 
   const onHandleLogout = () => {

@@ -2,11 +2,10 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 
-import produk2 from "@/public/images/example_product2.png";
-
 import Navbar from "@/components/Navbar";
 
 import { getUserFromLocalStorage } from "@/utils/localStorage";
+import { rupiah } from "@/utils/rupiah";
 import {
   getPesananDiproses,
   getPesananSelesai,
@@ -105,7 +104,7 @@ const Pesanan = () => {
                   </div>
                 </div>
                 <div className="right">
-                  <p>Rp {data.price}</p>
+                  <p>{rupiah(data.price)}</p>
                 </div>
               </div>
             ))}
@@ -137,7 +136,7 @@ const Pesanan = () => {
                   </div>
                 </div>
                 <div className="right">
-                  <p>Rp {data.price}</p>
+                  <p>{rupiah(data.price)}</p>
                 </div>
               </div>
             ))}
@@ -169,7 +168,7 @@ const Pesanan = () => {
                   </div>
                 </div>
                 <div className="right">
-                  <p>Rp {data.price}</p>
+                  <p>{rupiah(data.price)}</p>
                 </div>
               </div>
             ))}

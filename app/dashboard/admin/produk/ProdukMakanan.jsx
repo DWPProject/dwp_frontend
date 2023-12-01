@@ -16,6 +16,7 @@ import {
   setProductToNotSell,
   deleteProduct,
 } from "@/services/admin/product";
+import { rupiah } from "@/utils/rupiah";
 
 const TABLE_HEAD = [
   "ID Produk",
@@ -88,7 +89,7 @@ const ProdukMakanan = () => {
       ) {
         setIsLoading(false);
         toast.update(idd, {
-          render: "All is good",
+          render: "Success Create Data Product",
           type: "success",
           isLoading: isLoading,
           autoClose: 1000,
@@ -152,7 +153,7 @@ const ProdukMakanan = () => {
       ) {
         setIsLoading(false);
         toast.update(idd, {
-          render: "All is good",
+          render: "Success Update Data Product",
           type: "success",
           isLoading: isLoading,
           autoClose: 1000,
@@ -204,7 +205,7 @@ const ProdukMakanan = () => {
           console.log(data);
 
           fetchData();
-          Swal.fire("Deleted!", "Your file has been deleted.", "success");
+          Swal.fire("Deleted!", "Your Product has been deleted.", "success");
         } catch (error) {
           console.log(error);
         }
@@ -424,7 +425,7 @@ const ProdukMakanan = () => {
                         </div>
                       </td>
                       <td>{bankProduct.user.nama_toko}</td>
-                      <td>Rp. {bankProduct.harga}</td>
+                      <td>{rupiah(bankProduct.harga)}</td>
                       <td>{bankProduct.stok}</td>
                       <td>
                         <div className="flex gap-3">
@@ -484,7 +485,7 @@ const ProdukMakanan = () => {
                         </div>
                       </td>
                       <td>{produkJual.user.nama_toko}</td>
-                      <td>Rp. {produkJual.harga}</td>
+                      <td>{rupiah(produkJual.harga)}</td>
                       <td>{produkJual.stok}</td>
                       <td>
                         <button

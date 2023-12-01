@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export async function getPesananUser() {
+export async function getPesanan() {
   try {
     const { data } = await axios.get(
       `${process.env.NEXT_PUBLIC_BACKEND_API}/admin/order`

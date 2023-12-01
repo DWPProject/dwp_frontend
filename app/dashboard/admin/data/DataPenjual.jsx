@@ -61,7 +61,7 @@ const DataPenjual = () => {
     formDataPenjual.type_seller = typeSeller;
 
     setIsloading(true);
-    const idd = toast.loading("Create Data Anggota...");
+    const idd = toast.loading("Create Data Penjual...");
 
     try {
       const data = await createDataPenjual(formDataPenjual);
@@ -74,7 +74,7 @@ const DataPenjual = () => {
       ) {
         setIsloading(false);
         toast.update(idd, {
-          render: "All is good",
+          render: "Success Create Data Penjual",
           type: "success",
           isLoading: isLoading,
           autoClose: 1000,
@@ -122,7 +122,7 @@ const DataPenjual = () => {
     dataEditPenjual.type_seller = typeSellerEdit;
 
     setIsloading(true);
-    const idd = toast.loading("Create Data Anggota...");
+    const idd = toast.loading("Update Data Penjual...");
 
     try {
       const data = await updateDataPenjual({
@@ -142,7 +142,7 @@ const DataPenjual = () => {
       ) {
         setIsloading(false);
         toast.update(idd, {
-          render: "All is good",
+          render: "Success Update Data Penjual",
           type: "success",
           isLoading: isLoading,
           autoClose: 1000,

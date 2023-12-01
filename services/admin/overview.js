@@ -1,9 +1,9 @@
 import axios from "axios";
 
-export async function getPesanan(id) {
+export async function getOverviewAdmin(id) {
   try {
     const { data } = await axios.post(
-      `${process.env.NEXT_PUBLIC_BACKEND_API}/seller/order`,
+      `${process.env.NEXT_PUBLIC_BACKEND_API}/admin/overview`,
       {
         id: id,
       },
@@ -19,10 +19,10 @@ export async function getPesanan(id) {
   }
 }
 
-export async function finishPesanan(id) {
+export async function getPopulerProdukAdmin(id) {
   try {
     const { data } = await axios.post(
-      `${process.env.NEXT_PUBLIC_BACKEND_API}/seller/order/finish`,
+      `${process.env.NEXT_PUBLIC_BACKEND_API}/admin/overview/populer`,
       {
         id: id,
       },

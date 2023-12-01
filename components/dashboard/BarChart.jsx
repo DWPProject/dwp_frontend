@@ -1,11 +1,8 @@
 import { ResponsiveBar } from "@nivo/bar";
 
-import BarChartHeading from "./BarChartHeading";
-
-export default function BarChart({ data, totalPendapatan }) {
+export default function BarChart({ data }) {
   return (
     <>
-      <BarChartHeading totalPendapatan={totalPendapatan} />
       <ResponsiveBar
         data={data.data}
         keys={data.keys}

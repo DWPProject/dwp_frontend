@@ -2,11 +2,14 @@
 import { useState, useEffect } from "react";
 
 import PageHeading from "@/components/dashboard/PageHeading";
+import Report from "@/components/dashboard/Report";
 
 import { BsDownload } from "react-icons/bs";
+import { PDFDownloadLink } from "@react-pdf/renderer";
 
 import { getDataPenjual } from "@/services/admin/penjual";
 import { getLaporanAdmin } from "@/services/admin/laporan";
+import { rupiah } from "@/utils/rupiah";
 
 const TABLE_HEAD = [
   "ID Transaksi",
@@ -23,29 +26,42 @@ const TABLE_HEAD = [
 
 const KelolaLaporan = () => {
   const [filterToko, setFilterToko] = useState("DEFAULT");
+  const [tanggalAwal, setTanggalAwal] = useState("");
+  const [tanggalAkhir, setTanggalAkhir] = useState("");
+  const [dataAllLaporan, setDataAllLaporan] = useState({});
   const [dataLaporan, setDataLaporan] = useState([]);
   const [dataPenjual, setDataPenjual] = useState([]);
   const [totalPendapatan, setTotalPendapatan] = useState(0);
+  const [pendapatanDWP, setPendapatanDWP] = useState(0);
+  const [pendapatanPenjual, setPendapatanPenjual] = useState(0);
 
-  const fetchData = async (id = "", start = "", end = "") => {
+  const fetchData = async (id, start, end) => {
     const data_penjual = await getDataPenjual();
     const data_laporan = await getLaporanAdmin(id, start, end);
     console.log(data_penjual);
     console.log(data_laporan);
+    setDataAllLaporan({ ...data_laporan.data });
     setDataPenjual([...data_penjual.payload]);
     setTotalPendapatan(data_laporan.data.pendapatan);
+    setPendapatanDWP(data_laporan.data.cash_dwp_total);
+    setPendapatanPenjual(data_laporan.data.cash_seller_total);
     setDataLaporan([...data_laporan.data.payload]);
   };
 
   const onHandleFilterToko = (toko) => {
-    console.log(toko);
     setFilterToko(toko);
-    fetchData(toko);
+    fetchData(toko, "", "");
+  };
+
+  const onHandleFilterTanggal = (e) => {
+    e.preventDefault();
+    fetchData("", tanggalAwal, tanggalAkhir);
   };
 
   useEffect(() => {
     fetchData();
   }, []);
+
   return (
     <>
       <PageHeading title="Kelola Laporan" />
@@ -54,7 +70,7 @@ const KelolaLaporan = () => {
           <div className="flex flex-col gap-3">
             <div className="flex flex-col gap-3">
               <div className="flex flex-col">
-                <form action="">
+                <form action="" onSubmit={onHandleFilterTanggal}>
                   <div className="flex gap-3 items-center">
                     <div>
                       <label
@@ -68,6 +84,7 @@ const KelolaLaporan = () => {
                         id="tanggal-awal-laporan"
                         type="date"
                         placeholder="Tanggal Awal..."
+                        onChange={(e) => setTanggalAwal(e.target.value)}
                       />
                     </div>
                     <div>
@@ -82,6 +99,7 @@ const KelolaLaporan = () => {
                         id="tanggal-akhir-laporan"
                         type="date"
                         placeholder="Tanggal Akhir..."
+                        onChange={(e) => setTanggalAkhir(e.target.value)}
                       />
                     </div>
                     <button
@@ -110,8 +128,14 @@ const KelolaLaporan = () => {
                 </select>
               </div>
               <h1 className="text-2xl font-bold pt-5">
-                Total Penjualan: Rp. {totalPendapatan}
+                Total Penjualan: {rupiah(totalPendapatan)}
               </h1>
+              <p className="text-md">
+                Total Pendapatan DWP: {rupiah(pendapatanDWP)}
+              </p>
+              <p className="text-md">
+                Total Pendapatan Penjual: {rupiah(pendapatanPenjual)}
+              </p>
             </div>
           </div>
           <button
@@ -119,7 +143,14 @@ const KelolaLaporan = () => {
             type="button"
           >
             <BsDownload size={20} />
-            <span>Unduh Laporan</span>
+            <PDFDownloadLink
+              document={<Report report={dataAllLaporan} />}
+              fileName="somename.pdf"
+            >
+              {({ blob, url, loading, error }) =>
+                loading ? "Load Data..." : "Unduh Laporan"
+              }
+            </PDFDownloadLink>
           </button>
         </div>
         <div className="overflow-x-auto h-fit pb-5 scrollbar-hide">
@@ -141,10 +172,10 @@ const KelolaLaporan = () => {
                   <td>{data.nama_toko}</td>
                   <td>{data.type_seller === 0 ? "Dalam DWP" : "Luar DWP"}</td>
                   <td>{data.quantity}</td>
-                  <td>Rp. {data.harga}</td>
-                  <td>Rp. {data.total_harga}</td>
-                  <td>Rp. {data.dwp_cash}</td>
-                  <td>Rp. {data.seller_cash}</td>
+                  <td>{rupiah(data.harga)}</td>
+                  <td>{rupiah(data.total_harga)}</td>
+                  <td>{rupiah(data.dwp_cash)}</td>
+                  <td>{rupiah(data.seller_cash)}</td>
                 </tr>
               ))}
             </tbody>

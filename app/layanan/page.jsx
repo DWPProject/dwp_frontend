@@ -26,6 +26,7 @@ import {
   deleteCartItem,
 } from "@/services/user/shop";
 import { getUserFromLocalStorage } from "@/utils/localStorage";
+import { rupiah } from "@/utils/rupiah";
 
 export default function Layanan() {
   const [isLoading, setIsLoading] = useState(false);
@@ -154,12 +155,13 @@ export default function Layanan() {
       ) {
         setIsLoading(false);
         toast.update(idd, {
-          render: "All is good",
+          render: "Sukses Membuat Pesanan",
           type: "success",
           isLoading: isLoading,
           autoClose: 2000,
         });
 
+        fetchData(userId);
         setSelectedAlamat("Gedung GKU 1, Lt Dasar");
         setBuktiPembayaran(null);
         setMetodePembayaran("DEFAULT");
@@ -203,7 +205,7 @@ export default function Layanan() {
           console.log(data);
 
           fetchData(userId);
-          Swal.fire(`Success Deleted Product`, "", "success");
+          Swal.fire(`Deleted`, "Success Deleted Cart Item", "success");
         } catch (error) {
           console.log(error);
         }
@@ -281,7 +283,8 @@ export default function Layanan() {
               </div>
               <div className="card-body">
                 <h2 className="card-title ">{product.nama}</h2>
-                <p>Rp {product.harga}</p>
+                <p>{rupiah(product.harga)}</p>
+                <p className="font-semibold">Sisa Stok: {product.stok}</p>
                 <div className="card-actions justify-center">
                   <button
                     className="btn outline w-full bg-[#FFCEA0] hover:bg-[#FFCEA0]"
@@ -312,7 +315,7 @@ export default function Layanan() {
               <div className="flex justify-between mb-4">
                 <p className="text-base">{selectedProduk.nama}</p>
                 <p className="text-base font-semibold">
-                  Rp {selectedProduk.harga}
+                  {rupiah(selectedProduk.harga)}
                 </p>
               </div>
               <div className="flex justify-between mb-4">
@@ -407,7 +410,9 @@ export default function Layanan() {
                   />
                   <div className="ml-4">
                     <p className="text-lg font-bold">{item.produk_nama}</p>
-                    <p className="text-sm text-gray-600">Rp {item.total}</p>
+                    <p className="text-sm text-gray-600">
+                      {rupiah(item.total)}
+                    </p>
                   </div>
                 </div>
                 <div className="flex justify-between items-center mt-2">
@@ -433,7 +438,7 @@ export default function Layanan() {
               <p className="font-bold">Ringkasan Pembayaran</p>
               <div className="flex justify-between items-center mt-4 space-x-4">
                 <p>Total Pembayaran</p>
-                <p>Rp {totalPrice}</p>
+                <p>{rupiah(totalPrice)}</p>
               </div>
               <div className="flex justify-between items-center mt-4 space-x-4">
                 <small className="font-bold">Metode Pembayaran:</small>

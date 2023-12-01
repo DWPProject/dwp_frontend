@@ -49,7 +49,7 @@ export default function Profil() {
       <Navbar />
       <div className="bg-gradient-to-r from-white to-[#FFCEA0] ">
         <div className={`container mx-auto ${Style.containerProfile}`}>
-          <div className={`container mx-auto ${Style.sejarah}`}>
+          <div className={`md:container mx-auto ${Style.sejarah}`}>
             <h1 className="text-3xl ">Sejarah DWP ITERA</h1>
             <div className="pt-4">
               <p className="mt-4">
@@ -78,7 +78,7 @@ export default function Profil() {
               </p>
             </div>
           </div>
-          <div className={`container mx-auto ${Style.pengurus}`}>
+          <div className={`md:container mx-auto ${Style.pengurus}`}>
             <h1 className="text-3xl">Pengurus DWP ITERA</h1>
             <Swiper
               slidesPerView={slidesPerView}
@@ -90,7 +90,7 @@ export default function Profil() {
                 delay: 2500,
                 disableOnInteraction: false,
               }}
-              modules={[Pagination]}
+              modules={[Pagination, Autoplay]}
               className={Style.swiper}
             >
               {dataAnggota.map((data) => (

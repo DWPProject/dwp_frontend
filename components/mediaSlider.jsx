@@ -26,7 +26,7 @@ export default function MediaSlider({ data }) {
             slidesPerView: 3,
           },
           320: {
-            slidesPerView: 2,
+            slidesPerView: 1,
           },
         }}
       >

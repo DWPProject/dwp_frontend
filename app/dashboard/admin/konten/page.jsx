@@ -72,7 +72,7 @@ const KelolaKonten = () => {
       ) {
         setIsLoading(false);
         toast.update(idd, {
-          render: "All is good",
+          render: "Success Create Data Konten",
           type: "success",
           isLoading: isLoading,
           autoClose: 1000,
@@ -137,7 +137,7 @@ const KelolaKonten = () => {
       ) {
         setIsLoading(false);
         toast.update(idd, {
-          render: "All is good",
+          render: "Success Update Data Konten",
           type: "success",
           isLoading: isLoading,
           autoClose: 1000,
@@ -189,7 +189,7 @@ const KelolaKonten = () => {
           console.log(data);
 
           fetchData();
-          Swal.fire(`Success Deleted Data Product`, "", "success");
+          Swal.fire(`Deleted`, "Success Deleted Data Product", "success");
         } catch (error) {
           console.log(error);
         }

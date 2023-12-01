@@ -7,6 +7,7 @@ import { BsDownload } from "react-icons/bs";
 
 import { getUserFromLocalStorage } from "@/utils/localStorage";
 import { getLaporanPenjual } from "@/services/penjual/laporan";
+import { rupiah } from "@/utils/rupiah";
 
 const TABLE_HEAD = [
   "ID Transaksi",
@@ -23,13 +24,20 @@ const TABLE_HEAD = [
 
 const KelolaLaporan = () => {
   const [userId, setUserId] = useState("");
+  const [tanggalAwal, setTanggalAwal] = useState("");
+  const [tanggalAkhir, setTanggalAkhir] = useState("");
   const [dataLaporan, setDataLaporan] = useState([]);
   const [totalPendapatan, setTotalPendapatan] = useState(0);
 
-  const fetchData = async (id_penjual, start = "", end = "") => {
-    const data_laporan = await getLaporanPenjual(id_penjual, start, end);
+  const fetchData = async (id, start, end) => {
+    const data_laporan = await getLaporanPenjual(id, start, end);
     setTotalPendapatan(data_laporan.data.pendapatan);
     setDataLaporan([...data_laporan.data.payload]);
+  };
+
+  const onHandleFilterTanggal = (e) => {
+    e.preventDefault();
+    fetchData("", tanggalAwal, tanggalAkhir);
   };
 
   useEffect(() => {
@@ -50,43 +58,49 @@ const KelolaLaporan = () => {
           <div className="flex flex-col gap-3">
             <div className="flex flex-col gap-3">
               <div className="flex gap-3 items-center">
-                <div>
-                  <label
-                    className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                    htmlFor="tanggal-awal-laporan"
-                  >
-                    Tanggal Awal
-                  </label>
-                  <input
-                    className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    id="tanggal-awal-laporan"
-                    type="date"
-                    placeholder="Tanggal Awal..."
-                  />
-                </div>
-                <div>
-                  <label
-                    className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                    htmlFor="tanggal-akhir-laporan"
-                  >
-                    Tanggal Akhir
-                  </label>
-                  <input
-                    className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    id="tanggal-akhir-laporan"
-                    type="date"
-                    placeholder="Tanggal Akhir..."
-                  />
-                </div>
-                <button
-                  className="py-2 px-3 bg-[#E0924A] text-white rounded-lg"
-                  type="button"
-                >
-                  <p className="font-bold text-center">Filter</p>
-                </button>
+                <form action="" onSubmit={onHandleFilterTanggal}>
+                  <div className="flex gap-3 items-center">
+                    <div>
+                      <label
+                        className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                        htmlFor="tanggal-awal-laporan"
+                      >
+                        Tanggal Awal
+                      </label>
+                      <input
+                        className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                        id="tanggal-awal-laporan"
+                        type="date"
+                        placeholder="Tanggal Awal..."
+                        onChange={(e) => setTanggalAwal(e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <label
+                        className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                        htmlFor="tanggal-akhir-laporan"
+                      >
+                        Tanggal Akhir
+                      </label>
+                      <input
+                        className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                        id="tanggal-akhir-laporan"
+                        type="date"
+                        placeholder="Tanggal Akhir..."
+                        onChange={(e) => setTanggalAkhir(e.target.value)}
+                      />
+                    </div>
+                    <button
+                      className="py-2 px-3 bg-[#E0924A] text-white rounded-lg"
+                      type="submit"
+                    >
+                      <p className="font-bold text-center">Filter</p>
+                    </button>
+                  </div>
+                </form>
               </div>
               <h1 className="text-2xl font-bold">
-                Total Penjualan: Rp. {totalPendapatan}
+                Total Penjualan: {rupiah(totalPendapatan)}
               </h1>
             </div>
           </div>
@@ -117,10 +131,10 @@ const KelolaLaporan = () => {
                   <td>{data.nama_toko}</td>
                   <td>{data.type_seller === 0 ? "Dalam DWP" : "Luar DWP"}</td>
                   <td>{data.quantity}</td>
-                  <td>Rp. {data.harga}</td>
-                  <td>Rp. {data.total_harga}</td>
-                  <td>Rp. {data.dwp_cash}</td>
-                  <td>Rp. {data.seller_cash}</td>
+                  <td>{rupiah(data.harga)}</td>
+                  <td>{rupiah(data.total_harga)}</td>
+                  <td>{rupiah(data.dwp_cash)}</td>
+                  <td>{rupiah(data.seller_cash)}</td>
                 </tr>
               ))}
             </tbody>

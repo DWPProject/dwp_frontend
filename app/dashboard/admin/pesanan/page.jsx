@@ -9,10 +9,11 @@ import { IoArrowBackOutline } from "react-icons/io5";
 import { ImCross } from "react-icons/im";
 
 import {
-  getPesananUser,
+  getPesanan,
   aprovePesanan,
   rejectPesanan,
 } from "@/services/admin/pesanan";
+import { rupiah } from "@/utils/rupiah";
 
 const TABLE_HEAD = [
   "ID Pesanan",
@@ -32,7 +33,7 @@ const KelolaPesanan = () => {
   const [dataDetailOrder, setDataDetailOrder] = useState({});
 
   const fetchData = async () => {
-    const data_order = await getPesananUser();
+    const data_order = await getPesanan();
     console.log(data_order);
     setDataOrder([...data_order.data]);
   };
@@ -125,7 +126,7 @@ const KelolaPesanan = () => {
                     </div>
                   </td>
                   <td>{pesanan.order_date}</td>
-                  <td>Rp. {pesanan.price}</td>
+                  <td>{rupiah(pesanan.price)}</td>
                   <td>
                     <div
                       className={`text-center p-2 rounded-3xl ${
@@ -158,14 +159,22 @@ const KelolaPesanan = () => {
                   <td>
                     <div className="flex gap-3">
                       <button
-                        className="py-2 px-3 bg-green-500 text-white rounded-lg"
+                        className={`py-2 px-3  text-white rounded-lg ${
+                          pesanan.status !== "Belum diProses"
+                            ? "bg-slate-500"
+                            : "bg-green-500"
+                        }`}
                         onClick={() => onHandleAprove(pesanan.id)}
                         disabled={pesanan.status !== "Belum diProses"}
                       >
                         <p className="font-bold text-center">Aprove</p>
                       </button>
                       <button
-                        className="py-2 px-3 bg-red-500 text-white rounded-lg"
+                        className={`py-2 px-3  text-white rounded-lg ${
+                          pesanan.status !== "Belum diProses"
+                            ? "bg-slate-500"
+                            : "bg-red-500"
+                        }`}
                         onClick={() => onHandleReject(pesanan.id)}
                         disabled={pesanan.status !== "Belum diProses"}
                       >
@@ -228,7 +237,7 @@ const KelolaPesanan = () => {
                             height={50}
                           />
                           <h2>{item.product.nama}</h2>
-                          <p>Rp. {item.product.harga}</p>
+                          <p>{rupiah(item.product.harga)}</p>
                           <p>Jumlah Pesanan: {item.quantity}</p>
                         </div>
                       ))}

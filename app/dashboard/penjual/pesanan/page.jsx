@@ -9,7 +9,8 @@ import { IoArrowBackOutline } from "react-icons/io5";
 import { ImCross } from "react-icons/im";
 
 import { getUserFromLocalStorage } from "@/utils/localStorage";
-import { getPesananUser, finishOrder } from "@/services/penjual/pesanan";
+import { getPesanan, finishPesanan } from "@/services/penjual/pesanan";
+import { rupiah } from "@/utils/rupiah";
 
 const TABLE_HEAD = [
   "ID Pesanan",
@@ -29,8 +30,8 @@ const KelolaPesanan = () => {
   const [dataOrder, setDataOrder] = useState([]);
   const [dataDetailOrder, setDataDetailOrder] = useState({});
 
-  const fetchData = async (id_penjual) => {
-    const data_order = await getPesananUser(id_penjual);
+  const fetchData = async (id) => {
+    const data_order = await getPesanan(id);
     setDataOrder([...data_order.data]);
   };
 
@@ -62,7 +63,7 @@ const KelolaPesanan = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const data = await finishOrder(id);
+          const data = await finishPesanan(id);
           console.log(data);
           fetchData(userId);
           Swal.fire("Finished!", "Order has been Finished.", "success");
@@ -103,7 +104,7 @@ const KelolaPesanan = () => {
                     </div>
                   </td>
                   <td>{pesanan.order_date}</td>
-                  <td>Rp. {pesanan.price}</td>
+                  <td>{rupiah(pesanan.price)}</td>
                   <td>
                     <div
                       className={`text-center p-2 rounded-3xl ${
@@ -133,7 +134,11 @@ const KelolaPesanan = () => {
                   </td>
                   <td>
                     <button
-                      className="py-2 px-3 bg-green-500 text-white rounded-lg"
+                      className={`py-2 px-3 text-white rounded-lg ${
+                        pesanan.status !== "DiProses"
+                          ? "bg-slate-500"
+                          : "bg-green-500"
+                      }`}
                       onClick={() => onHandleFinish(pesanan.id)}
                       disabled={pesanan.status !== "DiProses"}
                     >
@@ -195,7 +200,7 @@ const KelolaPesanan = () => {
                             height={50}
                           />
                           <h2>{item.product.nama}</h2>
-                          <p>Rp. {item.product.harga}</p>
+                          <p>{rupiah(item.product.harga)}</p>
                           <p>Jumlah Pesanan: {item.quantity}</p>
                         </div>
                       ))}
@@ -232,7 +237,7 @@ const KelolaPesanan = () => {
                     width={0}
                     height={0}
                     sizes="100vw"
-                    style={{ width: "100%", height: "auto" }}
+                    style={{ maxWidth: "100%", height: "auto" }}
                     alt="Payment"
                   />
                 </div>

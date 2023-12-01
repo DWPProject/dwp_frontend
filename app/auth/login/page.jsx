@@ -75,7 +75,7 @@ export default function Login() {
           <input
             className="border rounded-lg px-3 py-2 w-full focus:outline-none "
             type="email"
-            id="email"
+            id="usernameOrEmail"
             name="email"
             placeholder="Email"
             onChange={(e) => {

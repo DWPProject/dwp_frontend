@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 
-import { FiEdit } from "react-icons/fi";
-import { BsPlusLg, BsTrashFill } from "react-icons/bs";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
+import { FiEdit } from "react-icons/fi";
+import { BsPlusLg, BsTrashFill } from "react-icons/bs";
 
 import {
   getDataAnggota,
@@ -57,7 +57,7 @@ const DataAnggota = () => {
       ) {
         setIsloading(false);
         toast.update(idd, {
-          render: "All is good",
+          render: "Success Create Data Anggota",
           type: "success",
           isLoading: isLoading,
           autoClose: 1000,
@@ -96,7 +96,7 @@ const DataAnggota = () => {
     dataEditAnggota.foto = avatar;
 
     setIsloading(true);
-    const idd = toast.loading("Create Data Anggota...");
+    const idd = toast.loading("Update Data Anggota...");
 
     try {
       const data = await updateDataAnggota(dataEditAnggota, id);
@@ -109,7 +109,7 @@ const DataAnggota = () => {
       ) {
         setIsloading(false);
         toast.update(idd, {
-          render: "All is good",
+          render: "Success Update Data Anggota",
           type: "success",
           isLoading: isLoading,
           autoClose: 1000,
@@ -168,7 +168,11 @@ const DataAnggota = () => {
           console.log(data);
 
           fetchData();
-          Swal.fire(`Success Deleted Data Anggota`, "", "success");
+          Swal.fire({
+            title: "Deleted",
+            text: "Success Delete Data Anggota",
+            icon: "success",
+          });
         } catch (error) {
           console.log(error);
         }
