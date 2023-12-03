@@ -1,0 +1,21 @@
+.containerProfile {
+  padding: 20px;
+}
+
+.pengurus {
+  margin-top: 40px;
+}
+
+.swiper {
+  width: 100%;
+  height: 50vh;
+}
+
+.swiperSlide {
+  text-align: center;
+  font-size: 18px;
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
