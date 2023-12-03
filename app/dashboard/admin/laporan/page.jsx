@@ -148,7 +148,7 @@ const KelolaLaporan = () => {
             {isClient && (
               <PDFDownloadLink
                 document={<Report report={dataAllLaporan} />}
-                fileName="somename.pdf"
+                fileName="laporan.pdf"
               >
                 {({ blob, url, loading, error }) =>
                   loading ? "Load Data..." : "Unduh Laporan"
