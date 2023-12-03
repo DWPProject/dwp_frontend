@@ -51,7 +51,7 @@ const KelolaPesanan = () => {
     setShowModalDetail(true);
   };
 
-  const onHandleFinish = (id) => {
+  const onHandleFinish = (id_order, id_seller) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -63,7 +63,7 @@ const KelolaPesanan = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const data = await finishPesanan(id);
+          const data = await finishPesanan(id_order, userId);
           console.log(data);
           fetchData(userId);
           Swal.fire("Finished!", "Order has been Finished.", "success");
