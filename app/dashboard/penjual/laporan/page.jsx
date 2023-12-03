@@ -2,8 +2,10 @@
 import { useEffect, useState } from "react";
 
 import PageHeading from "@/components/dashboard/PageHeading";
+import Report from "@/components/dashboard/Report";
 
 import { BsDownload } from "react-icons/bs";
+import { PDFDownloadLink } from "@react-pdf/renderer";
 
 import { getUserFromLocalStorage } from "@/utils/localStorage";
 import { getLaporanPenjual } from "@/services/penjual/laporan";
@@ -23,16 +25,19 @@ const TABLE_HEAD = [
 ];
 
 const KelolaLaporan = () => {
+  const [isClient, setIsClient] = useState(false);
   const [userId, setUserId] = useState("");
   const [tanggalAwal, setTanggalAwal] = useState("");
   const [tanggalAkhir, setTanggalAkhir] = useState("");
   const [dataLaporan, setDataLaporan] = useState([]);
+  const [dataAllLaporan, setDataAllLaporan] = useState({});
   const [totalPendapatan, setTotalPendapatan] = useState(0);
 
   const fetchData = async (id, start, end) => {
     const data_laporan = await getLaporanPenjual(id, start, end);
     setTotalPendapatan(data_laporan.data.pendapatan);
     setDataLaporan([...data_laporan.data.payload]);
+    setDataAllLaporan({ ...data_laporan.data });
   };
 
   const onHandleFilterTanggal = (e) => {
@@ -48,6 +53,7 @@ const KelolaLaporan = () => {
       setUserId("");
     }
     fetchData(userId);
+    setIsClient(true);
   }, [userId]);
 
   return (
@@ -109,7 +115,16 @@ const KelolaLaporan = () => {
             type="button"
           >
             <BsDownload size={20} />
-            <span>Unduh Laporan</span>
+            {isClient && (
+              <PDFDownloadLink
+                document={<Report report={dataAllLaporan} />}
+                fileName="laporan.pdf"
+              >
+                {({ blob, url, loading, error }) =>
+                  loading ? "Load Data..." : "Unduh Laporan"
+                }
+              </PDFDownloadLink>
+            )}
           </button>
         </div>
         <div className="overflow-x-auto h-fit pb-5 scrollbar-hide">

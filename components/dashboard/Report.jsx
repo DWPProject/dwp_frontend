@@ -27,7 +27,7 @@ const Report = ({ report }) => (
   (
     <Document>
       <Page size="A1" style={styles.page}>
-        <Image style={styles.logo} src="/images/logo_itera.png" alt="Logo" />
+        <Image style={styles.logo} src="/images/logo_dwp.png" alt="Logo" />
         <ReportTitle title="Laporan Penjualan" />
         <ReportItemsTable report={report} />
         <ReportThankYouMsg />
