@@ -29,7 +29,7 @@ export async function createDataPenjual(formData) {
   }
 }
 
-export async function updateDataPenjual(formData, id) {
+export async function updateDataPenjual(formData) {
   try {
     const { data } = await axios.post(
       `${process.env.NEXT_PUBLIC_BACKEND_API}/admin/seller/update`,

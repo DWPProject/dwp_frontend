@@ -41,7 +41,7 @@ export default function SideBar({ menuItems }) {
         </ul>
         <div className="pt-[10rem]">
           <button
-            className="flex flex-row justify-start items-center gap-3 hover:p-4 hover:bg-slate-500"
+            className="flex flex-row justify-start items-center gap-3"
             onClick={onHandleLogout}
           >
             <MdLogout />

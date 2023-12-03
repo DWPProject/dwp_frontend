@@ -15,7 +15,6 @@ import Style from "./profile.module.css";
 import { getDataAnggota } from "@/services/admin/anggota";
 
 export default function Profil() {
-  const [slidesPerView, setSlidesPerView] = useState(1);
   const [dataAnggota, setDataAnggota] = useState([]);
 
   const fetchData = async () => {
@@ -26,22 +25,6 @@ export default function Profil() {
 
   useEffect(() => {
     fetchData();
-    const handleResize = () => {
-      if (window.innerWidth < 768) {
-        setSlidesPerView(1);
-      } else if (window.innerWidth < 1024) {
-        setSlidesPerView(3);
-      } else {
-        setSlidesPerView(5);
-      }
-    };
-
-    handleResize();
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
   }, []);
 
   return (
@@ -81,10 +64,23 @@ export default function Profil() {
           <div className={`md:container mx-auto ${Style.pengurus}`}>
             <h1 className="text-3xl">Pengurus DWP ITERA</h1>
             <Swiper
-              slidesPerView={slidesPerView}
               spaceBetween={30}
               pagination={{
                 clickable: true,
+              }}
+              breakpoints={{
+                1024: {
+                  slidesPerView: 5,
+                  spaceBetween: 12,
+                },
+                768: {
+                  slidesPerView: 3,
+                  spaceBetween: 8,
+                },
+                640: {
+                  slidesPerView: 1, // Adjust the number of slides per view for mobile
+                  spaceBetween: 4,
+                },
               }}
               autoplay={{
                 delay: 2500,

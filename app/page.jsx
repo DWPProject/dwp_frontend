@@ -61,7 +61,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-
       <div className="text-black bg-gradient-to-r from-[#FFCEA0] to-white p-8 mx-auto flex items-center">
         <div className="container mx-auto text-center">
           <h3 className="text-xl sm:text-2xl md:text-3xl">
@@ -77,11 +76,11 @@ export default function Home() {
             className="mt-4"
             breakpoints={{
               768: {
-                slidesPerView: 3,
+                slidesPerView: 2,
                 spaceBetween: 8,
               },
               640: {
-                slidesPerView: 2,
+                slidesPerView: 1, // Adjust the number of slides per view for mobile
                 spaceBetween: 4,
               },
             }}
@@ -89,15 +88,14 @@ export default function Home() {
             {dataKonten.length > 0 &&
               dataKonten.map((item, index) => (
                 <SwiperSlide className="slideSwiper" key={index}>
-                  <Image
-                    src={item.gambar}
-                    alt="#"
-                    className="w-80 h-64 md:h-48 lg:h-64  mx-auto rounded-lg"
-                    width={0}
-                    height={0}
-                    sizes="100vw"
-                    style={{ width: "100%", height: "auto" }}
-                  />
+                  <div className="relative w-full h-64 md:h-48 lg:h-64 mx-auto rounded-lg overflow-hidden">
+                    <Image
+                      src={item.gambar}
+                      alt="#"
+                      className="object-cover w-full h-full"
+                      layout="fill"
+                    />
+                  </div>
                 </SwiperSlide>
               ))}
             {dataKonten.length <= 0 && <h1>Belum Ada Konten DWP</h1>}

@@ -5,27 +5,29 @@ import Image from "next/image";
 import { AiTwotoneEdit, AiTwotoneSave } from "react-icons/ai";
 import { FiEdit } from "react-icons/fi";
 
-import pengurus from "@/public/images/example_pengurus.png";
-
 import Navbar from "@/components/Navbar";
 
 import { getUserFromLocalStorage } from "@/utils/localStorage";
-import { getProfileUser } from "@/services/auth";
+import { getProfileUser, updateProfileUser } from "@/services/auth";
 
 const Profil = () => {
   const [editMode, setEditMode] = useState(false);
+  const [userId, setUserId] = useState("");
   const [nama, setNama] = useState("");
   const [email, setEmail] = useState("");
   const [telepon, setTelepon] = useState("");
+  const [fotoUser, setFotoUser] = useState("");
+  const [fotoProfile, setFotoProfile] = useState(null);
   const fileInputRef = useRef(null);
-  const [userId, setUserId] = useState("");
 
   const fetchData = async (userId) => {
     const data_user = await getProfileUser(userId);
+    console.log(data_user);
     if (data_user.data !== null) {
       setNama(data_user.data.username);
       setEmail(data_user.data.email);
       setTelepon(data_user.data.telepon);
+      setFotoUser(data_user.data.profil);
     }
   };
 
@@ -43,7 +45,15 @@ const Profil = () => {
     setEditMode(true);
   };
 
-  const handleSaveClick = () => {
+  const handleSaveClick = async () => {
+    try {
+      const data = await updateProfileUser(email, fotoUser, nama, telepon);
+      console.log(data);
+
+      fetchData(userId);
+    } catch (error) {
+      console.log(error);
+    }
     setEditMode(false);
   };
 
@@ -59,13 +69,23 @@ const Profil = () => {
   };
 
   const handleEditPhotoClick = () => {
-    // Trigger the file input click when edit photo icon is clicked
     fileInputRef.current.click();
   };
 
-  const handleFileChange = (e) => {
-    // Handle file change logic here (e.g., upload the file)
-    console.log("File changed:", e.target.files[0]);
+  const handleFileChange = async (e) => {
+    try {
+      const data = await updateProfileUser(
+        email,
+        e.target.files[0],
+        nama,
+        telepon
+      );
+      console.log(data);
+
+      fetchData(userId);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -138,9 +158,11 @@ const Profil = () => {
             </div>
             <div className="mr-4 relative">
               <Image
-                src={pengurus}
+                src={fotoUser}
                 alt="Foto Profil"
                 className="rounded-full"
+                width={200}
+                height={200}
               />
               <input
                 type="file"

@@ -19,18 +19,10 @@ export async function getOverviewAdmin(id) {
   }
 }
 
-export async function getPopulerProdukAdmin(id) {
+export async function getPopulerProdukAdmin() {
   try {
     const { data } = await axios.post(
-      `${process.env.NEXT_PUBLIC_BACKEND_API}/admin/overview/populer`,
-      {
-        id: id,
-      },
-      {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-      }
+      `${process.env.NEXT_PUBLIC_BACKEND_API}/admin/overview/populer`
     );
     return data;
   } catch (error) {

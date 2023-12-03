@@ -7,8 +7,8 @@ import {
   clearLocalStorage,
 } from "@/utils/localStorage";
 
+import { BsPersonFill } from "react-icons/bs";
 import { MENU_ITEMS_USER } from "@/constant/menu";
-
 import profile from "@/public/images/empty_profile.png";
 
 export default function Navbar() {
@@ -26,11 +26,11 @@ export default function Navbar() {
 
   return (
     <>
-      <div className="md:container sm:container">
-        <div className="navbar bg-base-100">
+      <div className="md:container sm:container p-3">
+        <div className="navbar">
           <div className="navbar-start pl-5">
             <Link href="/">
-              <Image height={50} width={50} src="/logo.svg" alt="Logo" />
+              <Image height={65} width={65} src="/logo.svg" alt="Logo" />
             </Link>
           </div>
           <div className="navbar-center hidden lg:flex bg-[#FFCEA0] rounded-lg px-8">
@@ -49,8 +49,14 @@ export default function Navbar() {
           </div>
           <div className="navbar-end">
             {!isLogin ? (
-              <div className="mr-5 bg-[#FBBA74] py-2 px-5 rounded-lg">
-                <Link href={"/auth/login"}>Login</Link>
+              <div className="bg-[#FBBA74] py-2 px-5 rounded-lg">
+                <Link
+                  href={"/auth/login"}
+                  className="flex gap-3 justify-center items-center"
+                >
+                  <BsPersonFill size={20} />
+                  <span>Login</span>
+                </Link>
               </div>
             ) : (
               <div className="dropdown dropdown-end">
@@ -61,13 +67,13 @@ export default function Navbar() {
                 >
                   <Image
                     src={profile}
-                    alt="fotoprofil"
+                    alt="profile"
                     className="w-10 rounded-full"
                   />
                 </label>
                 <ul
                   tabIndex={0}
-                  className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
+                  className="mt-3 z-[10] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
                 >
                   {role === "user" && (
                     <li>
@@ -94,7 +100,7 @@ export default function Navbar() {
               </div>
             )}
             <div className="dropdown">
-              <label tabIndex={-1} className="btn btn-ghost lg:hidden">
+              <label tabIndex={0} className="btn btn-ghost lg:hidden ml-3">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-5 w-5"
@@ -110,7 +116,10 @@ export default function Navbar() {
                   />
                 </svg>
               </label>
-              <ul className="menu menu-sm dropdown-content mt-3 z-[999] pr-8 shadow bg-base-100 rounded-box w-52 ml-[-50px]">
+              <ul
+                tabIndex={0}
+                className="menu menu-sm dropdown-content mt-3 z-[10] shadow bg-base-100 rounded-box w-36"
+              >
                 {MENU_ITEMS_USER.map((item) => (
                   <li key={item.name}>
                     <Link href={item.link}>{item.name}</Link>

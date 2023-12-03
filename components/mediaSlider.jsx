@@ -39,21 +39,22 @@ export default function MediaSlider({ data }) {
                 }`}
                 onClick={() => handleCardClick(index)}
               >
-                <Image
-                  src={item.gambar}
-                  alt={item.judul}
-                  className="w-64 h-40 md:h-40 lg:h-40 object-cover rounded"
-                  width={0}
-                  height={0}
-                  sizes="100vw"
-                  style={{ width: "100%", height: "auto" }}
-                />
+                <div className="relative w-full h-64 md:h-48 lg:h-64 mx-auto rounded-lg overflow-hidden">
+                  <Image
+                    src={item.gambar}
+                    alt={item.judul}
+                    className="object-cover w-full h-full"
+                    layout="fill"
+                  />
+                </div>
                 <h3 className="text-base font-semibold mt-2">{item.judul}</h3>
                 <p className="text-sm text-gray-500 mt-1">{item.deskripsi}</p>
               </div>
             </SwiperSlide>
           ))}
-        {data.length <= 0 && <h1>Belum Ada Konten DWP</h1>}
+        {data.length <= 0 && (
+          <h1 className="text-center">Belum Ada Konten DWP</h1>
+        )}
       </Swiper>
 
       {selectedCard !== null && (
@@ -68,7 +69,7 @@ export default function MediaSlider({ data }) {
             sizes="100vw"
             style={{ width: "100%", height: "auto" }}
           />
-          <p className="text-gray-500">{data[selectedCard].deskripsi}</p>
+          <p className="text-black mt-5">{data[selectedCard].deskripsi}</p>
         </div>
       )}
     </div>

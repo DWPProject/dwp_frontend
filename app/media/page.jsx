@@ -19,6 +19,7 @@ export default function Media() {
   useEffect(() => {
     fetchData();
   }, []);
+
   return (
     <>
       <Navbar />

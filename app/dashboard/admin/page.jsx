@@ -24,51 +24,87 @@ const Overview = () => {
     data: [
       {
         Year: "January",
-        Admin: dataOverview?.januari?.pendapatan,
+        Admin:
+          dataOverview?.januari?.pendapatan !== undefined
+            ? dataOverview?.januari?.pendapatan
+            : 0,
       },
       {
         Year: "February",
-        Admin: dataOverview?.februari?.pendapatan,
+        Admin:
+          dataOverview?.februari?.pendapatan !== undefined
+            ? dataOverview?.februari?.pendapatan
+            : 0,
       },
       {
         Year: "Maret",
-        Admin: dataOverview?.maret?.pendapatan,
+        Admin:
+          dataOverview?.maret?.pendapatan !== undefined
+            ? dataOverview?.maret?.pendapatan
+            : 0,
       },
       {
         Year: "April",
-        Admin: dataOverview?.april?.pendapatan,
+        Admin:
+          dataOverview?.april?.pendapatan !== undefined
+            ? dataOverview?.april?.pendapatan
+            : 0,
       },
       {
         Year: "Mei",
-        Admin: dataOverview?.mei?.pendapatan,
+        Admin:
+          dataOverview?.mei?.pendapatan !== undefined
+            ? dataOverview?.mei?.pendapatan
+            : 0,
       },
       {
         Year: "Juni",
-        Admin: dataOverview?.juni?.pendapatan,
+        Admin:
+          dataOverview?.juni?.pendapatan !== undefined
+            ? dataOverview?.juni?.pendapatan
+            : 0,
       },
       {
         Year: "Juli",
-        Admin: dataOverview?.juli?.pendapatan,
+        Admin:
+          dataOverview?.juli?.pendapatan !== undefined
+            ? dataOverview?.juli?.pendapatan
+            : 0,
       },
       {
         Year: "Agustus",
-        Admin: dataOverview?.agustus?.pendapatan,
+        Admin:
+          dataOverview?.agustus?.pendapatan !== undefined
+            ? dataOverview?.agustus?.pendapatan
+            : 0,
       },
       {
         Year: "September",
-        Admin: dataOverview?.september?.pendapatan,
+        Admin:
+          dataOverview?.september?.pendapatan !== undefined
+            ? dataOverview?.september?.pendapatan
+            : 0,
       },
       {
         Year: "Oktober",
-        Admin: dataOverview?.oktober?.pendapatan,
+        Admin:
+          dataOverview?.oktober?.pendapatan !== undefined
+            ? dataOverview?.oktober?.pendapatan
+            : 0,
       },
       {
         Year: "November",
-        Admin: dataOverview?.november?.pendapatan,
+        Admin:
+          dataOverview?.november?.pendapatan !== undefined
+            ? dataOverview?.november?.pendapatan
+            : 0,
       },
       {
         Year: "Desember",
-        Admin: dataOverview?.desember?.pendapatan,
+        Admin:
+          dataOverview?.desember?.pendapatan !== undefined
+            ? dataOverview?.desember?.pendapatan
+            : 0,
       },
     ],
     keys: ["Admin"],
@@ -99,7 +135,11 @@ const Overview = () => {
         <div className="flex justify-between">
           <div>
             <h1 className="text-3xl font-semibold">Total Pendapatan</h1>
-            <p>{rupiah(dataOverview?.total)}</p>
+            <p>
+              {rupiah(
+                dataOverview?.total !== undefined ? dataOverview?.total : 0
+              )}
+            </p>
           </div>
           <select
             className="select select-bordered max-w-xs"

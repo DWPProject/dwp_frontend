@@ -25,6 +25,7 @@ const TABLE_HEAD = [
 ];
 
 const KelolaLaporan = () => {
+  const [isClient, setIsClient] = useState(false);
   const [filterToko, setFilterToko] = useState("DEFAULT");
   const [tanggalAwal, setTanggalAwal] = useState("");
   const [tanggalAkhir, setTanggalAkhir] = useState("");
@@ -59,6 +60,7 @@ const KelolaLaporan = () => {
   };
 
   useEffect(() => {
+    setIsClient(true);
     fetchData();
   }, []);
 
@@ -143,14 +145,16 @@ const KelolaLaporan = () => {
             type="button"
           >
             <BsDownload size={20} />
-            <PDFDownloadLink
-              document={<Report report={dataAllLaporan} />}
-              fileName="somename.pdf"
-            >
-              {({ blob, url, loading, error }) =>
-                loading ? "Load Data..." : "Unduh Laporan"
-              }
-            </PDFDownloadLink>
+            {isClient && (
+              <PDFDownloadLink
+                document={<Report report={dataAllLaporan} />}
+                fileName="somename.pdf"
+              >
+                {({ blob, url, loading, error }) =>
+                  loading ? "Load Data..." : "Unduh Laporan"
+                }
+              </PDFDownloadLink>
+            )}
           </button>
         </div>
         <div className="overflow-x-auto h-fit pb-5 scrollbar-hide">

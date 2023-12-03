@@ -29,8 +29,9 @@ import { getUserFromLocalStorage } from "@/utils/localStorage";
 import { rupiah } from "@/utils/rupiah";
 
 export default function Layanan() {
-  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isCartModalOpen, setIsCartModalOpen] = useState(false);
   const [jumlahPesanan, setJumlahPesanan] = useState(0);
@@ -103,6 +104,7 @@ export default function Layanan() {
   };
 
   const tambahKeKeranjang = async () => {
+    setErrorMessage("");
     if (userId !== "") {
       if (jumlahPesanan > 0) {
         try {
@@ -121,6 +123,8 @@ export default function Layanan() {
         } catch (error) {
           console.log(error);
         }
+      } else {
+        setErrorMessage("Jumlah Pesanan Harus Lebih dari 0");
       }
     } else {
       const notify = () => {
@@ -312,6 +316,13 @@ export default function Layanan() {
             </form>
             <div className="p-6">
               <h3 className="text-xl font-semibold mb-4">Custom Pesanan</h3>
+              <p
+                className={`${
+                  errorMessage ? "py-3" : ""
+                } text-red-500 font-semibold`}
+              >
+                {errorMessage}
+              </p>
               <div className="flex justify-between mb-4">
                 <p className="text-base">{selectedProduk.nama}</p>
                 <p className="text-base font-semibold">
