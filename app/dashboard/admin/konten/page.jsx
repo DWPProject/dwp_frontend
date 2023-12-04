@@ -115,7 +115,7 @@ const KelolaKonten = () => {
     dataEditKonten.kategori = categoriesEdit;
 
     setIsLoading(true);
-    const idd = toast.loading("Create Data Konten...");
+    const idd = toast.loading("Update Data Konten...");
 
     try {
       const data = await updateDataKonten(
@@ -189,7 +189,7 @@ const KelolaKonten = () => {
           console.log(data);
 
           fetchData();
-          Swal.fire(`Deleted`, "Success Deleted Data Product", "success");
+          Swal.fire(`Deleted`, "Success Deleted Data Konten", "success");
         } catch (error) {
           console.log(error);
         }
