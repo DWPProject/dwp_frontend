@@ -52,10 +52,10 @@ export default function MediaSlider({ data }) {
               </div>
             </SwiperSlide>
           ))}
-        {data.length <= 0 && (
-          <h1 className="text-center">Belum Ada Konten DWP</h1>
-        )}
       </Swiper>
+      {data.length <= 0 && (
+        <h1 className="text-center">Belum Ada Konten DWP</h1>
+      )}
 
       {selectedCard !== null && (
         <div className="mt-4">
