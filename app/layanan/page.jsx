@@ -16,7 +16,6 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 import Style from "./layanan.module.css";
-import iconShop from "@/public/logo.svg";
 
 import {
   getSellProduct,
@@ -273,12 +272,12 @@ export default function Layanan() {
                   width={0}
                   height={0}
                   sizes="100vw"
-                  style={{ width: "100%", height: "auto" }}
+                  style={{ maxWidth: "100%", height: "auto" }}
                 />
               </figure>
               <div className="icon absolute top-0 left-0">
                 <Image
-                  src={iconShop}
+                  src={product.user.profil}
                   alt={product.nama}
                   height={50}
                   width={50}
@@ -411,20 +410,26 @@ export default function Layanan() {
                 key={index}
                 className="mt-4 bg-white shadow-lg rounded-lg p-4"
               >
-                <div className="flex items-center">
-                  <Image
-                    src={item.produk_foto}
-                    alt={item.produk_nama}
-                    width={100}
-                    height={100}
-                    className="rounded-lg"
-                  />
-                  <div className="ml-4">
-                    <p className="text-lg font-bold">{item.produk_nama}</p>
-                    <p className="text-sm text-gray-600">
-                      {rupiah(item.total)}
-                    </p>
+                <div className="flex justify-between">
+                  <div className="flex items-center">
+                    <Image
+                      src={item.produk_foto}
+                      alt={item.produk_nama}
+                      width={100}
+                      height={100}
+                      className="rounded-lg"
+                    />
+                    <div className="ml-4">
+                      <p className="text-lg font-bold">{item.produk_nama}</p>
+                      <p className="text-sm text-gray-600">
+                        {rupiah(item.total)}
+                      </p>
+                    </div>
                   </div>
+                  <p>
+                    <span className="font-bold">Jumlah Pesanan:</span>{" "}
+                    {item.cart_item_quantity}
+                  </p>
                 </div>
                 <div className="flex justify-between items-center mt-2">
                   <div>

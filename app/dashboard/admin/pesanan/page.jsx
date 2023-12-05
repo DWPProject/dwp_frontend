@@ -42,10 +42,16 @@ const KelolaPesanan = () => {
     fetchData();
   }, []);
 
-  const onHandleDetail = (id) => {
+  const onHandleDetailPesanan = (id) => {
     const data_order = dataOrder.find((order) => order.id === id);
     setDataDetailOrder(data_order);
     setShowModalDetail(true);
+  };
+
+  const onHandleDetailPayment = (id) => {
+    const data_order = dataOrder.find((order) => order.id === id);
+    setDataDetailOrder(data_order);
+    setShowModalPayment(true);
   };
 
   const onHandleAprove = (id) => {
@@ -130,7 +136,8 @@ const KelolaPesanan = () => {
                   <td>
                     <div
                       className={`text-center p-2 rounded-3xl ${
-                        pesanan.status === "Pesanan Ditolak" && "bg-red-500"
+                        pesanan.status === "Pesanan Ditolak" &&
+                        "bg-red-500 text-white"
                       } ${pesanan.status === "DiProses" && "bg-[#F4FFB0]"} ${
                         pesanan.status === "Belum diProses" && "bg-[#D7D7D7]"
                       }  ${
@@ -143,7 +150,7 @@ const KelolaPesanan = () => {
                   <td>
                     <button
                       className="p-3 bg-[#FFD977] text-black rounded-3xl"
-                      onClick={() => setShowModalPayment(true)}
+                      onClick={() => onHandleDetailPayment(pesanan.id)}
                     >
                       <p className=" text-center">Lihat Bukti</p>
                     </button>
@@ -151,7 +158,7 @@ const KelolaPesanan = () => {
                   <td>
                     <button
                       className="p-3 bg-[#58CBE4] text-black rounded-3xl"
-                      onClick={() => onHandleDetail(pesanan.id)}
+                      onClick={() => onHandleDetailPesanan(pesanan.id)}
                     >
                       <p className=" text-center">Detail Pesanan</p>
                     </button>
@@ -268,13 +275,11 @@ const KelolaPesanan = () => {
                   </button>
                 </div>
                 {/*body*/}
-                <div className="relative p-6 flex-auto ">
+                <div className="relative p-6">
                   <Image
                     src={dataDetailOrder.payment}
-                    width={0}
-                    height={0}
-                    sizes="100vw"
-                    style={{ width: "100%", height: "auto" }}
+                    width={400}
+                    height={400}
                     alt="Payment"
                   />
                 </div>
