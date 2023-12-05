@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import PageHeading from "@/components/dashboard/PageHeading";
 import BarChart from "@/components/dashboard/BarChart";
 import TopProdukList from "@/components/dashboard/TopProdukList";
-import CardSale from "@/components/dashboard/CardSale";
 
 import { getUserFromLocalStorage } from "@/utils/localStorage";
 import {
@@ -144,10 +143,7 @@ const Overview = () => {
         </div>
         <BarChart data={barData} />
       </div>
-      <div className="flex flex-col shadow-lg m-5 bg-white rounded-xl p-10 gap-10">
-        <div className="flex gap-5 mt-5">
-          <CardSale orderComplete={"98,771"} totalSales={"100,345"} />
-        </div>
+      <div className="shadow-lg m-5 bg-white rounded-xl p-10 gap-10">
         <div className="flex flex-col gap-5">
           <h1 className="text-3xl font-bold">Produk Teratas</h1>
           <TopProdukList topProdukData={dataPopulerProduk} />

@@ -17,7 +17,6 @@ const Profil = () => {
   const [email, setEmail] = useState("");
   const [telepon, setTelepon] = useState("");
   const [fotoUser, setFotoUser] = useState("");
-  const [fotoProfile, setFotoProfile] = useState(null);
   const fileInputRef = useRef(null);
 
   const fetchData = async (userId) => {
@@ -158,7 +157,7 @@ const Profil = () => {
             </div>
             <div className="mr-4 relative">
               <Image
-                src={fotoUser}
+                src={fotoUser === "" ? "/images/empty_profile.png" : fotoUser}
                 alt="Foto Profil"
                 className="rounded-full"
                 width={200}
