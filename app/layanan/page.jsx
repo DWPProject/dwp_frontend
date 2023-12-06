@@ -231,27 +231,16 @@ export default function Layanan() {
       <Navbar />
       <div className="md:container md:mx-auto sm:container sm:mx-auto">
         <h1 className="text-3xl font-bold lg:mt-8 pl-2 ">Layanan DWP</h1>
-        <div className="flex justify-between list-none mt-4 p-2">
-          <div className="category flex ">
-            <li className="mr-4">
-              <Link href="#">Semua Produk</Link>
-            </li>
-            <li className="mr-4">
-              <Link href="#">Makanan</Link>
-            </li>
-            <li className="mr-4">
-              <Link href="#">Barang Pakai</Link>
-            </li>
-          </div>
-          <div className="cart relative ">
+        <div className="flex justify-end list-none mt-4 p-2">
+          <div className="cart relative pr-5">
             <button
               className={`cursor-pointer  ${Style.cart}`}
               onClick={() => setIsCartModalOpen(true)}
               disabled={userId === "" ? true : false}
             >
-              <AiOutlineShoppingCart />
+              <AiOutlineShoppingCart size={30} />
               {jumlahPesananKeranjang > 0 && (
-                <span className="bg-red-500 text-white rounded-full px-2 py-1 text-xs absolute -top-1 -right-1">
+                <span className="bg-red-500 text-white rounded-full px-2 py-1 text-xs absolute -top-1">
                   {jumlahPesananKeranjang}
                 </span>
               )}
@@ -421,13 +410,18 @@ export default function Layanan() {
                     />
                     <div className="ml-4">
                       <p className="text-lg font-bold">{item.produk_nama}</p>
-                      <p className="text-sm text-gray-600">
-                        {rupiah(item.total)}
-                      </p>
+                      <div className="pt-1">
+                        <p className="md:hidden flex">
+                          <span>Qty:</span> {item.cart_item_quantity}
+                        </p>
+                        <p className="text-sm text-gray-600">
+                          {rupiah(item.total)}
+                        </p>
+                      </div>
                     </div>
                   </div>
-                  <p>
-                    <span className="font-bold">Jumlah Pesanan:</span>{" "}
+                  <p className="md:flex hidden">
+                    <span className="font-bold ">Jumlah Pesanan:</span>{" "}
                     {item.cart_item_quantity}
                   </p>
                 </div>
