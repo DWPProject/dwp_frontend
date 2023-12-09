@@ -7,7 +7,7 @@ import Report from "@/components/dashboard/Report";
 import { BsDownload } from "react-icons/bs";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 
-import { getUserFromLocalStorage } from "@/utils/localStorage";
+import { userId } from "@/utils/auth";
 import { getLaporanPenjual } from "@/services/penjual/laporan";
 import { rupiah } from "@/utils/rupiah";
 
@@ -25,8 +25,8 @@ const TABLE_HEAD = [
 ];
 
 const KelolaLaporan = () => {
+  const user_id = userId();
   const [isClient, setIsClient] = useState(false);
-  const [userId, setUserId] = useState("");
   const [tanggalAwal, setTanggalAwal] = useState("");
   const [tanggalAkhir, setTanggalAkhir] = useState("");
   const [dataLaporan, setDataLaporan] = useState([]);
@@ -46,15 +46,9 @@ const KelolaLaporan = () => {
   };
 
   useEffect(() => {
-    const user = getUserFromLocalStorage();
-    if (user.length > 0) {
-      setUserId(user[0].id);
-    } else {
-      setUserId("");
-    }
-    fetchData(userId);
+    fetchData(user_id === null ? "" : user_id);
     setIsClient(true);
-  }, [userId]);
+  }, [user_id]);
 
   return (
     <>

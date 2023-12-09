@@ -10,6 +10,7 @@ export async function getPesanan(id) {
       {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }
     );
@@ -30,6 +31,7 @@ export async function finishPesanan(id_order, id_seller) {
       {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }
     );

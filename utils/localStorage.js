@@ -1,20 +1,11 @@
-export function setUserToLocasStorage(data) {
-  if (typeof localStorage !== "undefined") {
-    const userData = JSON.parse(localStorage.getItem("data_user") || "[]");
-    userData.push(data);
-    localStorage.setItem("data_user", JSON.stringify(userData));
-  }
-}
-
-export function getUserFromLocalStorage() {
-  if (typeof localStorage !== "undefined") {
-    const userData = JSON.parse(localStorage.getItem("data_user") || "[]");
-    return userData;
-  }
-}
+import { setCookie, deleteCookie } from "cookies-next";
+import { parseJwt } from "./parseJwt";
 
 export function setTokenToLocalStorage(token) {
   if (typeof localStorage !== "undefined") {
+    const user = parseJwt(token);
+    setCookie("token", token);
+    setCookie("role", user.level);
     localStorage.setItem("token", token);
   }
 }
@@ -27,6 +18,8 @@ export function getTokenFromLocalStorage() {
 
 export function clearLocalStorage() {
   if (typeof localStorage !== "undefined") {
+    deleteCookie("token");
+    deleteCookie("role");
     localStorage.clear();
   }
 }

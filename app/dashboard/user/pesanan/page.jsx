@@ -4,7 +4,7 @@ import Image from "next/image";
 
 import Navbar from "@/components/Navbar";
 
-import { getUserFromLocalStorage } from "@/utils/localStorage";
+import { userId } from "@/utils/auth";
 import { rupiah } from "@/utils/rupiah";
 import {
   getPesananDiproses,
@@ -13,8 +13,8 @@ import {
 } from "@/services/user/history";
 
 const Pesanan = () => {
+  const user_id = userId();
   const [activeTab, setActiveTab] = useState("Riwayat");
-  const [userId, setUserId] = useState("");
   const [dataPesananProses, setDataPesananProses] = useState([]);
   const [dataPesananSelesai, setDataPesananSelesai] = useState([]);
   const [dataPesananDitolak, setDataPesananDitolak] = useState([]);
@@ -29,14 +29,8 @@ const Pesanan = () => {
   };
 
   useEffect(() => {
-    const user = getUserFromLocalStorage();
-    if (user.length > 0) {
-      setUserId(user[0].id);
-    } else {
-      setUserId("");
-    }
-    fetchData(userId);
-  }, [userId]);
+    fetchData(user_id === null ? "" : user_id);
+  }, [user_id]);
 
   const changeTab = (tabName) => {
     setActiveTab(tabName);

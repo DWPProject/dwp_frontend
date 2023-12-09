@@ -5,7 +5,7 @@ import PageHeading from "@/components/dashboard/PageHeading";
 import BarChart from "@/components/dashboard/BarChart";
 import TopProdukList from "@/components/dashboard/TopProdukList";
 
-import { getUserFromLocalStorage } from "@/utils/localStorage";
+import { userId, nama_toko } from "@/utils/auth";
 import {
   getOverviewPenjual,
   getPopulerProdukPenjual,
@@ -14,8 +14,8 @@ import {
 import { rupiah } from "@/utils/rupiah";
 
 const Overview = () => {
-  const [userId, setUserId] = useState("");
-  const [userName, setUserName] = useState("");
+  const user_id = userId();
+  const userName = nama_toko();
   const [dataOverview, setDataOverview] = useState({});
   const [dataPopulerProduk, setDataPopulerProduk] = useState([]);
   const barData = {
@@ -116,16 +116,8 @@ const Overview = () => {
   };
 
   useEffect(() => {
-    const user = getUserFromLocalStorage();
-    if (user.length > 0) {
-      setUserName(user[0].nama_toko);
-      setUserId(user[0].id);
-    } else {
-      setUserName("");
-      setUserId("");
-    }
-    fetchData(userId);
-  }, [userId]);
+    fetchData(user_id === null ? "" : user_id);
+  }, [user_id]);
 
   return (
     <>

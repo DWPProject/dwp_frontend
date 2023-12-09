@@ -10,6 +10,7 @@ export async function getOverviewPenjual(id) {
       {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }
     );
@@ -29,6 +30,7 @@ export async function getPopulerProdukPenjual(id) {
       {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }
     );

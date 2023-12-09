@@ -3,7 +3,12 @@ import axios from "axios";
 export async function getDataBankProduct() {
   try {
     const { data } = await axios.get(
-      `${process.env.NEXT_PUBLIC_BACKEND_API}/admin/product/bankProduct`
+      `${process.env.NEXT_PUBLIC_BACKEND_API}/admin/product/bankProduct`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
     );
     return data;
   } catch (error) {
@@ -67,6 +72,7 @@ export async function createDataProduct(formData) {
       {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }
     );
@@ -84,6 +90,7 @@ export async function updateDataProduct(formData, id) {
       {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }
     );

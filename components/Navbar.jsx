@@ -3,10 +3,8 @@ import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 
-import {
-  getUserFromLocalStorage,
-  clearLocalStorage,
-} from "@/utils/localStorage";
+import { clearLocalStorage } from "@/utils/localStorage";
+import { isLogin, role } from "@/utils/auth";
 
 import { BsPersonFill } from "react-icons/bs";
 import { MENU_ITEMS_USER } from "@/constant/menu";
@@ -17,9 +15,8 @@ export default function Navbar() {
   const router = useRouter();
   const [isNavOpen, setIsNavOpen] = useState(false);
 
-  const user = getUserFromLocalStorage();
-  const role = user?.length > 0 ? user[0].level : "";
-  const isLogin = user?.length > 0 ? true : false;
+  const isLoggin = isLogin();
+  const roles = role();
 
   const onHandleLogout = () => {
     clearLocalStorage();
@@ -50,7 +47,7 @@ export default function Navbar() {
             </ul>
           </div>
           <div className="navbar-end flex items-center gap-5">
-            {!isLogin ? (
+            {!isLoggin ? (
               <div className="bg-[#FBBA74] py-2 px-5 rounded-lg">
                 <Link
                   href={"/auth/login"}
@@ -65,7 +62,6 @@ export default function Navbar() {
                 <label
                   tabIndex={0}
                   className="btn btn-ghost btn-circle avatar bg-[#FFCEA0]"
-                  suppressHydrationWarning={true}
                 >
                   <Image
                     src={profile}
@@ -77,7 +73,7 @@ export default function Navbar() {
                   tabIndex={0}
                   className="mt-3 z-[10] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
                 >
-                  {role === "user" && (
+                  {roles === "user" && (
                     <li>
                       <Link href="/dashboard/user/profile">Profil</Link>
                       <Link href="/dashboard/user/pesanan">
@@ -86,13 +82,13 @@ export default function Navbar() {
                       <button onClick={onHandleLogout}>Logout</button>
                     </li>
                   )}
-                  {role === "admin" && (
+                  {roles === "admin" && (
                     <li>
                       <Link href="/dashboard/admin">Dashboard</Link>
                       <button onClick={onHandleLogout}>Logout</button>
                     </li>
                   )}
-                  {role === "penjual" && (
+                  {roles === "penjual" && (
                     <li>
                       <Link href="/dashboard/penjual">Dashboard</Link>
                       <button onClick={onHandleLogout}>Logout</button>

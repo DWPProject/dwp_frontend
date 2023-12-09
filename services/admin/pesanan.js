@@ -3,7 +3,12 @@ import axios from "axios";
 export async function getPesanan() {
   try {
     const { data } = await axios.get(
-      `${process.env.NEXT_PUBLIC_BACKEND_API}/admin/order`
+      `${process.env.NEXT_PUBLIC_BACKEND_API}/admin/order`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
     );
     return data;
   } catch (error) {
@@ -21,6 +26,7 @@ export async function aprovePesanan(id) {
       {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }
     );
@@ -40,6 +46,7 @@ export async function rejectPesanan(id) {
       {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }
     );

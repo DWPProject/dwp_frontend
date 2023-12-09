@@ -12,6 +12,7 @@ export async function getLaporanAdmin(id, start, end) {
       {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }
     );

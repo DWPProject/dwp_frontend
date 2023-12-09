@@ -25,10 +25,16 @@ export default function Footer() {
         </div>
         <div>
           <h2>Kebijakan Perusahaan</h2>
-          <Link href="https://dharmawanitapersatuan.id" target="_blank">
+          <Link
+            href="https://dharmawanitapersatuan.id/kebijakan-privasi/"
+            target="_blank"
+          >
             Kebijakan Privasi{" "}
           </Link>
-          <Link href="https://dharmawanitapersatuan.id" target="_blank">
+          <Link
+            href="https://dharmawanitapersatuan.id/syarat-dan-ketentuan/"
+            target="_blank"
+          >
             Syarat dan Ketentuan{" "}
           </Link>
         </div>
