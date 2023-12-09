@@ -36,28 +36,29 @@ export default function Profil() {
             <h1 className="text-3xl ">Sejarah DWP ITERA</h1>
             <div className="pt-4">
               <p className="mt-4">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Nostrum odit doloribus exercitationem sequi optio. Iusto rem,
-                eius temporibus eligendi quia maiores neque ipsum in. Et optio
-                quis saepe soluta impedit. Ad accusamus cupiditate rem provident
-                quae, ea sit. Porro itaque perspiciatis quidem explicabo
-                incidunt fugit, accusamus doloremque qui aliquam ipsam soluta!
-                Mollitia, sint amet cum quidem excepturi at iure unde.
+                Sejarah Dharma Wanita Persatuan berawal pada 5 Agustus 1974 saat
+                organisasi para Isteri Pegawai Republik Indonesia pada masa
+                Pemrintahan Orde Baru itu dibentuk dengan nama Dharma Wanita.
+                Organisasi ini didirikan oleh Ketua Dewan Pembina KORPRI saat
+                itu, Amir Machmud, atas prakarsa Ibu Tien Soeharto sebagai Ibu
+                Negara, pada waktu itu Dharma Wanita beranggotakan para Istri
+                Pegawai Republik Indonesia, Anggota ABRI yang dikaryakan dan
+                Pegawai BUMN.
               </p>
               <p className="mt-4">
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                Molestias, voluptates maiores sit nulla natus iusto quos numquam
-                sint repudiandae exercitationem quaerat neque ratione.
-                Dignissimos, error hic voluptatem ullam labore maiores maxime
-                tenetur molestias accusamus magnam, numquam est et
-                necessitatibus dolorem.
+                Pada era Reformasi tahun 1998, organisasi wanita ini melakukan
+                perubahan mendasar, tidak ada lagi muatan politik dari
+                Pemerintah. Dharma Wanita menjadi organisasi sosial
+                kemasyarakatan yang netral dari politik, Independen dan
+                Demokrasi
               </p>
               <p className="mt-4">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae
-                rerum aliquam molestias animi illo nisi, vero vitae sint
-                delectus sequi odit, possimus quasi dolor harum sed excepturi
-                impedit magni mollitia, quidem accusamus ducimus suscipit quia
-                ea. Quo aperiam iure cupiditate!
+                Nama Dharma Wanita kemudian berubah menjadi Dharma Wanita
+                Persatuan, penambahan kata “Persatuan” disesuaikan dengan nama
+                Kabinet Persatuan Nasional dibawah kepemimpinan Presiden
+                Abdurrahman Wahid. Perubahan organisasi ini tidak terbatas pada
+                penambahan kata Persatuan namun juga berubah menjadi organisasi
+                yang mandiri dan Demokrasi.
               </p>
             </div>
           </div>
