@@ -41,16 +41,16 @@ export default function Home() {
               Institut Teknologi Sumatera
             </h1>
             <p className="mt-4">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aperiam
-              perferendis, consectetur deserunt quasi eligendi, tempora velit
-              fugiat vel magnam voluptatum aspernatur? Consectetur fugit
-              delectus omnis temporibus fuga optio provident dolor dignissimos
-              enim nesciunt nemo maiores cupiditate, necessitatibus tenetur sed!
-              Possimus delectus consequuntur quasi facere nemo ipsum expedita
-              velit recusandae fugit, ex minus mollitia atque odio hic,
-              molestiae accusantium rerum animi esse vitae sed. Ex neque eos
-              obcaecati velit repudiandae, minima ducimus. Culpa a iste at
-              maxime cupiditate voluptatibus asperiores impedit!
+              Dharma Wanita Persatuan (DWP) adalah organisasi kemasyarakatan
+              yang beranggotakan istri Pegawai Negeri Sipil (PNS). DWP memiliki
+              struktur organisasi yang terdiri dari tingkat pusat, provinsi,
+              kabupaten/kota, kecamatan, dan kelurahan/desa. Ketua DWP Pusat
+              dijabat oleh istri Presiden Republik Indonesia. Sebagai organisasi
+              kemasyarakatan, DWP memiliki peran penting dalam pembangunan
+              nasional. DWP berperan sebagai mitra pemerintah dalam meningkatkan
+              kualitas sumber daya manusia, terutama di bidang pendidikan,
+              ekonomi, dan sosial budaya. DWP juga berperan sebagai mitra
+              masyarakat dalam berbagai kegiatan sosial dan kemanusiaan.
             </p>
             <a href="#">
               <Button
