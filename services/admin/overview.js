@@ -20,10 +20,13 @@ export async function getOverviewAdmin(id) {
   }
 }
 
-export async function getPopulerProdukAdmin() {
+export async function getPopulerProdukAdmin(id) {
   try {
     const { data } = await axios.post(
       `${process.env.NEXT_PUBLIC_BACKEND_API}/admin/overview/populer`,
+      {
+        id: id,
+      },
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
