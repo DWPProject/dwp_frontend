@@ -129,7 +129,7 @@ const KelolaPesanan = () => {
                   <td>
                     <button
                       className={`py-2 px-3 text-white rounded-lg ${
-                        pesanan.status !== "DiProses"
+                        pesanan?.orderProduct[0].status === "Pesanan Selesai"
                           ? "bg-slate-500"
                           : "bg-green-500"
                       }`}
