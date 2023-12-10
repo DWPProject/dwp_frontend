@@ -39,13 +39,19 @@ const KelolaPesanan = () => {
     fetchData(user_id === null ? "" : user_id);
   }, [user_id]);
 
-  const onHandleDetail = (id) => {
+  const onHandleDetailPesanan = (id) => {
     const data_order = dataOrder.find((order) => order.id === id);
     setDataDetailOrder(data_order);
     setShowModalDetail(true);
   };
 
-  const onHandleFinish = (id_order, id_seller) => {
+  const onHandleDetailPayment = (id) => {
+    const data_order = dataOrder.find((order) => order.id === id);
+    setDataDetailOrder(data_order);
+    setShowModalPayment(true);
+  };
+
+  const onHandleFinish = (id_order) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -57,8 +63,12 @@ const KelolaPesanan = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const data = await finishPesanan(id_order, userId);
+          const data = await finishPesanan(
+            id_order,
+            user_id === null ? "" : user_id
+          );
           console.log(data);
+
           fetchData(user_id === null ? "" : user_id);
           Swal.fire("Finished!", "Order has been Finished.", "success");
         } catch (error) {
@@ -113,7 +123,7 @@ const KelolaPesanan = () => {
                   <td>
                     <button
                       className="p-3 bg-[#FFD977] text-black rounded-3xl"
-                      onClick={() => setShowModalPayment(true)}
+                      onClick={() => onHandleDetailPayment(pesanan.id)}
                     >
                       <p className=" text-center">Lihat Bukti</p>
                     </button>
@@ -121,7 +131,7 @@ const KelolaPesanan = () => {
                   <td>
                     <button
                       className="p-3 bg-[#58CBE4] text-black rounded-3xl"
-                      onClick={() => onHandleDetail(pesanan.id)}
+                      onClick={() => onHandleDetailPesanan(pesanan.id)}
                     >
                       <p className=" text-center">Detail Pesanan</p>
                     </button>
@@ -215,7 +225,7 @@ const KelolaPesanan = () => {
               <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                 {/*header*/}
                 <div className="flex justify-between items-center gap-3 p-5 border-b border-solid border-blueGray-200 rounded-t">
-                  <h3 className="text-3xl font-semibold">Detail Pesanan</h3>
+                  <h3 className="text-3xl font-semibold">Bukti Pembayaran</h3>
                   <button
                     type="button"
                     onClick={() => setShowModalPayment(false)}
@@ -225,13 +235,11 @@ const KelolaPesanan = () => {
                   </button>
                 </div>
                 {/*body*/}
-                <div className="relative p-6 flex-auto ">
+                <div className="relative p-6">
                   <Image
                     src={dataDetailOrder.payment}
-                    width={0}
-                    height={0}
-                    sizes="100vw"
-                    style={{ maxWidth: "100%", height: "auto" }}
+                    width={400}
+                    height={400}
                     alt="Payment"
                   />
                 </div>
