@@ -9,18 +9,18 @@ export default function middleware(req) {
   let url = req.url;
 
   if (userRole !== "admin" && url.includes("/dashboard/admin")) {
-    return NextResponse.redirect("http://localhost:8080/auth/login");
+    return NextResponse.redirect("https://dwp-frontend.vercel.app/auth/login");
   }
 
   if (userRole !== "user" && url.includes("/dashboard/user")) {
-    return NextResponse.redirect("http://localhost:8080/auth/login");
+    return NextResponse.redirect("https://dwp-frontend.vercel.app/auth/login");
   }
 
   if (userRole !== "penjual" && url.includes("/dashboard/penjual")) {
-    return NextResponse.redirect("http://localhost:8080/auth/login");
+    return NextResponse.redirect("https://dwp-frontend.vercel.app/auth/login");
   }
 
   if (isAuthenticated && url.includes("/auth")) {
-    return NextResponse.redirect("http://localhost:8080");
+    return NextResponse.redirect("https://dwp-frontend.vercel.app");
   }
 }
