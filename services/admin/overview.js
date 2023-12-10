@@ -10,6 +10,7 @@ export async function getOverviewAdmin(id) {
       {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }
     );
@@ -22,7 +23,12 @@ export async function getOverviewAdmin(id) {
 export async function getPopulerProdukAdmin() {
   try {
     const { data } = await axios.post(
-      `${process.env.NEXT_PUBLIC_BACKEND_API}/admin/overview/populer`
+      `${process.env.NEXT_PUBLIC_BACKEND_API}/admin/overview/populer`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
     );
     return data;
   } catch (error) {

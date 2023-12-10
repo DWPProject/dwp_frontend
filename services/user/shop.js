@@ -24,6 +24,7 @@ export async function addProductToCart(user_id, product_id, note, quantity) {
       {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }
     );
@@ -65,6 +66,7 @@ export async function orderProduk(user_id, purchase, address, foto) {
       {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }
     );
@@ -84,6 +86,7 @@ export async function deleteCartItem(id) {
       {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }
     );

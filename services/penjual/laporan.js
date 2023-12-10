@@ -12,6 +12,7 @@ export async function getLaporanPenjual(id, start, end) {
       {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }
     );

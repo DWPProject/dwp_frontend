@@ -24,11 +24,12 @@ import {
   orderProduk,
   deleteCartItem,
 } from "@/services/user/shop";
-import { getUserFromLocalStorage } from "@/utils/localStorage";
+import { userId } from "@/utils/auth";
 import { rupiah } from "@/utils/rupiah";
 
 export default function Layanan() {
   const router = useRouter();
+  const user_id = userId();
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -41,7 +42,6 @@ export default function Layanan() {
   const [metodePembayaran, setMetodePembayaran] = useState("DEFAULT");
   const [nomorRekening, setNomorRekening] = useState("");
   const [buktiPembayaran, setBuktiPembayaran] = useState(null);
-  const [userId, setUserId] = useState("");
   const [dataProduk, setDataProduk] = useState([]);
   const [selectedProduk, setSelectedProduk] = useState({});
   const [dataCart, setDataCart] = useState([]);
@@ -58,14 +58,8 @@ export default function Layanan() {
   };
 
   useEffect(() => {
-    const user = getUserFromLocalStorage();
-    if (user.length > 0) {
-      setUserId(user[0].id);
-    } else {
-      setUserId("");
-    }
-    fetchData(userId);
-  }, [userId]);
+    fetchData(user_id === null ? "" : user_id);
+  }, [user_id]);
 
   const onHandleChangePembayaran = (e) => {
     const selectedValue = e.target.value;
@@ -115,7 +109,7 @@ export default function Layanan() {
           );
           console.log(data);
 
-          fetchData(userId);
+          fetchData(user_id === null ? "" : user_id);
           setCatatan("");
           setJumlahPesanan(0);
           setIsModalOpen(false);
@@ -164,7 +158,7 @@ export default function Layanan() {
           autoClose: 2000,
         });
 
-        fetchData(userId);
+        fetchData(user_id === null ? "" : user_id);
         setSelectedAlamat("Gedung GKU 1, Lt Dasar");
         setBuktiPembayaran(null);
         setMetodePembayaran("DEFAULT");
@@ -207,7 +201,7 @@ export default function Layanan() {
           const data = await deleteCartItem(id);
           console.log(data);
 
-          fetchData(userId);
+          fetchData(user_id === null ? "" : user_id);
           Swal.fire(`Deleted`, "Success Deleted Cart Item", "success");
         } catch (error) {
           console.log(error);

@@ -5,10 +5,7 @@ import Link from "next/link";
 
 import { login } from "@/services/auth";
 import { parseJwt } from "@/utils/parseJwt";
-import {
-  setUserToLocasStorage,
-  setTokenToLocalStorage,
-} from "@/utils/localStorage";
+import { setTokenToLocalStorage } from "@/utils/localStorage";
 
 import { toast } from "react-toastify";
 
@@ -37,7 +34,6 @@ export default function Login() {
         notify();
 
         setTokenToLocalStorage(data.accessToken);
-        setUserToLocasStorage(user_data);
         setFormData({
           email: "",
           password: "",

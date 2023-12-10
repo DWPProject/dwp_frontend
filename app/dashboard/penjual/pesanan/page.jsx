@@ -8,7 +8,7 @@ import PageHeading from "@/components/dashboard/PageHeading";
 import { IoArrowBackOutline } from "react-icons/io5";
 import { ImCross } from "react-icons/im";
 
-import { getUserFromLocalStorage } from "@/utils/localStorage";
+import { userId } from "@/utils/auth";
 import { getPesanan, finishPesanan } from "@/services/penjual/pesanan";
 import { rupiah } from "@/utils/rupiah";
 
@@ -24,9 +24,9 @@ const TABLE_HEAD = [
 ];
 
 const KelolaPesanan = () => {
+  const user_id = userId();
   const [showModalDetail, setShowModalDetail] = useState(false);
   const [showModalPayment, setShowModalPayment] = useState(false);
-  const [userId, setUserId] = useState("");
   const [dataOrder, setDataOrder] = useState([]);
   const [dataDetailOrder, setDataDetailOrder] = useState({});
 
@@ -36,14 +36,8 @@ const KelolaPesanan = () => {
   };
 
   useEffect(() => {
-    const user = getUserFromLocalStorage();
-    if (user.length > 0) {
-      setUserId(user[0].id);
-    } else {
-      setUserId("");
-    }
-    fetchData(userId);
-  }, [userId]);
+    fetchData(user_id === null ? "" : user_id);
+  }, [user_id]);
 
   const onHandleDetail = (id) => {
     const data_order = dataOrder.find((order) => order.id === id);
@@ -65,7 +59,7 @@ const KelolaPesanan = () => {
         try {
           const data = await finishPesanan(id_order, userId);
           console.log(data);
-          fetchData(userId);
+          fetchData(user_id === null ? "" : user_id);
           Swal.fire("Finished!", "Order has been Finished.", "success");
         } catch (error) {
           console.log(error);

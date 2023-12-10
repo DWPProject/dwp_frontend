@@ -3,7 +3,12 @@ import axios from "axios";
 export async function getDataPenjual() {
   try {
     const { data } = await axios.get(
-      `${process.env.NEXT_PUBLIC_BACKEND_API}/admin/seller`
+      `${process.env.NEXT_PUBLIC_BACKEND_API}/admin/seller`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
     );
     return data;
   } catch (error) {
@@ -37,6 +42,7 @@ export async function updateDataPenjual(formData) {
       {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }
     );
@@ -56,6 +62,7 @@ export async function deletePenjual(id) {
       {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }
     );

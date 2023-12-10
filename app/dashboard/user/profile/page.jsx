@@ -7,12 +7,12 @@ import { FiEdit } from "react-icons/fi";
 
 import Navbar from "@/components/Navbar";
 
-import { getUserFromLocalStorage } from "@/utils/localStorage";
+import { userId } from "@/utils/auth";
 import { getProfileUser, updateProfileUser } from "@/services/auth";
 
 const Profil = () => {
+  const user_id = userId();
   const [editMode, setEditMode] = useState(false);
-  const [userId, setUserId] = useState("");
   const [nama, setNama] = useState("");
   const [email, setEmail] = useState("");
   const [telepon, setTelepon] = useState("");
@@ -31,14 +31,8 @@ const Profil = () => {
   };
 
   useEffect(() => {
-    const user = getUserFromLocalStorage();
-    if (user.length > 0) {
-      setUserId(user[0].id);
-    } else {
-      setUserId("");
-    }
-    fetchData(userId);
-  }, [userId]);
+    fetchData(user_id === null ? "" : user_id);
+  }, [user_id]);
 
   const handleEditClick = () => {
     setEditMode(true);
@@ -49,7 +43,7 @@ const Profil = () => {
       const data = await updateProfileUser(email, fotoUser, nama, telepon);
       console.log(data);
 
-      fetchData(userId);
+      fetchData(user_id === null ? "" : user_id);
     } catch (error) {
       console.log(error);
     }
@@ -81,7 +75,7 @@ const Profil = () => {
       );
       console.log(data);
 
-      fetchData(userId);
+      fetchData(user_id === null ? "" : user_id);
     } catch (error) {
       console.log(error);
     }
