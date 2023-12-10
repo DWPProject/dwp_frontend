@@ -37,6 +37,9 @@ export async function setProductToSell(id) {
     const { data } = await axios.put(
       `${process.env.NEXT_PUBLIC_BACKEND_API}/admin/product/bankProduct/${id}`,
       {
+        id: id,
+      },
+      {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -52,6 +55,9 @@ export async function setProductToNotSell(id) {
   try {
     const { data } = await axios.put(
       `${process.env.NEXT_PUBLIC_BACKEND_API}/admin/product/sellProduct/${id}`,
+      {
+        id: id,
+      },
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,

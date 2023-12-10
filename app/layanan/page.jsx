@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import Link from "next/link";
 import Swal from "sweetalert2";
 import {
   AiOutlineShoppingCart,
@@ -98,11 +97,11 @@ export default function Layanan() {
 
   const tambahKeKeranjang = async () => {
     setErrorMessage("");
-    if (userId !== "") {
+    if (user_id !== null) {
       if (jumlahPesanan > 0) {
         try {
           const data = await addProductToCart(
-            userId,
+            user_id,
             selectedProduk.id,
             catatan,
             jumlahPesanan
@@ -138,7 +137,7 @@ export default function Layanan() {
 
     try {
       const data = await orderProduk(
-        userId,
+        user_id === null ? "" : user_id,
         metodePembayaran,
         selectedAlamat,
         buktiPembayaran
@@ -230,7 +229,7 @@ export default function Layanan() {
             <button
               className={`cursor-pointer  ${Style.cart}`}
               onClick={() => setIsCartModalOpen(true)}
-              disabled={userId === "" ? true : false}
+              disabled={user_id === null ? true : false}
             >
               <AiOutlineShoppingCart size={30} />
               {jumlahPesananKeranjang > 0 && (
