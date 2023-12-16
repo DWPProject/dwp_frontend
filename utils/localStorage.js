@@ -5,7 +5,6 @@ export function setTokenToLocalStorage(token) {
   if (typeof localStorage !== "undefined") {
     const user = parseJwt(token);
     setCookie("token", token);
-    setCookie("role", user.level);
     localStorage.setItem("token", token);
   }
 }
@@ -19,7 +18,6 @@ export function getTokenFromLocalStorage() {
 export function clearLocalStorage() {
   if (typeof localStorage !== "undefined") {
     deleteCookie("token");
-    deleteCookie("role");
     localStorage.clear();
   }
 }
