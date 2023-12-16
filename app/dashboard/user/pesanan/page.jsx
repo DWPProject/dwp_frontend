@@ -7,6 +7,7 @@ import Navbar from "@/components/Navbar";
 import { userId } from "@/utils/auth";
 import { rupiah } from "@/utils/rupiah";
 import {
+  getPesananBelumDiProses,
   getPesananDiproses,
   getPesananSelesai,
   getPesananDitolak,
@@ -15,14 +16,17 @@ import {
 const Pesanan = () => {
   const user_id = userId();
   const [activeTab, setActiveTab] = useState("Riwayat");
+  const [dataPesananBelumProses, setDataPesananBelumProses] = useState([]);
   const [dataPesananProses, setDataPesananProses] = useState([]);
   const [dataPesananSelesai, setDataPesananSelesai] = useState([]);
   const [dataPesananDitolak, setDataPesananDitolak] = useState([]);
 
   const fetchData = async (userId) => {
+    const data_belum_proses = await getPesananBelumDiProses(userId);
     const data_proses = await getPesananDiproses(userId);
     const data_selesai = await getPesananSelesai(userId);
     const data_ditolak = await getPesananDitolak(userId);
+    setDataPesananBelumProses([...data_belum_proses.data]);
     setDataPesananProses([...data_proses.data]);
     setDataPesananSelesai([...data_selesai.data]);
     setDataPesananDitolak([...data_ditolak.data]);
@@ -55,6 +59,15 @@ const Pesanan = () => {
             <a
               href="#"
               className={`mr-4 ${
+                activeTab === "Belum Diproses" ? "text-blue-500" : ""
+              }`}
+              onClick={() => changeTab("Belum Diproses")}
+            >
+              Belum Diproses
+            </a>
+            <a
+              href="#"
+              className={`mr-4 ${
                 activeTab === "Dalam Proses" ? "text-blue-500" : ""
               }`}
               onClick={() => changeTab("Dalam Proses")}
@@ -73,6 +86,38 @@ const Pesanan = () => {
           </div>
           {activeTab === "Riwayat" &&
             dataPesananSelesai.map((data, index) => (
+              <div
+                className="flex justify-between items-center mt-4"
+                key={index}
+              >
+                <div className="left flex items-center">
+                  <div className="mr-4">
+                    <Image
+                      src={data.produk_foto}
+                      alt="gambar"
+                      className="rounded-lg"
+                      width={100}
+                      height={100}
+                    />
+                  </div>
+                  <div>
+                    <p>{data.produk_nama}</p>
+                    <small className="block">
+                      Jumlah Pesanan: {data.order_product_quantity}
+                    </small>
+                    <small className="font-semibold pt-5">
+                      {data.buyer_history_status}
+                    </small>
+                  </div>
+                </div>
+                <div className="right">
+                  <p>{rupiah(data.price)}</p>
+                </div>
+              </div>
+            ))}
+
+          {activeTab === "Belum Diproses" &&
+            dataPesananBelumProses.map((data, index) => (
               <div
                 className="flex justify-between items-center mt-4"
                 key={index}

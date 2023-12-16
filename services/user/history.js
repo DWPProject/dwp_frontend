@@ -1,5 +1,24 @@
 import axios from "axios";
 
+export async function getPesananBelumDiProses(id) {
+  try {
+    const { data } = await axios.post(
+      `${process.env.NEXT_PUBLIC_BACKEND_API}/user/profile/history/onproses`,
+      {
+        id: id,
+      },
+      {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+}
 export async function getPesananDiproses(id) {
   try {
     const { data } = await axios.post(
