@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { ClipLoader } from "react-spinners";
 
 import { login } from "@/services/auth";
 import { parseJwt } from "@/utils/parseJwt";
@@ -11,6 +12,7 @@ import { toast } from "react-toastify";
 
 export default function Login() {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [formData, setFormData] = useState({
     email: "",
@@ -20,9 +22,11 @@ export default function Login() {
   const onSubmitHandle = async (e) => {
     e.preventDefault();
     setErrorMessage("");
+    setLoading(true);
 
     try {
       const data = await login(formData);
+      setLoading(false);
 
       if (data.accessToken) {
         const user_data = parseJwt(data.accessToken);
@@ -115,7 +119,7 @@ export default function Login() {
           className="bg-[#FFCEA0] text-black font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline-blue "
           type="submit"
         >
-          Masuk
+          {loading ? <ClipLoader color="#000000" size={20} /> : "Masuk"}
         </button>
       </form>
     </div>

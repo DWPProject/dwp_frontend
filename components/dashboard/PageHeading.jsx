@@ -8,7 +8,7 @@ export default function PageHeading({ title }) {
     <div className="p-6 shadow-lg bg-white flex justify-between items-center">
       <span className="text-3xl text-[#828282] font-bold">{title}</span>
       <div className="flex gap-5 items-center">
-        <p>{user_name !== null ? user_name : "Guest"}</p>
+        <p>{user_name !== null ?? "Guest"}</p>
         <Image src="/logo.svg" alt="Logo DWP" width={50} height={50} />
       </div>
     </div>

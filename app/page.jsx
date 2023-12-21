@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { SyncLoader } from "react-spinners";
 
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -17,9 +18,11 @@ import { getDataKonten } from "@/services/admin/konten";
 
 export default function Home() {
   const [dataKonten, setDataKonten] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const fetchData = async () => {
     const data_konten = await getDataKonten();
+    setLoading(false);
     console.log(data_konten);
     setDataKonten([...data_konten.data]);
   };
@@ -98,7 +101,24 @@ export default function Home() {
                   </div>
                 </SwiperSlide>
               ))}
-            {dataKonten.length <= 0 && <h1>Belum Ada Konten DWP</h1>}
+            {loading ? (
+              <SyncLoader color="#FDCEA0" />
+            ) : dataKonten.length > 0 ? (
+              dataKonten.map((item, index) => (
+                <SwiperSlide className="slideSwiper" key={index}>
+                  <div className="relative w-full h-64 md:h-48 lg:h-64 mx-auto rounded-lg overflow-hidden">
+                    <Image
+                      src={item.gambar}
+                      alt="#"
+                      className="object-cover w-full h-full"
+                      layout="fill"
+                    />
+                  </div>
+                </SwiperSlide>
+              ))
+            ) : (
+              <p>Belum Ada Konten</p>
+            )}
           </Swiper>
         </div>
       </div>

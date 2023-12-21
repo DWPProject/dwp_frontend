@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { ClipLoader } from "react-spinners";
 
 import { register } from "@/services/auth";
 
@@ -9,6 +10,7 @@ import { toast } from "react-toastify";
 
 export default function Register() {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState([]);
   const [formData, setFormData] = useState({
     email: "",
@@ -20,9 +22,11 @@ export default function Register() {
 
   const onSubmitHandle = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
       const data = await register(formData);
+      setLoading(false);
 
       if (
         data.statusCode === 200 ||
@@ -205,7 +209,7 @@ export default function Register() {
           className="bg-[#FFCEA0] text-black font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline-blue"
           type="submit"
         >
-          Daftar
+          {loading ? <ClipLoader color="#000000" size={20} /> : "Daftar"}
         </button>
       </form>
     </div>
