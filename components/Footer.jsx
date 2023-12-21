@@ -14,8 +14,14 @@ export default function Footer() {
             Jalan Terusan Ryacudu, Desa Way Hui, Kecamatan Jatiagung, Lampung
             Selatan 35365
           </p>
-          <p>Hubungi kami: +62 8XXXXXXX</p>
-          <p>Email: iteradwp@contohemail.com</p>
+          <p>Hubungi kami: +62 882-8697-0189</p>
+          <p>
+            Email:{" "}
+            <span>
+              {" "}
+              <Link href="mailto:dwpitera@gmail.com">dwpitera@gmail.com</Link>
+            </span>
+          </p>
           <Link
             href="https://instagram.com/dharmawanitapersatuan.id?igshid=OGQ5ZDc2ODk2ZA=="
             target="_blank"
