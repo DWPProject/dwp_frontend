@@ -26,7 +26,6 @@ export default function Register() {
 
     try {
       const data = await register(formData);
-      setLoading(false);
 
       if (
         data.statusCode === 200 ||
@@ -45,17 +44,22 @@ export default function Register() {
           telepon: "",
         });
         router.push("/auth/login");
+        setLoading(false);
       } else {
         if (data.errors !== undefined) {
           setErrorMessage([...data.errors]);
+          setLoading(false);
         } else if (data.error !== undefined) {
           setErrorMessage([data.error]);
+          setLoading(false);
         } else {
           setErrorMessage([data.message]);
+          setLoading(false);
         }
       }
     } catch (error) {
       console.log(error);
+      setLoading(false);
     }
   };
 
