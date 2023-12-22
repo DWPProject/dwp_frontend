@@ -26,6 +26,7 @@ export default function Login() {
 
     try {
       const data = await login(formData);
+      setLoading(false);
 
       if (data.accessToken) {
         const user_data = parseJwt(data.accessToken);
@@ -37,6 +38,7 @@ export default function Login() {
         notify();
 
         setTokenToLocalStorage(data.accessToken);
+
         setFormData({
           email: "",
           password: "",
@@ -44,21 +46,16 @@ export default function Login() {
 
         if (user_role === "admin") {
           router.push("/dashboard/admin");
-          setLoading(false);
         } else if (user_role === "penjual") {
           router.push("/dashboard/penjual");
-          setLoading(false);
         } else {
           router.push("/dashboard/user/profile");
-          setLoading(false);
         }
       } else {
         setErrorMessage(data.message);
-        setLoading(false);
       }
     } catch (error) {
       console.log(error);
-      setLoading(false);
     }
   };
 
